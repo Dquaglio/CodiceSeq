@@ -2,17 +2,14 @@ define([
  'jquery',
  'underscore',
  'backbone',
- '../BaseView',
+ 'presenter/BasePresenter',
  'text!view/processowner/newProcessTemplate.html'
-], function( $, _, Backbone, BaseView, newProcessTemplate ){
+], function( $, _, Backbone, BasePresenter, newProcessTemplate ){
 
-	var NewProcessView = BaseView.extend({
+	var NewProcess = BasePresenter.extend({
 
 		initialize: function () {
-			if($(this.id).length == 0) {
-				var page = '<div data-role="page" data-title="Sequenziatore" id="newprocess"></div>';
-				$('body').append(page);
-			}
+			this.constructor.__super__.createPage.call(this, "newprocess");
 			this.render();
 		},
 
@@ -28,6 +25,6 @@ define([
 
 	});
 
-	return NewProcessView;
+	return NewProcess;
 
 });

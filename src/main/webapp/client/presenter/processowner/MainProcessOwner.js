@@ -2,17 +2,14 @@ define([
  'jquery',
  'underscore',
  'backbone',
- '../BaseView',
+ 'presenter/BasePresenter',
  'text!view/processowner/homeTemplate.html',
-], function( $, _, Backbone, BaseView, homeTemplate ){
+], function( $, _, Backbone, BasePresenter, homeTemplate ){
 
-	var HomeView = BaseView.extend({
+	var MainProcessOwner = BasePresenter.extend({
 
 		initialize: function () {
-			if($(this.id).length == 0) {
-				var page = '<div data-role="page" data-title="Sequenziatore" id="home"></div>';
-				$('body').append(page);
-			}
+			this.constructor.__super__.createPage.call(this, "home");
 			this.render();
 		},
 
@@ -28,6 +25,6 @@ define([
 
 	});
 
-	return HomeView;
+	return MainProcessOwner;
 
 });

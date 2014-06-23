@@ -1,10 +1,10 @@
 define([
-'jquery',
-'backbone',
-'model/Session',
-'presenter/Login',
-'require',
-'jquerymobile'
+ 'jquery',
+ 'backbone',
+ 'model/Session',
+ 'presenter/Login',
+ 'require',
+ 'jquerymobile'
 ], function( $, Backbone, Session, Login, require ) {
 
 	var Router = Backbone.Router.extend({
@@ -18,6 +18,7 @@ define([
 			"home": "home",
 			"newprocess": "newProcess",
 			"processes": "processes",
+			"process": "process",
 			"checkstep": "checkStep",
 			"*actions": "home",
 		},
@@ -45,10 +46,23 @@ define([
 		processes: function() {
 			if(this.checkSession("#processes")) {
 				if(typeof this.views["#processes"] == 'undefined') {
-					if(this.session.isUser()) {} // inserire gestione errore url
-					else this.load('presenter/processowner/Processes',"#processes");
+					if(this.session.isUser()) {}
+					else this.load('presenter/processowner/OpenProcess',"#processes");
 				}
-				else this.changePage("#processes");
+				this.changePage("#processes");
+			}
+		},
+
+		process: function() {
+			if(this.checkSession("#process")) {
+				if(typeof this.views["#process"] == 'undefined') {
+					if(this.session.isUser()) {}
+					else this.load('presenter/processowner/ManageProcess',"#process");
+				}
+				else {
+					this.views["#process"].update();
+					this.changePage("#process");
+				}
 			}
 		},
 
@@ -58,7 +72,10 @@ define([
 					if(this.session.isUser()) {} // inserire gestione errore url
 					else this.load('presenter/processowner/CheckStep',"#checkstep");
 				}
-				else this.changePage("#checkstep");
+				else {
+					this.views["#checkstep"].render();
+					this.changePage("#checkstep");
+				}
 			}
 		},
 
@@ -80,7 +97,7 @@ define([
 		},
 
 		changePage: function(pageId) {
-			$( ":mobile-pagecontainer" ).pagecontainer( "change", pageId, { changeHash: false } );
+			$( ":mobile-pagecontainer" ).pagecontainer( "change", pageId );
 		}
 		
 	});

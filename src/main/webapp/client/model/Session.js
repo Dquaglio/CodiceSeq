@@ -10,7 +10,7 @@ define([
 			/*
 			this.save(creds, {
 				success: function () {
-					sessionStorage.setItem("usertype", "processowner");
+					
 				}
 			});
 			*/
@@ -18,7 +18,7 @@ define([
 		},
 		
 		isLogged: function() {
-			return Boolean(sessionStorage.getItem("usertype"));
+			return !Boolean(sessionStorage.getItem("usertype"));
 		},
 		
 		isUser: function() {

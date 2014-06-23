@@ -1,43 +1,27 @@
 <div data-role="header">
 	<h1>Gestione processi</h1>
 	<div class="ui-btn-left">
-		<a id="options" data-role="button" data-iconpos="notext" data-icon="gear">Opzioni</a>
+		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
 	</div>
 </div><!-- /header -->
 
 <div id="content">
 
-	<form> <!-- class="ui-filterable" -->
+	<form>
 		<input id="search" data-type="search" placeholder="Ricerca processo...">
 	</form>
 
 	<ul data-role="listview" data-inset="true" data-input="#search" data-filter="true" data-autodividers="false">
-	
-		<li>
-			<a href="#processes">
-				<img src="css/images/Tesoro.png"></img>
-				<h3>Caccia al tesoro</h3>
-				<p>Segui gli indizi e scopri tutti i tesori</p>
-			</a>
-		</li>
-		
-		<li>
-			<a href="#processes">
-				<img src="css/images/Prezzo.png"></img>
-				<h3>Prezzo migliore</h3>
-				<p>Indagine di mercato</p>
-			</a>
-		</li>
-		
-		<li>
-			<a href="#processes">
-				<img src="css/images/Default.png"></img>
-				<h3>Default</h3>
-				<p>Sample processo</p>
-			</a>
-		</li>
-		
+		<% _.each(processes, function(process) { %>
+			<li>
+				<a href="#process?id=<%= process.id %>">
+					<img src="css/images/<%= process.image %>.png"></img>
+					<h3><%= process.title %></h3>
+					<p><%= process.description %></p>
+				</a>
+			</li>
+		<% }); %>
 	</ul>
 		
 </div><!-- /content -->

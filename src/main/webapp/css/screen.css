@@ -4,6 +4,7 @@ div[data-role="page"] {
 }
 #content {
 	padding: 1em;
+	font-size: 1.2em;
 }
 #panel {
 	background-color: #f0f0f0;
