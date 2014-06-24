@@ -1,0 +1,21 @@
+!SESSION 2014-06-06 10:34:36.643 -----------------------------------------------
+eclipse.buildId=3.5.0.201404011654-RELEASE-e43
+java.version=1.7.0_55
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.springsource.sts.ide
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.springsource.sts.ide
+
+!ENTRY org.eclipse.mylyn.tasks.core 1 0 2014-06-06 10:35:14.184
+!MESSAGE Migrating task repository credentials from keyring.
+
+!ENTRY org.springsource.ide.eclipse.commons.frameworks.core 0 0 2014-06-06 10:35:14.480
+!MESSAGE Result of converting legacy STS 2.x workspace preferences to 3.x
+!SUBENTRY 1 org.springsource.ide.eclipse.commons.frameworks.core 0 0 2014-06-06 10:35:14.480
+!MESSAGE Converted legacy STS plugin preferences
+!SUBENTRY 1 unknown 0 0 2014-06-06 10:35:14.480
+!MESSAGE OK
+!SUBENTRY 1 org.springsource.ide.eclipse.commons.frameworks.core 0 0 2014-06-06 10:35:14.480
+!MESSAGE Converted legacy Roo plugin state locations
+!SUBENTRY 1 org.springsource.ide.eclipse.commons.frameworks.core 0 0 2014-06-06 10:35:14.480
+!MESSAGE Converted legacy STS plugin state locations
