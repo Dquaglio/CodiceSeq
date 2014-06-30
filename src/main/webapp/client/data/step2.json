@@ -3,7 +3,6 @@
 	"processId": 2,
 	"description":"descrizione passo 2",
 	"data"  : [
-		{ "name": "foto tesoro", "type":"image" },
-		{ "name": "orario", "type":"temporal" }
+		{ "name": "foto tesoro", "type":"IMAGE", "id":3 }
 	]
 }

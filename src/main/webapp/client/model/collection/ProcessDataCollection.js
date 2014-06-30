@@ -44,12 +44,29 @@ define([
 		},
 
 		approveData: function(stepId, username) {	
-			this.url = "client/data/waitingdata.json"; //"\approveData"
-			//
-			this.remove( this.findWhere({
+			this.url = "Sequenziatore/approveData";
+			var model = this.findWhere({
 				stepId: stepId,
-				username: username
-			}));
+				userName: username
+			});
+			var self = this;
+			model.save({ userName: username, stepId: stepId, approved: true }).done( function() {
+				self.remove(model);
+				window.location.replace('#checkstep');
+			});
+		},
+
+		rejectData: function(stepId, username) {	
+			this.url = "Sequenziatore\approveData";
+			var model = this.findWhere({
+				stepId: stepId,
+				userName: username
+			});
+			var self = this;
+			model.save({ userName: username, stepId: stepId, approved: true }).done( function() {
+				self.remove(model);
+				window.location.replace('#checkstep');
+			});
 		}
 	});
 

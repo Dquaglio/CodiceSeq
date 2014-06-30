@@ -1,19 +1,19 @@
 [{
 	"id":1,
-	"title":"Caccia al tesoro",
+	"name":"Caccia al tesoro",
 	"description":"Segui gli indizi e scopri tutti i tesori",
-	"image":"Tesoro",
-	"stepo": [{"stepid":1},{"stepid":2}]
+	"imageUrl":"Tesoro",
+	"stepsId": [1,2]
 },{
 	"id":2,
-	"title":"Prezzo migliore",
+	"name":"Prezzo migliore",
 	"description":"Indagine di mercato",
-	"image":"Prezzo",
-	"stepo": [{"stepid":1},{"stepid":2},{"stepid":3}]
+	"imageUrl":"Prezzo",
+	"stepsId": [1,2,3]
 },{
 	"id":3,
-	"title":"Sample processo",
+	"name":"Sample processo",
 	"description":"Sample processo",
-	"image":"Default",
-	"steps": [{"stepid":1}]
+	"imageUrl":"Default",
+	"stepsId": [1]
 }]

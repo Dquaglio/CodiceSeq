@@ -1,5 +1,5 @@
 <div data-role="header">
-	<h1><%= process.title %></h1>
+	<h1><%= process.name %></h1>
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
@@ -24,27 +24,30 @@
 		<ul id="processData" data-inset="true" data-role="listview" data-input="#search" data-filter="true" data-autodividers="false">
 			<% for(i=0; i<processData.length; i++) { %>
 				<li>
-					<p><strong><%= processData[i].username %></strong></p>
+					<p><strong><%= processData[i].userName %></strong></p>
 					<% for(j=0; j<stepData.data.length; j++) {
-						var value = processData[i].data[j];
-						if(stepData.data[j].type == "image") { %>
+						var find = false;
+						for(n=0; n<processData[i].values.length && !find; n++) {
+							if(processData[i].values[n].dataId==stepData.data[j].id) {
+								var value = processData[i].values[n];
+								find = true;
+							}
+						}
+						if(stepData.data[j].type == "IMAGE") { %>
 							<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= stepData.data[j].name %></a></p>
 							<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
 								<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-								<img src="css/images/<%= value.imageUrl %>.png">
+								<img src="css/images/<%= value.imageUrl %>.png" class="popphoto">
 							</div>
 						<% }
-						else if(stepData.data[j].type == "geographic") { %>
-							<p><%= stepData.data[j].name %>: <%= value.coordinates.latitude %>;<%= value.coordinates.longitude %></p>
+						else if(stepData.data[j].type == "GEOGRAPHIC") { %>
+							<p><%= stepData.data[j].name %>: <%= value.latitude %>;<%= value.longitude %></p>
 						<% }
-						else if(stepData.data[j].type == "numeric") { %>
-							<p><%= stepData.data[j].name %>: <%= value.numericValue %></p>
+						else if(stepData.data[j].type == "NUMERIC") { %>
+							<p><%= stepData.data[j].name %>: <%= value.value %></p>
 						<% }
-						else if(stepData.data[j].type == "textual") { %>
-							<p><%= stepData.data[j].name %>: <%= value.textValue %></p>
-						<% }
-						else if(stepData.data[j].type == "temporal") { %>
-							<p><%= stepData.data[j].name %>: <%= value.timeValue %></p>
+						else if(stepData.data[j].type == "TEXTUAL") { %>
+							<p><%= stepData.data[j].name %>: <%= value.value %></p>
 						<% }
 					} %>
 				</li>

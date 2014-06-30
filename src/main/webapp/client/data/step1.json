@@ -3,7 +3,7 @@
 	"processId": 1,
 	"description":"descrizione passo 1",
 	"data"  : [
-		{ "name": "saluto", "type":"textual" },
-		{ "name": "posizione", "type":"geographic" }
+		{ "name": "saluto", "type":"TEXTUAL", "id": 1 },
+		{ "name": "posizione", "type":"GEOGRAPHIC", "id": 2 }
 	]
 }
