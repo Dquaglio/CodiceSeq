@@ -1,12 +1,17 @@
 package sequenziatore.server.presenter;
 
+//ApContext
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.sirius.sequenziatore.server.model.*;
+
+//Già presente
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 @RequestMapping(value = "/login")
 public class LoginController {
-	UserDao asd=new ;
+	
 	public class UtenteList extends ArrayList<Utente> {
 		public UtenteList(){}
 		 public UtenteList(Collection<? extends Utente> c) {
@@ -35,14 +40,17 @@ public class LoginController {
 	@ResponseBody
 	public void CheckLogin(@RequestBody Utente a) {
 		System.out.println(a.getUsername()+a.getPassword()+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
-		UserDao asd=new ;
-		Utente a= asd.get
 				
     }
 	
 	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
 	@ResponseBody//metodo che controlla i dati dell' utente
-   
+   public Telephone prova(){
+		ApplicationContext applicationContext=new ClassPathXmlApplicationContext("com/sirius/sequenziatore/server/model/daoContext.xml");
+		ITelephoneDao dao=applicationContext.getBean("telephoneDao", ITelephoneDao.class);
+		Telephone tel=dao.selectTelephone("Marco", "Botter");
+		return tel;
+	}
 	public Vector<Utente> asd() {
 		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		Vector<Utente> ciccio=new Vector<Utente>();
