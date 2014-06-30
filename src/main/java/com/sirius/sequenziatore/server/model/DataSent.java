@@ -1,5 +1,7 @@
 package com.sirius.sequenziatore.server.model;
 
+import java.util.List;
+
 public class DataSent implements ITransferObject
 {
 	//Fields
@@ -14,14 +16,8 @@ public class DataSent implements ITransferObject
 	public void setUser(String user) {
 		this.user = user;
 	}
-	public DataType getType() {
-		return type;
-	}
-	public void setType(DataType type) {
-		this.type = type;
-	}
 	public List<IDataValue> getValues() {
-		return value;
+		return values;
 	}
 	public void setValues(List<IDataValue> values) {
 		this.values = values;
