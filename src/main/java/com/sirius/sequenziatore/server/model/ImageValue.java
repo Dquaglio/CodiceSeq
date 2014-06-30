@@ -5,6 +5,7 @@ public class ImageValue implements IDataValue
 	//Fields
 	private int id;
 	private String imageUrl;
+	private int dataId;
 	
 	//Getter & Setter
 	public int getId() {
@@ -18,5 +19,11 @@ public class ImageValue implements IDataValue
 	}
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

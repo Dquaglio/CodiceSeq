@@ -5,17 +5,17 @@ import java.util.List;
 public class DataSent implements ITransferObject
 {
 	//Fields
-	private String username;
+	private String userName;
 	private int stepId;
 	private List<IDataValue> data;
 	
 	public DataSent(){}
 	//Getter & Setter
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsername(String user) {
-		this.username = user;
+	public void setUser(String userName) {
+		this.userName = userName;
 	}
 	public List<IDataValue> getData() {
 		return data;
