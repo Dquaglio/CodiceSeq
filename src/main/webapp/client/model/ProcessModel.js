@@ -12,14 +12,17 @@ define([
 			//"localhost:8080/sequenziatore/process/{"+this.id+"}"
 		},
 
+		steps: new StepCollection(),
+
 		fetchProcess: function(id) {
+			this.steps.reset();
 			if(this.id!=id) this.id = id;
 			var self = this;
 			this.fetch().done( function() {
-				var stepsId = self.get("steps");
-				self.steps = new StepCollection();
+				var stepsId = self.get("stepsId");
 				for(var i=0; i<stepsId.length; i++) {
 					self.steps.add(new self.steps.model({ id: stepsId[i] }));
+					console.log(i);
 				}
 				$.when.apply(null, self.fetchSteps()).done( function() {
 					self.trigger("processFetched");

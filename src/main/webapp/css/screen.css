@@ -4,7 +4,6 @@ div[data-role="page"] {
 }
 #content {
 	padding: 1em;
-	font-size: 1.2em;
 }
 #panel {
 	background-color: #f0f0f0;
@@ -12,4 +11,24 @@ div[data-role="page"] {
 	background-repeat: no-repeat;
 	background-position: left 50% bottom 2em;
 	background-size: 80%;
+}
+label {
+	display: inline;
+}
+/*
+div.ui-input-text {
+	max-width: 400px !important
+}
+*/
+.tab {
+	display: none;
+}
+.hide {
+	display: none;
+}
+.error {
+	color: #d8000c;
+}
+.popphoto {
+	width: 100%;
 }

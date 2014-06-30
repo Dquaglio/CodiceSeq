@@ -4,9 +4,8 @@ define([
  'backbone',
  'presenter/BasePresenter',
  'text!view/processowner/checkStepTemplate.html',
- 'collection/ProcessDataCollection',
- 'collection/StepCollection'
-], function( $, _, Backbone, BasePresenter, checkStepTemplate, ProcessData, Steps ){
+ 'collection/ProcessDataCollection'
+], function( $, _, Backbone, BasePresenter, checkStepTemplate, ProcessData ){
 
 	var ManageProcess = BasePresenter.extend({
 
@@ -38,7 +37,7 @@ define([
 				var username = this.getParam("username");
 				var data = this.processData.findWhere({
 					stepId: stepId,
-					username: username
+					userName: username
 				});
 				$(this.id).html(this.template({
 					stepData: this.processData.steps.get(stepId).toJSON(),

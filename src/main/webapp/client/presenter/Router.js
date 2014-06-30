@@ -16,12 +16,12 @@ define([
 		routes: {
 			"": "home",
 			"home": "home",
-			"register":"register",
+            "register":"register",
 			"newprocess": "newProcess",
 			"processes": "processes",
 			"process": "process",
 			"checkstep": "checkStep",
-			"*actions": "home",
+			"*actions": "home"
 		},
 
 		home: function() {
@@ -33,13 +33,13 @@ define([
 				else this.changePage("#home");
 			}
 		},
-		
-		register:function(){
-		  if(typeof this.views["#register"] == 'undefined') 
+
+        register:function(){
+		  if(typeof this.views["#register"] == 'undefined')
 		    this.load('presenter/user/Register',"#register");
 		  else this.changePage("#home");
 		},
-		
+
 		newProcess: function() {
 			if(this.checkSession("#newprocess")) {
 				if(typeof this.views["#newprocess"] == 'undefined') {
@@ -110,5 +110,4 @@ define([
 	});
 
 	return Router;
-
 });

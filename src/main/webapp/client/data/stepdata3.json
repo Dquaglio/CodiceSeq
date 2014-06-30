@@ -1,11 +1,11 @@
 [
 	{
 		"stepId": 3,
-		"username":"Userx",
-		"data": [
-			{"numericValue": 10},
-			{"numericValue": 20},
-			{"numericValue": 30}
+		"userName": "Userx",
+		"values": [
+			{"value": 10, "dataId":4},
+			{"value": 20, "dataId":5},
+			{"value": 30, "dataId":6}
 		]
 	}
 ]

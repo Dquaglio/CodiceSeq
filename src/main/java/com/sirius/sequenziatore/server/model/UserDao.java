@@ -90,13 +90,31 @@ public class UserDao implements IDataAcessObject
 		return all;
 	}
 	
+	//Aggiunge l'utente passato
 	public boolean insertUser(User user)
 	{
 		try
 		{
-			String inserQuery="INSERT INTO user (userName, password, name, surName, dateOfBirth, dateOfBirth) VALUES (?, ?, ?, ?, ?, ?);";
-			//Object[] params=new Object[] {telephone.getName(),telephone.getSurName(), telephone.getNumber()};
-			//jdbcTemplate.update(inserQuery, params);
+			String inserQuery="INSERT INTO user (userName, password, name, surName, dateOfBirth, email) VALUES (?, ?, ?, ?, ?, ?);";
+			Object[] params=new Object[] {user.getUserName(),user.getPassword(),user.getName(),user.getSurname(),user.getDateOfBirth(),user.getEmail()};
+			jdbcTemplate.update(inserQuery, params);
+			return true;
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		finally{}
+	}
+	
+	//Aggiorna l'utente passato
+	public boolean updateUser(User user)
+	{
+		try
+		{
+			String upQuery="UPDATE user SET password=?, name=?, surName=?, dateOfBirth=?, email=? WHERE userName=?";
+			Object[] params=new Object[] {user.getPassword(),user.getName(),user.getSurname(),user.getDateOfBirth(),user.getEmail(),user.getUserName()};
+			jdbcTemplate.update(upQuery, params);
 			return true;
 		}
 		catch(Exception ex)
