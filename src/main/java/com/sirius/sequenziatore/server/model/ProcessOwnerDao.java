@@ -1,5 +1,21 @@
 package com.sirius.sequenziatore.server.model;
 
-public class ProcessOwnerDao implements IDataAcessObject {
+import java.util.List;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class ProcessOwnerDao implements IDataAcessObject 
+{
+	private JdbcTemplate jdbcTemplate;
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
+	{
+		this.jdbcTemplate=jdbcTemplate;
+	}
+
+	@Override
+	public List<ITransferObject> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

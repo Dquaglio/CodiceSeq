@@ -8,11 +8,10 @@ public class User implements ITransferObject
 	private String userName;
 	private String password;
 	private String name;
-	private String surName;
+	private String surname;
 	private Date dateOfBirth;
 	private String email;
-	private int id;
-	
+
 	//Getter & Setter
 	public String getUserName() {
 		return userName;
@@ -32,11 +31,11 @@ public class User implements ITransferObject
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getSurName() {
-		return surName;
+	public String getSurname() {
+		return surname;
 	}
-	public void setSurName(String surName) {
-		this.surName = surName;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 	public Date getDateOfBirth() {
 		return dateOfBirth;
@@ -49,11 +48,5 @@ public class User implements ITransferObject
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 }

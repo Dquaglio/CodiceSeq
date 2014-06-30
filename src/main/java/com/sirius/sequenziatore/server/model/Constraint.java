@@ -3,13 +3,13 @@ package com.sirius.sequenziatore.server.model;
 public abstract class Constraint 
 {
 	//Fields
-	private Data associatedData;
+	private int associatedDataId;
 	
 	//Getter & Setter
-	public Data getAssociatedData() {
-		return associatedData;
+	public int getAssociatedData() {
+		return associatedDataId;
 	}
-	public void setAssociatedData(Data associatedData) {
-		this.associatedData = associatedData;
+	public void setAssociatedData(int associatedDataId) {
+		this.associatedDataId = associatedDataId;
 	}
 }
