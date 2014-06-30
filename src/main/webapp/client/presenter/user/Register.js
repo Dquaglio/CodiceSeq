@@ -2,27 +2,28 @@ define([
  'jquery',
  'underscore',
  'backbone',
- 'text!view/user/Register.html'
-], function( $, _, Backbone, Register ){
+ 'presenter/BasePresenter',
+ 'text!view/user/Register.html',
+], function( $, _, Backbone, BasePresenter, registerTemplate ){
 
-	var Register = Backbone.View.extend({
-		
+	var Register = BasePresenter.extend({
+
 		initialize: function () {
-            if($(this.id).length == 0) {
-                var page = '<div data-role="page" data-title="Sequenziatore" id="'+this.id.substr(1)+'"></div>';
-                $('body').append(page);
-            }
-            this.render();
+			this.constructor.__super__.createPage.call(this, "home");
+			_.extend(this.events, BasePresenter.prototype.events);
+			this.render();
 		},
 
-		template: _.template(Register),
+		template: _.template(registerTemplate),
+		
+		id: '#home',
 
 		el: $('body'),
-
-		render: function() {
-            $(this.id).html(this.template()).enhanceWithin();
-		},
 		
+		render: function() {
+			$(this.id).html(this.template()).enhanceWithin();
+		},
+
 		events: {
 			"submit #registerForm" : "register"
 		},

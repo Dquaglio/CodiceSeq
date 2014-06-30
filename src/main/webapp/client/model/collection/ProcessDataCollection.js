@@ -44,7 +44,7 @@ define([
 		},
 
 		approveData: function(stepId, username) {	
-			this.url = "Sequenziatore/approveData";
+			this.url = "client/data/approveData.json";
 			var model = this.findWhere({
 				stepId: stepId,
 				userName: username
@@ -57,7 +57,7 @@ define([
 		},
 
 		rejectData: function(stepId, username) {	
-			this.url = "Sequenziatore\approveData";
+			this.url = "client/data/approveData.json";
 			var model = this.findWhere({
 				stepId: stepId,
 				userName: username

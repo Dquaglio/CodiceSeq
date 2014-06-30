@@ -16,7 +16,7 @@ define([
 		routes: {
 			"": "home",
 			"home": "home",
-            "register":"register",
+			"register":"register",
 			"newprocess": "newProcess",
 			"processes": "processes",
 			"process": "process",
@@ -34,10 +34,11 @@ define([
 			}
 		},
 
-        register:function(){
-		  if(typeof this.views["#register"] == 'undefined')
-		    this.load('presenter/user/Register',"#register");
-		  else this.changePage("#home");
+		register:function() {
+			if(typeof this.views["#register"] == 'undefined') {
+				this.load('presenter/user/Register',"#register");
+			}
+			else this.changePage("#register");
 		},
 
 		newProcess: function() {

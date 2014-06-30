@@ -6,15 +6,26 @@ define([
 	
 		// urlRoot: 'localhost:8080/sequenziatore/session',
 
-		login: function() {
+		login: function(credentials) {
 			/*
-			this.save(creds, {
+			this.save(credentials, {
 				success: function () {
 					
 				}
 			});
 			*/
-			sessionStorage.setItem("usertype", "processowner");
+			if(credentials.username == "sirius") sessionStorage.setItem("usertype", "processowner");
+			else if(credentials.username == "Gabriele") {
+				sessionStorage.setItem("usertype", "user");
+				sessionStorage.setItem("username", credentials.username);
+			}
+			else if(credentials.username == "Vanni") {
+				sessionStorage.setItem("usertype", "user");
+				sessionStorage.setItem("username", credentials.username);
+			}
+			else {
+				alert("credenziali non corrette");
+			}
 		},
 		
 		isLogged: function() {

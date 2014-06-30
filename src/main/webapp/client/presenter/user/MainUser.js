@@ -1,40 +1,30 @@
-/**
- * Created by gabriele on 30/06/14.
- */
 define([
-    'jquery',
-    'underscore',
-    'backbone',
-    'text!view/user/view/Register.html'
-], function( $, _, Backbone, Register ){
+ 'jquery',
+ 'underscore',
+ 'backbone',
+ 'presenter/BasePresenter',
+ 'text!view/user/MainUser.html',
+], function( $, _, Backbone, BasePresenter, mainUserTemplate ){
 
-    var Register = Backbone.View.extend({
+	var MainUser = BasePresenter.extend({
 
-        initialize: function () {
-            if($(this.id).length == 0) {
-                var page = '<div data-role="page" data-title="Sequenziatore" id="'+this.id.substr(1)+'"></div>';
-                $('body').append(page);
-            }
-            this.render();
-        },
+		initialize: function () {
+			this.constructor.__super__.createPage.call(this, "home");
+			this.render();
+		},
 
-        template: _.template(Register),
+		template: _.template(mainUserTemplate),
+		
+		id: '#home',
 
-        el: $('body'),
+		el: $('body'),
+		
+		render: function() {
+			$(this.id).html(this.template({ username: sessionStorage.getItem("username") })).enhanceWithin();
+		}
 
-        render: function() {
-            $(this.id).html(this.template()).enhanceWithin();
-        },
+	});
 
-        events: {
-            "submit #registerForm" : "register"
-        },
-
-        register: function(event) {
-        }
-
-    });
-
-    return LoginView;
+	return MainUser;
 
 });

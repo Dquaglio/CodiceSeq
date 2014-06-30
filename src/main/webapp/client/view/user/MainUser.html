@@ -1,0 +1,24 @@
+<div data-role="header" id="header">
+	<h1>Sequenziatore</h1>
+	<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+</div><!-- /header -->
+
+<div data-role="content" id="content">
+	
+	<ul data-role="listview" data-inset="true">
+		<li><a href="#subscribe">Iscrizione ad un processo</a></li>
+		<li><a href="#processes">Gestione processi</a></li>
+	</ul>
+
+</div><!-- /content -->
+
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+	
+	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+	<p>Ciao <%= username %></p>
+	
+	<a data-role="button" id="logout" data-icon="power">Logout</a>
+	<a data-role="button" id="credentials" data-icon="user">Gestione utente</a>
+
+</div><!-- panel -->
