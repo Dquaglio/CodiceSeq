@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sirius.sequenziatore.server.model.Process;
+
 @Controller
 @RequestMapping(value="/process/{idprocess}")
 public class ProcessInfoController {
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
 	public Process getProcessInformation(@PathVariable int idprocess){
+		return null;
 		
 	}
 
