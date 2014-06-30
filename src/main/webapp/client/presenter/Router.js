@@ -16,6 +16,7 @@ define([
 		routes: {
 			"": "home",
 			"home": "home",
+			"register":"register",
 			"newprocess": "newProcess",
 			"processes": "processes",
 			"process": "process",
