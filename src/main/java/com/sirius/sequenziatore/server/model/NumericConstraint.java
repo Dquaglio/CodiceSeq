@@ -6,7 +6,7 @@ public class NumericConstraint extends Constraint
 	private int id;
 	private int minDigits;
 	private int maxDigits;
-	private boolean isDecimal;
+	private boolean decimal;
 	private double minValue;
 	private double maxValue;
 	
@@ -30,10 +30,10 @@ public class NumericConstraint extends Constraint
 		this.maxDigits = maxDigits;
 	}
 	public boolean isDecimal() {
-		return isDecimal;
+		return decimal;
 	}
-	public void setDecimal(boolean isDecimal) {
-		this.isDecimal = isDecimal;
+	public void setDecimal(boolean decimal) {
+		this.decimal = decimal;
 	}
 	public double getMinValue() {
 		return minValue;

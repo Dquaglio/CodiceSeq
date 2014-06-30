@@ -5,6 +5,7 @@ public class TextualValue
 	//Fields
 	private int id;
 	private String value;
+	private int dataId;
 	
 	//Getter & Setter
 	public int getId() {
@@ -18,5 +19,11 @@ public class TextualValue
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

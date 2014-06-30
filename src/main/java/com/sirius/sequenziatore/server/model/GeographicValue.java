@@ -7,6 +7,7 @@ public class GeographicValue implements IDataValue
 	private double latitude;
 	private double longitude;
 	private double altitude;
+	private int dataId;
 	
 	//Getter & Setter
 	public int getId() {
@@ -32,5 +33,11 @@ public class GeographicValue implements IDataValue
 	}
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

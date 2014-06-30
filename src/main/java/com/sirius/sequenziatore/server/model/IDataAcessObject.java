@@ -1,5 +1,11 @@
 package com.sirius.sequenziatore.server.model;
 
-public interface IDataAcessObject {
+import java.util.List;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public interface IDataAcessObject 
+{
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate);
+	public List<ITransferObject> getAll();
 }
