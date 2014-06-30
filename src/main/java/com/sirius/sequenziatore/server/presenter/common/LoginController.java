@@ -1,5 +1,4 @@
-package sequenziatore.server.presenter;
-
+package com.sirius.sequenziatore.server.presenter.common;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 @RequestMapping(value = "/login")
 public class LoginController {
-	UserDao asd=new ;
 	public class UtenteList extends ArrayList<Utente> {
 		public UtenteList(){}
 		 public UtenteList(Collection<? extends Utente> c) {
@@ -35,8 +33,6 @@ public class LoginController {
 	@ResponseBody
 	public void CheckLogin(@RequestBody Utente a) {
 		System.out.println(a.getUsername()+a.getPassword()+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
-		UserDao asd=new ;
-		Utente a= asd.get
 				
     }
 	
