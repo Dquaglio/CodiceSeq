@@ -1,0 +1,11 @@
+[
+	{
+		"stepId": 3,
+		"username":"Userx",
+		"data": [
+			{"numericValue": 10},
+			{"numericValue": 20},
+			{"numericValue": 30}
+		]
+	}
+]

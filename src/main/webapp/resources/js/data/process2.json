@@ -1,0 +1,7 @@
+{
+	"id":2,
+	"title":"Prezzo migliore",
+	"description":"Indagine di mercato",
+	"image":"Prezzo",
+	"steps": [1,2,3]
+}

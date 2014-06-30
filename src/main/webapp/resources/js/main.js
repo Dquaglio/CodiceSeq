@@ -8,8 +8,11 @@ require.config({
 		backbone: 'libs/backbone-min',
 		text: 'libs/text',
 
-		// template folder
-		templates: '../templates'
+		// package
+		model: 'model',
+		view: 'view',
+		presenter: 'presenter',
+		collection: 'model/collection'
 
 	}
 });
@@ -26,5 +29,4 @@ require([
 	$.mobile.linkBindingEnabled = false;
 	$.mobile.ajaxEnabled = false;
 	$.mobile.pushStateEnabled = false;
-	
 });

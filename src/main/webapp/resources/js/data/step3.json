@@ -1,0 +1,10 @@
+{
+	"id": 3,
+	"processId": 3,
+	"description":"descrizione passo 3",
+	"data"  : [
+		{ "name": "prezzo benzina(€)", "type":"numeric" },
+		{ "name": "prezzo gasolio(€)", "type":"numeric" },
+		{ "name": "prezzo idrogeno(€)", "type":"numeric" }
+	]
+}

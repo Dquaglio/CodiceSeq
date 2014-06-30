@@ -1,0 +1,7 @@
+{
+	"id":3,
+	"title":"Sample processo",
+	"description":"Sample processo",
+	"image":"Default",
+	"steps": [1,2]
+}

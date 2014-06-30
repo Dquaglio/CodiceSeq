@@ -1,6 +1,6 @@
 define([
 'backbone',
-'Router'
+'presenter/Router'
 ], function( Backbone, Router ){
 
 	var router = new Router();

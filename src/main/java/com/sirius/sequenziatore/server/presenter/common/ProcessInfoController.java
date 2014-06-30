@@ -15,7 +15,5 @@ public class ProcessInfoController {
 	@ResponseBody
 	public Process getProcessInformation(@PathVariable int idprocess){
 		return null;
-		
 	}
-
 }

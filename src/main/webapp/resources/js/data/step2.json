@@ -1,0 +1,9 @@
+{
+	"id": 2,
+	"processId": 2,
+	"description":"descrizione passo 2",
+	"data"  : [
+		{ "name": "foto tesoro", "type":"image" },
+		{ "name": "orario", "type":"temporal" }
+	]
+}
