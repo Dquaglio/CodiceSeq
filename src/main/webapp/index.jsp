@@ -7,7 +7,7 @@
 	<title>Sequenziatore</title>
 	<link rel="stylesheet" href="resources/css/screen.css">
 	<link rel="stylesheet" href="resources/css/jquery.mobile-1.4.2.min.css">
-	<script data-main="resources/js/main" src="resources/js/libs/require.js"></script>
+	<script data-main="client/main" src="resources/js/libs/require.js"></script>
 </head>
 <body>
 </body>

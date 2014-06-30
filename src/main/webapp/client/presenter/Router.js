@@ -33,7 +33,13 @@ define([
 				else this.changePage("#home");
 			}
 		},
-
+		
+		register:function(){
+		  if(typeof this.views["#register"] == 'undefined') 
+		    this.load('presenter/user/Register',"#register");
+		  else this.changePage("#home");
+		},
+		
 		newProcess: function() {
 			if(this.checkSession("#newprocess")) {
 				if(typeof this.views["#newprocess"] == 'undefined') {
