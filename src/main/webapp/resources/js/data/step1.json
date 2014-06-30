@@ -1,9 +1,0 @@
-{
-	"id": 1,
-	"processId": 1,
-	"description":"descrizione passo 1",
-	"data"  : [
-		{ "name": "saluto", "type":"textual" },
-		{ "name": "posizione", "type":"geographic" }
-	]
-}
