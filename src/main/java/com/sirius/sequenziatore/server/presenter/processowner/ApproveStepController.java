@@ -21,15 +21,7 @@ public class ApproveStepController {
 	public List<DataSent> getStepToApprove(){
 		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADASDASDADS");
 		 List<DataSent> ritorno=new ArrayList<DataSent>();
-		 DataSent a=new DataSent();
-		 a.setStepId(1);
-		 a.setUsername("Marco");
-		 List<IDataValue> lista=new ArrayList<IDataValue>();
-		 NumericValue numero=new NumericValue();
-		 numero.setNumericValue(25);
-		 lista.add(numero);
-		 a.setData(lista);
-		 ritorno.add(a);
+		 
 		return ritorno;
 	}
 	@RequestMapping(method=RequestMethod.POST)
