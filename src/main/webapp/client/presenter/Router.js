@@ -33,7 +33,6 @@ define([
 				else this.changePage("#home");
 			}
 		},
-
 		register:function() {
 			if(typeof this.views["#register"] == 'undefined') {
 				this.load('presenter/user/Register',"#register");
@@ -54,8 +53,10 @@ define([
 		processes: function() {
 			if(this.checkSession("#processes")) {
 				if(typeof this.views["#processes"] == 'undefined') {
-					if(this.session.isUser()) {}
-					else this.load('presenter/processowner/OpenProcess',"#processes");
+					if(this.session.isUser())
+                        this.load('presenter/user/OpenProcess',"#processes");
+					else
+                        this.load('presenter/processowner/OpenProcess',"#processes");
 				}
 				this.changePage("#processes");
 			}

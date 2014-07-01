@@ -31,10 +31,14 @@ define([
         },
 
         events: {
-            "submit insertPosition" : "insert"
+            "submit insertPosition" : "insert",
+            "submit insertForm":"subscribe"
         },
 
         insert: function(event) {
+        },
+        subscribe:function(event){
+
         }
 
     });
