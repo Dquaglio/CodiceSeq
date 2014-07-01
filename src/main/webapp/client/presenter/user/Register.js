@@ -3,7 +3,7 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'text!view/user/Register.html',
+ 'text!view/user/Register.html'
 ], function( $, _, Backbone, BasePresenter, registerTemplate ){
 
 	var Register = BasePresenter.extend({

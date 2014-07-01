@@ -15,14 +15,14 @@ define([
     var ManagementProcess = BasePresenter.extend({
 
         initialize: function () {
-            this.constructor.__super__.createPage.call(this, "home");
+            this.constructor.__super__.createPage.call(this, "process");
             _.extend(this.events, BasePresenter.prototype.events);
             this.render();
         },
 
         template: _.template(managementTemplate),
 
-        id: '#home',
+        id: '#process',
 
         el: $('body'),
 
@@ -39,6 +39,6 @@ define([
 
     });
 
-    return Register;
+    return ManagementProcess;
 
 });
