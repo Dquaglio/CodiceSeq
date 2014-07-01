@@ -15,48 +15,57 @@
 
 <div id="content">
 
-	<form>
-		<input id="search" data-type="search">
-	</form>
-
 	<% if(processData) { %>
+	
+		<form>
+			<input id="searchUserData" data-type="search" placeholder="Ricerca dato o utente...">
+		</form>
 		
-		<ul id="processData" data-inset="true" data-role="listview" data-input="#search" data-filter="true" data-autodividers="false">
+		<ul id="processData" data-inset="true" data-role="listview" data-input="#searchStep" data-filter="true" data-autodividers="false">
 			<% for(i=0; i<processData.length; i++) { %>
 				<li>
 					<p><strong><%= processData[i].userName %></strong></p>
-					<% for(j=0; j<stepData.data.length; j++) {
+					
+					<% for(j=0; j<processData[i].values.length; j++) {
+						var value = processData[i].values[j];
 						var find = false;
-						for(n=0; n<processData[i].values.length && !find; n++) {
-							if(processData[i].values[n].dataId==stepData.data[j].id) {
-								var value = processData[i].values[n];
+						for(n=0; n<stepData.data.length && !find; n++) {
+							if(stepData.data[n].id==value.dataId) {
+								var data = stepData.data[n];
 								find = true;
 							}
 						}
-						if(stepData.data[j].type == "IMAGE") { %>
-							<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= stepData.data[j].name %></a></p>
+						if(!find) {
+							if(typeof value.latitude !== "undefined") { %>
+								<p>coordinate: <%= value.latitude %>; <%= value.longitude %></p>
+							<% }
+						}
+						else if(data.type == "IMAGE") { %>
+							<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= data.name %></a></p>
 							<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
 								<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
 								<img src="css/images/<%= value.imageUrl %>.png" class="popphoto">
 							</div>
 						<% }
-						else if(stepData.data[j].type == "GEOGRAPHIC") { %>
-							<p><%= stepData.data[j].name %>: <%= value.latitude %>;<%= value.longitude %></p>
+						else if(data.type == "NUMERIC") { %>
+							<p><%= data.name %>: <%= value.value %></p>
 						<% }
-						else if(stepData.data[j].type == "NUMERIC") { %>
-							<p><%= stepData.data[j].name %>: <%= value.value %></p>
-						<% }
-						else if(stepData.data[j].type == "TEXTUAL") { %>
-							<p><%= stepData.data[j].name %>: <%= value.value %></p>
-						<% }
-					} %>
+						else if(data.type == "TEXTUAL") { %>
+							<p><%= data.name %>: <%= value.value %></p>
+					<% }
+				} %>
+					
 				</li>
 			<% } %>
 		</ul>
 	<% }
 	else { %>
 
-		<ul data-role="listview" data-inset="true" data-input="#search" data-filter="true" data-autodividers="false">
+		<form>
+			<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
+		</form>
+
+		<ul data-role="listview" data-inset="true" data-input="#searchUserData" data-filter="true" data-autodividers="false">
 			<% _.each(steps, function(mystep) { %>
 				<li>
 					<a href="#process?step=<%= mystep.get("id") %>">

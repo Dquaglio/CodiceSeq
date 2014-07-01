@@ -4,19 +4,18 @@ define([
  'backbone',
  'presenter/BasePresenter',
  'text!view/processowner/newProcessTemplate.html',
- 'collection/ProcessCollection',
  'model/ProcessModel',
-], function( $, _, Backbone, BasePresenter, newProcessTemplate, Processes, Process ){
+], function( $, _, Backbone, BasePresenter, newProcessTemplate, Process ){
 
 	var ManageProcess = BasePresenter.extend({
-
-		collection: new Processes(),
 
 		model: new Process(),
 
 		initialize: function () {
 			this.constructor.__super__.createPage.call(this, "newprocess");
 			_.extend(this.events, BasePresenter.prototype.events);
+			this.model.clear();
+			this.model.steps.reset();
 			this.render();
 		},
 
@@ -29,17 +28,20 @@ define([
 		events: {
 			'submit #processForm': 'saveProcess',
 			'click #cancel': 'cancel',
-			'click #addStep': 'newStep',
+			'click #scancel': 'cancel',
 			'click .tabButton': 'changeTab',
 			'change .checkButton': 'showInput',
 			'change #numericDataCheck': 'showConstraints',
-			'click #saveStep': 'newStep'
+			'click #saveStep': 'newStep',
+			'click #cancelStep': 'calcelStep',
 		},
 
 		render: function(errors) {
+			console.log(this.model.get("name"));
 			$(this.id).html(this.template({
 				errors: typeof errors !== "undefined" ? errors : null,
-				steps: this.model.steps.length ? null : null
+				process: this.model.get("name") !== "undefined" ? this.model.toJSON() : null,
+				steps: this.model.steps.length ? this.model.steps.models : null
 			})).enhanceWithin();
 		},
 
@@ -49,38 +51,82 @@ define([
 			if(this.model.steps.length == 0) {
 				alert("È richiesto l'inserimento di almeno un passo");
 			}
-			console.log(this.model.toJSON());
+			else {
+				localStorage.setItem('process', JSON.stringify(this.model.toJSON()));
+				console.log(alert("Processo salvato"));
+				this.model.clear();
+				this.model.steps.reset();
+				$("form")[0].reset();
+				this.render();
+				window.location.assign("#home");
+			}
 		},
 
 		newStep: function() {
-			this.model.set({
-				description: $("#description").val(),
+			var step = new this.model.steps.model({ id: this.model.steps.length+1 });
+			var data = [];
+			if($("#textDataCheck").is(":checked")) {
+				data.push({ type: "TEXTUAL", name: $("#textData").val() });
+			}
+			else if($("#numericDataCheck").is(":checked")) {
+				data.push({ type: "NUMERIC", name: $("#numericData").val() });
+			}
+			else if($("#imageDataCheck").is(":checked")) {
+				data.push({ type: "IMAGE", name: $("#imageData").val() });
+			}
+			var conditions = [];
+			var constraints = [];
+			if($("#numericConstraintsCheck").is(":checked")) {
+				constraints.push({
+					minDigit: $("#minDigit").val(),
+					maxDigit: $("#maxDigit").val(),
+					minValue: $("#minValue").val(),
+					maxValue: $("#maxValue").val(),
+					decimal: $("#isDecimal").is(":checked")
+				});
+			}
+			if($("#geographicConstraintsCheck").is(":checked")) {
+				constraints.push({
+					latitude: $("#latitue").val(),
+					longitude: $("#longitude").val(),
+					radius: $("#radius").val()
+				});
+			}
+			conditions.push({
+				nextStepId: $("#nextStepSelect").val() == "standard" ? null : $("#nextStepSelect").val(),
+				requiresApproval: $("#requiresApproval").is(":checked"),
+				optional: $("#optional").is(":checked"),
+				constraints: constraints
 			});
-			if($("#dateOfTerminationCheck").is(":checked")) {
-				this.model.set({
-					dateOfTermination: $("#dateOfTermination").val(),
-				});
-			}
-			if($("#completionsMaxCheck").is(":checked")) {
-				this.model.set({
-					completionsMax: $("#completionsMax").val(),
-				});
-			}
-			if($("#maxTreeCheck").is(":checked")) {
-				this.model.set({
-					maxTree: $("#maxTree").val(),
-				});
-			}
+			step.set({
+				description: $("#stepDescription").val(),
+				data: data,
+				conditions: conditions
+			});
+			this.model.steps.add(step);
+			this.getData();
+			this.render();
+			$(".mainTab").hide();
+			$("#stepsDefinition").show();
+		},
+
+		calcelStep: function() {
+			$(".tab, .mainTab").hide();
+			$("#stepsDefinition").show();
 		},
 
 		getData: function() {
 			this.model.set({
-				name: $("#name").val(),
-				description: $("#description").val(),
+				name: $("#processName").val(),
+				description: $("#processDescription").val(),
+				imageUrl: "Default",
 			});
 			if($("#dateOfTerminationCheck").is(":checked")) {
 				this.model.set({
 					dateOfTermination: $("#dateOfTermination").val(),
+				});
+				this.model.set({
+					timeOfTermination: $("#timeOfTermination").val(),
 				});
 			}
 			if($("#completionsMaxCheck").is(":checked")) {
@@ -110,9 +156,10 @@ define([
 		},
 
 		cancel: function() {
+			this.model.clear();
+			this.model.steps.reset();
 			$("form")[0].reset();
-			$(".tab").hide();
-			$(".mainTab").show(0);
+			this.render();
 			window.location.assign("#home");
 		},
 		

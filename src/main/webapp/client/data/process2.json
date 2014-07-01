@@ -1,7 +1,7 @@
 {
 	"id":2,
-	"name":"Prezzo migliore",
-	"description":"Indagine di mercato",
+	"name":"Prezzo benzina",
+	"description":"Inviaci il prezzo della benzina e le coordinate dei tuoi benzinai di fiducia",
 	"imageUrl":"Prezzo",
-	"stepsId": [1,2,3]
+	"stepsId": [3,4]
 }

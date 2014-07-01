@@ -13,6 +13,7 @@ define([
 
 		initialize: function () {
 			this.constructor.__super__.createPage.call(this, "processes");
+			this.collection.reset();
 			this.listenTo(this.collection, 'all', this.render);
 			this.update();
 		},

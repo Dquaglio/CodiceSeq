@@ -14,7 +14,7 @@ define([
 		initialize: function () {
 			this.constructor.__super__.createPage.call(this, "checkstep");
 			_.extend(this.events, BasePresenter.prototype.events);
-			
+			this.processData.reset();
 			this.listenTo(this.processData, 'dataFetched', this.render);
 			
 			this.update();

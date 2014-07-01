@@ -9,10 +9,10 @@
 <div id="content">
 
 	<form>
-		<input id="search" data-type="search" placeholder="Ricerca processo...">
+		<input id="searchProcess" data-type="search" placeholder="Ricerca processo...">
 	</form>
 
-	<ul data-role="listview" data-inset="true" data-input="#search" data-filter="true" data-autodividers="false">
+	<ul data-role="listview" data-inset="true" data-input="#searchProcess" data-filter="true" data-autodividers="false">
 		<% _.each(processes, function(process) { %>
 			<li>
 				<a href="#process?id=<%= process.id %>">

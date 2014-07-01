@@ -13,10 +13,10 @@
 <div id="content">
 	<% if(typeof stepData === "undefined") { %>
 		<form>
-			<input id="search" data-type="search">
+			<input id="searchWaitingSteps" data-type="search" placeholder="Ricerca dato...">
 		</form>
 
-		<ul data-role="listview" data-inset="true" data-input="#search" data-filter="true" data-autodividers="false">
+		<ul data-role="listview" data-inset="true" data-input="#searchWaitingSteps" data-filter="true" data-autodividers="false">
 			<% for(i=0; i<processData.length; i++) { %>
 				<li>
 					<a href="#checkstep?stepId=<%= processData[i].stepId %>&username=<%= processData[i].userName %>">
@@ -40,15 +40,17 @@
 							find = true;
 						}
 					}
-					if(data.type == "IMAGE") { %>
+					if(!find) {
+						if(typeof value.latitude !== "undefined") { %>
+							<p>coordinate: <%= value.latitude %>; <%= value.longitude %></p>
+						<% }
+					}
+					else if(data.type == "IMAGE") { %>
 						<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= data.name %></a></p>
 						<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
 							<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
 							<img src="css/images/<%= value.imageUrl %>.png" class="popphoto">
 						</div>
-					<% }
-					else if(data.type == "GEOGRAPHIC") { %>
-						<p>coordinate: <%= value.latitude %>;<%= value.longitude %></p>
 					<% }
 					else if(data.type == "NUMERIC") { %>
 						<p><%= data.name %>: <%= value.value %></p>

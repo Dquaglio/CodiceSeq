@@ -30,9 +30,13 @@ define([
 					if(this.session.isUser()) this.load('presenter/user/MainUser',"#home");
 					else this.load('presenter/processowner/MainProcessOwner',"#home");
 				}
-				else this.changePage("#home");
+				else {
+					if(this.session.isUser()) { this.views["#home"].render(); }
+					this.changePage("#home");
+				}
 			}
 		},
+
 		register:function() {
 			if(typeof this.views["#register"] == 'undefined') {
 				this.load('presenter/user/Register',"#register");
@@ -53,19 +57,20 @@ define([
 		processes: function() {
 			if(this.checkSession("#processes")) {
 				if(typeof this.views["#processes"] == 'undefined') {
-					if(this.session.isUser())
-                        this.load('presenter/user/OpenProcess',"#processes");
-					else
-                        this.load('presenter/processowner/OpenProcess',"#processes");
+					if(this.session.isUser()) {}
+					else this.load('presenter/processowner/OpenProcess',"#processes");
 				}
-				this.changePage("#processes");
+				else {
+					this.views["#processes"].update();
+					this.changePage("#processes");
+				}
 			}
 		},
 
 		process: function() {
 			if(this.checkSession("#process")) {
 				if(typeof this.views["#process"] == 'undefined') {
-					if(this.session.isUser()) {}
+					if(this.session.isUser()) this.load('presenter/user/ManageProcess',"#process");
 					else this.load('presenter/processowner/ManageProcess',"#process");
 				}
 				else {

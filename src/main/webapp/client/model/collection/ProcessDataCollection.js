@@ -12,7 +12,7 @@ define([
 		
 		fetchStepData: function(stepId) {
 			if(typeof this.step === "undefined") this.step = new Step({ id: stepId });
-			this.url = "client/data/stepdata"+this.step.id+".json"; //"\stepdata\{step}\processowner"
+			this.url = "client/data/stepdata"+this.step.id+"processowner.json";
 			if(this.step.id != stepId) this.step.id = stepId;
 			var self = this;
 			$.when(this.fetch(), this.step.fetch()).done( function() {
@@ -21,7 +21,7 @@ define([
 		},
 		
 		fetchWaitingData: function() {
-			this.url = "client/data/waitingdata.json"; //"\approveData"
+			this.url = "client/data/approvedata.json"; //"\approveData"
 			this.steps = new Steps();
 			var self = this;
 			this.fetch().done( function() {

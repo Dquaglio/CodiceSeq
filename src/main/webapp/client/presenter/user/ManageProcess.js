@@ -3,19 +3,17 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'text!view/processowner/manageProcessTemplate.html',
- 'model/ProcessModel',
- 'collection/ProcessDataCollection',
-], function( $, _, Backbone, BasePresenter, manageProcessTemplate, Process, ProcessData ){
+ 'text!view/user/manageProcessTemplate.html',
+ 'model/ProcessModel'
+], function( $, _, Backbone, BasePresenter, manageProcessTemplate, Process ){
 
 	var ManageProcess = BasePresenter.extend({
 	
 		process: new Process(),
-		
-		processData: null,
 
 		initialize: function () {
 			this.constructor.__super__.createPage.call(this, "process");
+			_.extend(this.events, BasePresenter.prototype.events);
 			this.process.clear();
 			this.process.steps.reset();
 			this.listenTo(this.process, 'processFetched', this.render);
@@ -28,14 +26,26 @@ define([
 		id: '#process',
 
 		el: $('body'),
-		
+
+		events: {
+			'submit #subscribeForm': 'subscribe',
+		},
+
 		render: function() {
-			$(this.id).html(this.template({
-				process: this.process.toJSON(),
-				steps: this.processData ? null : this.process.steps.models,
-				processData: this.processData ? this.processData.toJSON() : null,
-				stepData: this.processData ? this.processData.step.toJSON() : null
-			})).enhanceWithin();
+			if(localStorage.getItem('subscribe'+this.process.id) !== null) {
+				$(this.id).html(this.template({
+					subscription: false,
+					process: this.process.toJSON(),
+					_step: this.process.steps.models[0].toJSON()
+				})).enhanceWithin();
+			}
+			else {
+				$(this.id).html(this.template({
+					subscription: true,
+					process: this.process.toJSON(),
+				})).enhanceWithin();
+			}
+			
 		},
 
 		getParam: function(param) {
@@ -46,18 +56,8 @@ define([
 		},
 
 		update: function() {
-			if(this.processData) {
-				this.stopListening(this.processData);
-				this.processData = null;
-			}
-			if(stepId = this.getParam("step")) {
-				this.processData = new ProcessData();
-				this.listenTo(this.processData, 'dataFetched', this.setProcess);
-				this.processData.fetchStepData(stepId);
-			}
-			else if(processId = this.getParam("id")) {
-				this.process.fetchProcess(processId);
-			}
+			var processId = this.getParam("id");
+			this.process.fetchProcess(processId);
 		},
 		
 		setProcess: function() {
@@ -66,6 +66,11 @@ define([
 			this.process.fetch().done( function() {
 				self.render();
 			})
+		}, 
+
+		subscribe: function() {
+			localStorage.setItem('subscribe'+this.process.id, 'true');
+			this.render();
 		}
 
 	});

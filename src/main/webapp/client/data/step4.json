@@ -1,0 +1,20 @@
+{
+	"id": 4,
+	"processId": 2,
+	"description":"Inviaci il prezzo dei carburanti e il nome del benzinaio",
+	"first":false,
+	"data"  : [
+		{ "name": "Nome benzinaio", "type":"TEXTUAL", "id":8 },
+		{ "name": "prezzo benzina(€)", "type":"NUMERIC", "id":9 },
+		{ "name": "prezzo gasolio(€)", "type":"NUMERIC", "id":10 },
+		{ "name": "prezzo idrogeno(€)", "type":"NUMERIC","id":11 }
+	],
+	"conditions": [
+		{
+			"nextStepId":null,
+			"requiresApproval": false,
+			"optional":false,
+			"constraints":[]
+ 		}
+	]
+}

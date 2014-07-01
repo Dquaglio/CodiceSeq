@@ -1,8 +1,26 @@
 {
 	"id": 2,
-	"processId": 2,
-	"description":"descrizione passo 2",
+	"processId": 1,
+	"description":"Raggiungi la statua della libertà, dicci cosa vedi e inviaci le coordinate",
+	"first":false,
 	"data"  : [
-		{ "name": "foto tesoro", "type":"IMAGE", "id":3 }
+		{ "name": "Cosa vedi", "type":"TEXTUAL", "id": 2 },
+		{ "name": "Foto della statua", "type":"IMAGE", "id": 3 }
+	],
+	"conditions": [
+		{
+			"nextStepId":null,
+			"requiresApproval": true,
+			"optional":false,
+			"constraints":[
+				{
+					"latitude":50,
+					"longitude":70,
+					"altitude":500,
+					"radius":100,
+					"associatedDataId":null			
+				}
+			]
+ 		}
 	]
 }

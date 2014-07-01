@@ -21,6 +21,8 @@ define([
 
 		logout: function() {
 			sessionStorage.clear();
+			localStorage.clear();
+			window.location = "#home"
 			location.reload();
 		},
 		

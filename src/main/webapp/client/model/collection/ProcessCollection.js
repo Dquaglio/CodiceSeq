@@ -8,10 +8,11 @@ define([
 		model: Process,
 		
 		url: function() {
-			return "client/data/processesData.json"; //"localhost:8080/sequenziatore/process/processowner"
+			return "client/data/processprocessowner.json"; //"localhost:8080/sequenziatore/process/processowner"
 		},
 
 		parse: function(response) {
+			if(localStorage.getItem('process')) { response.push(JSON.parse(localStorage.getItem('process'))); }
 			return response;
 		}
 
