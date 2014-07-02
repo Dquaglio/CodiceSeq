@@ -1,0 +1,88 @@
+<div data-role="header">
+	<h1><%= process.name %></h1>
+	<div class="ui-btn-left">
+		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+		<% if(processData) { %>
+			<a href="#process?id=<%= process.id %>" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
+		<% } 
+		else { %>
+			<a href="#processes" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
+		<% } %>
+	</div>
+	
+</div><!-- /header -->
+
+<div id="content">
+
+	<% if(processData) { %>
+	
+		<form>
+			<input id="searchUserData" data-type="search" placeholder="Ricerca dato o utente...">
+		</form>
+		
+		<ul id="processData" data-inset="true" data-role="listview" data-input="#searchStep" data-filter="true" data-autodividers="false">
+			<% for(i=0; i<processData.length; i++) { %>
+				<li>
+					<p><strong><%= processData[i].userName %></strong></p>
+					
+					<% for(j=0; j<processData[i].values.length; j++) {
+						var value = processData[i].values[j];
+						var find = false;
+						for(n=0; n<stepData.data.length && !find; n++) {
+							if(stepData.data[n].id==value.dataId) {
+								var data = stepData.data[n];
+								find = true;
+							}
+						}
+						if(!find) {
+							if(typeof value.latitude !== "undefined") { %>
+								<p>coordinate: <%= value.latitude %>; <%= value.longitude %></p>
+							<% }
+						}
+						else if(data.type == "IMAGE") { %>
+							<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= data.name %></a></p>
+							<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
+								<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+								<img src="resources/css/images/<%= value.imageUrl %>.png" class="popphoto">
+							</div>
+						<% }
+						else if(data.type == "NUMERIC") { %>
+							<p><%= data.name %>: <%= value.value %></p>
+						<% }
+						else if(data.type == "TEXTUAL") { %>
+							<p><%= data.name %>: <%= value.value %></p>
+					<% }
+				} %>
+					
+				</li>
+			<% } %>
+		</ul>
+	<% }
+	else { %>
+
+		<form>
+			<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
+		</form>
+
+		<ul data-role="listview" data-inset="true" data-input="#searchUserData" data-filter="true" data-autodividers="false">
+			<% _.each(steps, function(mystep) { %>
+				<li>
+					<a href="#process?step=<%= mystep.get("id") %>">
+						<%= mystep.get("description") %>
+					</a>
+				</li>
+			<% }); %>
+		</ul>
+	<% } %>
+</div><!-- /content -->
+
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+	
+	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+	<p>Ciao ProcessOwner!</p>
+	
+	<a data-role="button" id="logout" data-icon="power">Logout</a>
+
+</div><!-- panel -->

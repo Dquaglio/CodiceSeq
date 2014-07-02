@@ -1,0 +1,26 @@
+{
+	"id": 2,
+	"processId": 1,
+	"description":"Raggiungi la statua della libertà, dicci cosa vedi e inviaci le coordinate",
+	"first":false,
+	"data"  : [
+		{ "name": "Cosa vedi", "type":"TEXTUAL", "id": 2 },
+		{ "name": "Foto della statua", "type":"IMAGE", "id": 3 }
+	],
+	"conditions": [
+		{
+			"nextStepId":null,
+			"requiresApproval": true,
+			"optional":true,
+			"constraints":[
+				{
+					"latitude":40.689249,
+					"longitude":-74.0445,
+					"altitude":500,
+					"radius":100,
+					"associatedDataId":null			
+				}
+			]
+ 		}
+	]
+}

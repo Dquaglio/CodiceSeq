@@ -1,0 +1,11 @@
+[
+	{
+		"stepId": 2,
+		"userName":"White",
+		"values": [
+			{ "value": "Vedo una grande statua", "dataId":2 },
+			{ "imageUrl": "statua", "dataId":3 },
+			{ "latitude": 100, "longitude": 20, "altitude":50 } 
+		]
+	}
+]

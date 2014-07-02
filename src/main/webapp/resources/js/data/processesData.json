@@ -1,0 +1,19 @@
+[{
+	"id":1,
+	"name":"Caccia al tesoro",
+	"description":"Segui gli indizi e scopri tutti i tesori",
+	"imageUrl":"Tesoro",
+	"stepsId": [1,2]
+},{
+	"id":2,
+	"name":"Prezzo migliore",
+	"description":"Indagine di mercato",
+	"imageUrl":"Prezzo",
+	"stepsId": [1,2,3]
+},{
+	"id":3,
+	"name":"Sample processo",
+	"description":"Sample processo",
+	"imageUrl":"Default",
+	"stepsId": [1]
+}]

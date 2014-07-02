@@ -1,0 +1,18 @@
+[
+	{
+		"stepId": 1,
+		"userName":"Mario",
+		"values": [
+			{ "value": "ciao", "dataId":1 },
+			{ "latitude": 100, "longitude": 20, "dataId":2 } 
+		]
+	},
+	{
+		"stepId": 1,
+		"userName":"Anna",
+		"values": [
+			{"value": "hello", "dataId":1},
+			{ "latitude": 96, "longitude": 17, "dataId":2 }
+		]
+	}
+]

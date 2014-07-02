@@ -1,0 +1,12 @@
+[
+	{
+		"stepId": 4,
+		"userName": "Green",
+		"values": [
+			{"value": "Alla botte", "dataId":8},
+			{"value": 2, "dataId":9},
+			{"value": 4, "dataId":10},
+			{"value": 7, "dataId":11}
+		]
+	}
+]

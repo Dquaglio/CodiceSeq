@@ -1,0 +1,37 @@
+/* serve per renderizzare i pannelli laterali a full height */
+div[data-role="page"] {
+	height: 100%;
+}
+#content {
+	padding: 1em;
+}
+#panel {
+	background-color: #f0f0f0;
+	background-image: url("images/S_greylogo_300.png");
+	background-repeat: no-repeat;
+	background-position: left 50% bottom 2em;
+	background-size: 80%;
+}
+label {
+	display: inline;
+}
+/*
+div.ui-input-text {
+	max-width: 400px !important
+}
+*/
+.tab {
+	display: none;
+}
+.hide {
+	display: none;
+}
+.error {
+	color: #d8000c;
+}
+.success {
+	color: #4F8A10;
+}
+.popphoto {
+	width: 100%;
+}

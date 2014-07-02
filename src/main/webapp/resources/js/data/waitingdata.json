@@ -1,0 +1,34 @@
+[
+	{
+		"stepId": 1,
+		"userName":"Mario",
+		"values": [
+			{"value": "ciao", "dataId":1},
+			{ "latitude": 100, "longitude": 20, "dataId":2 }
+		]
+	},
+	{
+		"stepId": 1,
+		"userName":"Anna",
+		"values": [
+			{"value": "hello", "dataId":1},
+			{ "latitude": 96, "longitude": 17, "dataId":2 }
+		]
+	},
+	{
+		"stepId": 2,
+		"userName":"Anna",
+		"values": [
+			{"imageUrl": "Tesoro", "dataId":3}
+		]
+	},
+	{
+		"stepId": 3,
+		"userName":"Userx",
+		"values": [
+			{"value": 10, "dataId":4},
+			{"value": 20, "dataId":5},
+			{"value": 30, "dataId":6}
+		]
+	}
+]
