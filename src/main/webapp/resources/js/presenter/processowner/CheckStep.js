@@ -32,7 +32,13 @@ define([
 		},
 
 		render: function() {
-			if(this.getParam("stepId")) {
+			if(localStorage.getItem('checkstep') !== null) {
+				$(this.id).html(this.template({
+					steps: [],
+					processData: []
+				})).enhanceWithin();
+			}
+			else if(this.getParam("stepId")) {
 				var stepId =  this.getParam("stepId");
 				var username = this.getParam("username");
 				var data = this.processData.findWhere({

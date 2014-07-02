@@ -44,29 +44,23 @@ define([
 		},
 
 		approveData: function(stepId, username) {	
-			this.url = "resources/js/data/approveData.json";
-			var model = this.findWhere({
+			this.remove(this.findWhere({
 				stepId: stepId,
 				userName: username
-			});
-			var self = this;
-			model.save({ userName: username, stepId: stepId, approved: true }).done( function() {
-				self.remove(model);
-				window.location.replace('#checkstep');
-			});
+			}));
+			alert("Dati approvati");
+			window.location.assign("#checkstep");
+			localStorage.setItem('checkstep', 'true');
 		},
 
 		rejectData: function(stepId, username) {	
-			this.url = "resources/js/data/approveData.json";
-			var model = this.findWhere({
+			this.remove(this.findWhere({
 				stepId: stepId,
 				userName: username
-			});
-			var self = this;
-			model.save({ userName: username, stepId: stepId, approved: true }).done( function() {
-				self.remove(model);
-				window.location.replace('#checkstep');
-			});
+			}));
+			alert("Dati respinti");
+			window.location.assign("#checkstep");
+			localStorage.setItem('checkstep', 'true');
 		}
 	});
 

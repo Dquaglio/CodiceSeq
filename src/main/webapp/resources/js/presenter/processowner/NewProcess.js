@@ -117,6 +117,7 @@ define([
 
 		getData: function() {
 			this.model.set({
+				id: 3,
 				name: $("#processName").val(),
 				description: $("#processDescription").val(),
 				imageUrl: "Default",
@@ -132,11 +133,6 @@ define([
 			if($("#completionsMaxCheck").is(":checked")) {
 				this.model.set({
 					completionsMax: $("#completionsMax").val(),
-				});
-			}
-			if($("#maxTreeCheck").is(":checked")) {
-				this.model.set({
-					maxTree: $("#maxTree").val(),
 				});
 			}
 		},

@@ -59,7 +59,12 @@
 			<% } %>
 		</ul>
 	<% }
-	else { %>
+	else {
+		if(!steps) { %>
+			<li data-role="fieldcontain">
+					<h3>Nessun dato ricevuto.</h3>
+				</li>
+		<% } else  {%>
 
 		<form>
 			<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
@@ -74,7 +79,7 @@
 				</li>
 			<% }); %>
 		</ul>
-	<% } %>
+	<% } } %>
 </div><!-- /content -->
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">

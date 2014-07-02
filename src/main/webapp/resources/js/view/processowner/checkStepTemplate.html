@@ -17,7 +17,11 @@
 		</form>
 
 		<ul data-role="listview" data-inset="true" data-input="#searchWaitingSteps" data-filter="true" data-autodividers="false">
-			<% for(i=0; i<processData.length; i++) { %>
+			<% if(!processData.length) { %>
+				<li data-role="fieldcontain">
+					<h3>Nessun dato richiede controllo.</h3>
+				</li>
+			<% } for(i=0; i<processData.length; i++) { %>
 				<li>
 					<a href="#checkstep?stepId=<%= processData[i].stepId %>&username=<%= processData[i].userName %>">
 						<%= processData[i].userName %>: 

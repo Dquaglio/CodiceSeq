@@ -29,13 +29,23 @@ define([
 
 		el: $('body'),
 		
-		render: function() {
-			$(this.id).html(this.template({
-				process: this.process.toJSON(),
-				steps: this.processData ? null : this.process.steps.models,
-				processData: this.processData ? this.processData.toJSON() : null,
-				stepData: this.processData ? this.processData.step.toJSON() : null
-			})).enhanceWithin();
+		render: function(voidProcess) {
+			if(typeof voidProcess !== "undefined" && voidProcess) {
+				$(this.id).html(this.template({
+					process: this.process.toJSON(),
+					steps: null,
+					processData: null,
+					stepData: null
+				})).enhanceWithin();
+			}
+			else {
+				$(this.id).html(this.template({
+					process: this.process.toJSON(),
+					steps: this.processData ? null : this.process.steps.models,
+					processData: this.processData ? this.processData.toJSON() : null,
+					stepData: this.processData ? this.processData.step.toJSON() : null
+				})).enhanceWithin();
+			}
 		},
 
 		getParam: function(param) {
@@ -56,7 +66,8 @@ define([
 				this.processData.fetchStepData(stepId);
 			}
 			else if(processId = this.getParam("id")) {
-				this.process.fetchProcess(processId);
+				if(processId!=3) this.process.fetchProcess(processId);
+				else this.render(true);
 			}
 		},
 		
