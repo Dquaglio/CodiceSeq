@@ -26,7 +26,7 @@
 				<li>
 					<p><strong><%= processData[i].userName %></strong></p>
 					
-					<% for(j=0; j<processData[i].values.length; j++) {
+					<% for(j=0; j< processData[i].values.length; j++) {
 						var value = processData[i].values[j];
 						var find = false;
 						for(n=0; n<stepData.data.length && !find; n++) {

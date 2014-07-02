@@ -31,7 +31,7 @@
 		<ul id="processData" data-inset="true" data-role="listview" data-input="#search" data-filter="true" data-autodividers="false">
 			<li>
 				<p><strong><%= processData.userName %></strong></p>
-				<% for(i=0; i<processData.values.length; i++) {
+				<% for(i=0; i< processData.values.length; i++) {
 					var value = processData.values[i];
 					var find = false;
 					for(n=0; n<stepData.data.length && !find; n++) {
