@@ -31,7 +31,7 @@ public class UserDao implements IDataAcessObject
 				public User mapRow(ResultSet rs, int rowNum) throws SQLException
 				{
 					User user=new User();
-					user.setUserName(userName);
+					user.setUserName(rs.getString("userName"));
 					user.setPassword(rs.getString("password"));
 					user.setName(rs.getString("name"));
 					user.setSurname(rs.getString("surName"));
@@ -45,6 +45,7 @@ public class UserDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}
