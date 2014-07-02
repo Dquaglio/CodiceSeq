@@ -18,7 +18,7 @@
 			<% if(typeof processes[i].subscribed !== "undefined") { %>
 				<li>
 					<a href="#process?id=<%= processes[i].id %>">
-						<img src="css/images/<%= processes[i].imageUrl %>.png"></img>
+						<img src="resources/css/images/<%= processes[i].imageUrl %>.png"></img>
 						<h3><%= processes[i].name %></h3>
 						<p><%= processes[i].description %></p>
 					</a>
@@ -30,7 +30,7 @@
 			if(typeof processes[i].subscribed === "undefined") { %>
 				<li>
 					<a href="#process?id=<%= processes[i].id %>">
-						<img src="css/images/<%= processes[i].imageUrl %>.png"></img>
+						<img src="resources/css/images/<%= processes[i].imageUrl %>.png"></img>
 						<h3><%= processes[i].name %></h3>
 						<p><%= processes[i].description %></p>
 					</a>

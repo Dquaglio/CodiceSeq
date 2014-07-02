@@ -8,7 +8,7 @@ define([
 		model: Process,
 		
 		url: function() {
-			return "client/data/processprocessowner.json"; //"localhost:8080/sequenziatore/process/processowner"
+			return "resources/js/data/processprocessowner.json";
 		},
 
 		parse: function(response) {

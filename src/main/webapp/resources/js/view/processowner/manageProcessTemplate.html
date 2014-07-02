@@ -44,7 +44,7 @@
 							<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= data.name %></a></p>
 							<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
 								<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-								<img src="css/images/<%= value.imageUrl %>.png" class="popphoto">
+								<img src="resources/css/images/<%= value.imageUrl %>.png" class="popphoto">
 							</div>
 						<% }
 						else if(data.type == "NUMERIC") { %>

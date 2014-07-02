@@ -8,8 +8,7 @@ define([
 	var Process = Backbone.Model.extend({
 
 		url: function() {
-			return "client/data/process"+this.id+".json";
-			//"localhost:8080/sequenziatore/process/{"+this.id+"}"
+			return "resources/js/data/process"+this.id+".json";
 		},
 
 		steps: new StepCollection(),
