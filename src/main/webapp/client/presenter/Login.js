@@ -30,7 +30,6 @@ define([
 		login: function(event) {
 			event.preventDefault();
 			this.model.login({ username: $("#username").val(), password: $("#password").val()});
-			location.reload();
 		}
 
 	});

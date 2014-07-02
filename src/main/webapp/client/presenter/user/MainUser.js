@@ -26,6 +26,9 @@ define([
 		render: function() {
 			var models = this.collection.models;
 			for(var i=0; i<models.length; i++) {
+				if(localStorage.getItem('complete'+models[i].get("id")) !== null) {
+					this.collection.remove(models[i]);
+				}
 				if(localStorage.getItem('subscribe'+models[i].get("id")) !== null) {
 					models[i].set({ subscribed: true });
 				}

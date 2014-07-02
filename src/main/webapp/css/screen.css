@@ -29,6 +29,9 @@ div.ui-input-text {
 .error {
 	color: #d8000c;
 }
+.success {
+	color: #4F8A10;
+}
 .popphoto {
 	width: 100%;
 }

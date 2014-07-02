@@ -14,17 +14,23 @@ define([
 				}
 			});
 			*/
-			if(credentials.username == "sirius") sessionStorage.setItem("usertype", "processowner");
+			if(credentials.username == "sirius") {
+				sessionStorage.setItem("usertype", "processowner");
+				location.reload();
+			}
 			else if(credentials.username == "Gabriele") {
 				sessionStorage.setItem("usertype", "user");
 				sessionStorage.setItem("username", credentials.username);
+				location.reload();
 			}
 			else if(credentials.username == "Vanni") {
 				sessionStorage.setItem("usertype", "user");
 				sessionStorage.setItem("username", credentials.username);
+				location.reload();
 			}
 			else {
 				alert("credenziali non corrette");
+				$("form")[0].reset();
 			}
 		},
 		

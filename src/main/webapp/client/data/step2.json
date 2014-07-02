@@ -11,11 +11,11 @@
 		{
 			"nextStepId":null,
 			"requiresApproval": true,
-			"optional":false,
+			"optional":true,
 			"constraints":[
 				{
-					"latitude":50,
-					"longitude":70,
+					"latitude":40.689249,
+					"longitude":-74.0445,
 					"altitude":500,
 					"radius":100,
 					"associatedDataId":null			
