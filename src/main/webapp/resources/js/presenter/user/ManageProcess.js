@@ -96,7 +96,8 @@ define([
 			})
 		}, 
 
-		subscribe: function() {
+		subscribe: function(event) {
+			event.preventDefault();
 			localStorage.setItem('subscribe'+this.process.id, 'true');
 			this.render();
 		},
@@ -157,7 +158,8 @@ define([
 		  return deg 
 		},
 
-		sendData: function() {
+		sendData: function(event) {
+			event.preventDefault();
 			this.checkCoordinates();
 			this.listenTo(this, "posizioneCorretta", this.nextStep);
 			this.listenTo(this, "posizioneErrata", this.noNextStep);

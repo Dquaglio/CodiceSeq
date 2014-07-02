@@ -29,6 +29,7 @@ define([
 		},
 
 		register: function(event) {
+			event.preventDefault();
 		}
 
 	});
