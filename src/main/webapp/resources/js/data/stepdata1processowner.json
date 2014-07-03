@@ -3,8 +3,8 @@
 		"stepId": 1,
 		"userName":"Gabriele",
 		"values": [
-			{ "value": "Vedo tanti matematici", "dataId":1 },
-			{ "latitude": 45.411331, "longitude": 11.8876318, "altitude":17 } 
+			{ "value": "presentazione gruppo Sirius", "dataId":1 },
+			{ "latitude": 45.411129, "longitude": 11.8879344, "altitude":17 } 
 		]
 	},
 	{
