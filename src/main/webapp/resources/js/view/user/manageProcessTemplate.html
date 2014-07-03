@@ -14,7 +14,7 @@
 			<ul data-role="listview" data-inset="true">
 				<li data-role="fieldcontain">
 					<h3><%= process.name %></h3>
-					<p><%= process.description %></p>
+					<p style="white-space:normal"><%= process.description %></p>
 				</li>
 				<li>
 					<input type="submit" id="submitProcess" value="Iscriviti al processo" data-inline="true" />
@@ -28,7 +28,7 @@
 			<ul data-role="listview" data-inset="true">
 				<li data-role="fieldcontain">
 					<h3><%= process.name %></h3>
-					<p><%= process.description %></p>
+					<p style="white-space:normal"><%= process.description %></p>
 				</li>
 				<li data-role="fieldcontain">
 					<h3>Processo completato con successo</h3>
@@ -40,11 +40,11 @@
 				<ul data-role="listview" data-inset="true">
 					<li data-role="fieldcontain">
 						<h3><%= process.name %></h3>
-						<p><%= process.description %></p>
+						<p style="white-space:normal"><%= process.description %></p>
 					</li>
 					<li data-role="fieldcontain">
 						<h3>Esecuzione passo</h3>
-						<p><%= _step.description %></p>
+						<p style="white-space:normal"><%= _step.description %></p>
 					</li>
 					<% for(n=0; n<_step.data.length; n++) {
 						if(_step.data[n].type=='TEXTUAL') { %>

@@ -98,6 +98,7 @@ define([
 
 		subscribe: function(event) {
 			event.preventDefault();
+			alert("Iscrizione avvenuta con successo");
 			localStorage.setItem('subscribe'+this.process.id, 'true');
 			this.render();
 		},
@@ -160,9 +161,25 @@ define([
 
 		sendData: function(event) {
 			event.preventDefault();
-			this.checkCoordinates();
-			this.listenTo(this, "posizioneCorretta", this.nextStep);
-			this.listenTo(this, "posizioneErrata", this.noNextStep);
+			var step = this.process.steps.models[0].toJSON();
+			var position = false;
+			for(i=0; i<step.conditions.length; i++) {
+				for(j=0; j<step.conditions[i].constraints.length; j++) {
+					if(typeof step.conditions[i].constraints[j].latitude !== "undefinited") {
+						position = true;
+					}
+				}
+			}
+			if(position) {
+				this.checkCoordinates();
+				this.listenTo(this, "posizioneCorretta", this.nextStep);
+				this.listenTo(this, "posizioneErrata", this.noNextStep);
+			}
+			else {
+				alert("Passo superato");
+				this.process.steps.reset();
+				this.render();
+			}
 		},
 		
 		nextStep: function() {
