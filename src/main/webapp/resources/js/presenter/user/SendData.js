@@ -3,17 +3,17 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'text!view/user/manageProcessTemplate.html',
+ 'text!view/user/SendData.html',
  'model/ProcessModel',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, manageProcessTemplate, Process ){
+], function( $, _, Backbone, BasePresenter, SendDataTemplate, Process ){
 
 	var ManageProcess = BasePresenter.extend({
 	
 		process: new Process(),
 
 		initialize: function () {
-			this.constructor.__super__.createPage.call(this, "process");
+			this.constructor.__super__.createPage.call(this, "send_data");
 			_.extend(this.events, BasePresenter.prototype.events);
 			this.process.clear();
 			this.process.steps.reset();
@@ -22,9 +22,9 @@ define([
 			this.update();
 		},
 
-		template: _.template(manageProcessTemplate),
+		template: _.template(SendDataTemplate),
 		
-		id: '#process',
+		id: '#send_data',
 
 		el: $('body'),
 
@@ -200,7 +200,7 @@ define([
 			alert("Passo saltato");
 			this.process.steps.remove(this.process.steps.models[0]);
 			this.render();
-		},
+		}
 
 	});
 

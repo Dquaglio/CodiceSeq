@@ -18,12 +18,18 @@ define([
 			"home": "home",
 			"register":"register",
 			"newprocess": "newProcess",
+            "send_data" :"sendData",
+            "send_number" : "sendnumber",
+            "send_text" : "sendText",
+            "send_position" :"sendPosition",
+            "send_number" : "sendNumber",
 			"processes": "processes",
 			"process": "process",
 			"checkstep": "checkStep",
 			"*actions": "home"
 		},
 
+        //funzione per la renderizzazione e routing della home
 		home: function() {
 			if(this.checkSession("#home")) {
 				if(typeof this.views["#home"] == 'undefined') {
@@ -44,7 +50,9 @@ define([
 			else this.changePage("#register");
 		},
 
-		newProcess: function() {
+        //Funzioni routing parte Process Owner
+
+        newProcess: function() {
 			if(this.checkSession("#newprocess")) {
 				if(typeof this.views["#newprocess"] == 'undefined') {
 					if(this.session.isUser()) {} // inserire gestione errore url
@@ -93,7 +101,66 @@ define([
 			}
 		},
 
-		checkSession: function(pageId) {
+        //Funzioni di routing per la parte User
+
+        sendData:function(){
+            if(this.checkSession("#send_data")) {
+                if(typeof this.views["#send_data"] == 'undefined')
+                    this.load('presenter/user/SendData',"#send_data");
+               else {
+                    this.views["#send_data"].update();
+                    this.changePage("#send_data");
+                }
+            }
+        },
+
+        sendImage:function(){
+            if(this.checkSession("#send_image")) {
+                if(typeof this.views["#send_image"] == 'undefined')
+                    this.load('presenter/user/SendImage',"#send_image");
+                else {
+                    this.views["#send_image"].update();
+                    this.changePage("#send_image");
+                }
+            }
+        },
+
+        sendText:function(){
+            if(this.checkSession("#send_text")) {
+                if(typeof this.views["#send_text"] == 'undefined')
+                    this.load('presenter/user/SendText',"#send_text");
+                else {
+                    this.views["#send_text"].update();
+                    this.changePage("#send_text");
+                }
+            }
+        },
+
+        sendPosition:function(){
+            if(this.checkSession("#send_position")) {
+                if(typeof this.views["#send_position"] == 'undefined')
+                    this.load('presenter/user/SendPosition',"#send_position");
+                else {
+                    this.views["#send_position"].update();
+                    this.changePage("#send_position");
+                }
+            }
+        },
+
+        sendNumber:function(){
+            if(this.checkSession("#send_number")) {
+                if(typeof this.views["#send_number"] == 'undefined')
+                    this.load('presenter/user/SendNumber',"#send_number");
+                else {
+                    this.views["#send_number"].update();
+                    this.changePage("#send_number");
+                }
+            }
+        },
+
+        ////////////////////////////////////////
+
+        checkSession: function(pageId) {
 			if(this.session.isLogged()) return true;
 			else {
 				var page = new Login({ model: this.session, id: pageId });
