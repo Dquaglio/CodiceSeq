@@ -27,6 +27,15 @@ define([
         el: $('body'),
 
         render: function() {
+            var address = window.location.hash;
+            var exp = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})");
+            var result = exp.exec(address);
+            var type_process=null;
+            if(result=="new")
+                type_process="subscribable";
+            else if(result="subscribe")
+                type_process="just subscribed";
+
             $(this.id).html(this.template({ processes: this.collection.toJSON() })).enhanceWithin();
         },
 

@@ -27,11 +27,13 @@
 </div><!-- /content -->
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
-	
-	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
 
-	<p>Ciao ProcessOwner!</p>
-	
-	<a data-role="button" id="logout" data-icon="power">Logout</a>
+    <button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
 
-</div><!-- panel -->
+    <p>Ciao <%= user.id %></p>
+
+    <a data-role="button" id="setData" data-icon="user">Gestione account</a>
+
+    <a data-role="button" id="logout" data-icon="power">Logout</a>
+
+</div><!-- panel -->

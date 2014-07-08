@@ -43,12 +43,13 @@
 </div><!-- /content -->
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
-	
-	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
 
-	<p>Ciao <%= username %>!</p>
-	
-	<a data-role="button" id="logout" data-icon="power">Logout</a>
-	<a data-role="button" id="credentials" data-icon="user">Gestione utente</a>
+    <button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+    <p>Ciao <%= user.id %></p>
+
+    <a data-role="button" id="setData" data-icon="user">Gestione account</a>
+
+    <a data-role="button" id="logout" data-icon="power">Logout</a>
 
 </div><!-- panel -->

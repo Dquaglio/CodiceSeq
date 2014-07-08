@@ -1,5 +1,5 @@
 <div data-role="header">
-	<h1><%= process.name %></h1>
+	<h1>Invio dati - <%= process.name %></h1>
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
@@ -8,93 +8,53 @@
 </div><!-- /header -->
 
 <div id="content">
+    <ul data-role="listview" data-inset="true">
 
-	<% if(subscription) { %>
-		<form id="subscribeForm">
-			<ul data-role="listview" data-inset="true">
-				<li data-role="fieldcontain">
-					<h3><%= process.name %></h3>
-					<p style="white-space:normal"><%= process.description %></p>
-				</li>
-				<li>
-					<input type="submit" id="submitProcess" value="Iscriviti al processo" data-inline="true" />
-				</li>
-			</ul>
-		
-		</form>
+        <% if(text) { %>
+            <li>
+                <a href="#send_text?id=<%= process.id %>">
+                    Inserisci valori testuali
+                </a>
+            </li>
+        <% } %>
 
-	<% } else { 
-		if(complete) {%>
-			<ul data-role="listview" data-inset="true">
-				<li data-role="fieldcontain">
-					<h3><%= process.name %></h3>
-					<p style="white-space:normal"><%= process.description %></p>
-				</li>
-				<li data-role="fieldcontain">
-					<h3>Processo completato con successo</h3>
-					<p>Torna alla <a href="#home">pagina principale</a> per eseguire altri processi</p>
-				</li>
-			</ul>
-		<% } else { %>
-			<form id="sendDataForm">
-				<ul data-role="listview" data-inset="true">
-					<li data-role="fieldcontain">
-						<h3><%= process.name %></h3>
-						<p style="white-space:normal"><%= process.description %></p>
-					</li>
-					<li data-role="fieldcontain">
-						<h3>Esecuzione passo</h3>
-						<p style="white-space:normal"><%= _step.description %></p>
-					</li>
-					<% for(n=0; n<_step.data.length; n++) {
-						if(_step.data[n].type=='TEXTUAL') { %>
-							<li data-role="fieldcontain">
-								<label for="textualInput"><%= _step.data[n].name %>:</label>
-								<input type="text" id="textualInput" maxlength="25" required/>
-							</li>
-						<% }
-						if(_step.data[n].type=='NUMERIC') { %>
-							<li data-role="fieldcontain">
-								<label for="numericInput"><%= _step.data[n].name %>:</label>
-								<input type="number" id="numericInput" maxlength="25" required/>
-							</li>
-						<% }
-						if(_step.data[n].type=='IMAGE') { %>
-							<li data-role="fieldcontain">
-								<label for="imageInput"><%= _step.data[n].name %>:</label>
-								<input type="file" accept="image/*"> <!-- ;capture=camera -->
-							</li>
-						<% }
-					} 
-					if(position) { %>
-						<li data-role="fieldcontain">
-							<p>latitudine: <%= position.latitude %>; <span id="myLatitude"></span></p>
-							<p>longitude: <%= position.longitude %>; <span id="myLongitude"></span></p>
-							<p>raggio d'accettazione: <%= position.radius %> metri; <span id="distance"></span></p>
-							<p id="coordinatesResult"></p>
-							<input type="button" id="checkCoordinates" value="Verifica coordinate" data-inline="true" data-mini="true" data-icon="location"/>
-						</li>
-					<% } %>
-					<li data-role="fieldcontain">
-						<% if(_step.conditions[0].optional) { %>
-						<input type="button" id="skipStep" value="Salta passo" data-inline="true" />
-						<% } %>
-						<input type="submit" id="submitData" value="Invia dati inseriti" data-inline="true" />
-					</li>
-				</ul>
-		
-			</form>
-		<% } 
-	} %>
+        <% if(number) { %>
+        <li>
+            <a href="#send_number?id=<%= process.id %>">
+                Inserisci valori numerici
+            </a>
+        </li>
+        <% } %>
+
+        <% if(position) { %>
+        <li>
+            <a href="#send_position?id=<%= process.id %>">
+                Inserisci posizione richiesta
+            </a>
+        </li>
+        <% } %>
+
+        <% if(image) { %>
+        <li>
+            <a href="#send_image?id=<%= process.id %>">
+                Inserisci immagini
+            </a>
+        </li>
+        <% } %>
+
+
+    </ul>
 
 </div><!-- /content -->
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
-	
-	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
 
-	<p>Ciao ProcessOwner!</p>
-	
-	<a data-role="button" id="logout" data-icon="power">Logout</a>
+    <button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+    <p>Ciao <%= user.id %></p>
+
+    <a data-role="button" id="setData" data-icon="user">Gestione account</a>
+
+    <a data-role="button" id="logout" data-icon="power">Logout</a>
 
 </div><!-- panel -->
