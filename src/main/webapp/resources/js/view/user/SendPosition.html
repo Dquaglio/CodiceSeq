@@ -9,19 +9,21 @@
 
 <div id="content">
     <form id="sendPositionForm">
-        <ul>
 		    <% if(position) { %>
-			<li data-role="fieldcontain">
-			    <p>latitudine: <%= position.latitude %>; <span id="myLatitude"></span></p>
-				<p>longitude: <%= position.longitude %>; <span id="myLongitude"></span></p>
-				<p>raggio d'accettazione: <%= position.radius %> metri; <span id="distance"></span></p>
-				<p id="coordinatesResult"></p>
-				<input type="button" id="checkCoordinates" value="Verifica coordinate" data-inline="true" data-mini="true" data-icon="location"/>
-			</li>
+                <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+                    <div id="map-canvas" style="height:150px;"></div>
+                </div>
+                <ul>
+                    <li data-role="fieldcontain">
+			            <p>latitudine: <%= position.latitude %>; <span id="myLatitude"></span></p>
+				        <p>longitude: <%= position.longitude %>; <span id="myLongitude"></span></p>
+				        <p>raggio d'accettazione: <%= position.radius %> metri; <span id="distance"></span></p>
+				        <p id="coordinatesResult"></p>
+				        <input type="button" id="checkCoordinates" value="Verifica coordinate" data-inline="true" data-mini="true" data-icon="location"/>
+			        </li>
+                </ul>
 			<% } %>
-		</ul>
 	</form>
-
 </div><!-- /content -->
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">

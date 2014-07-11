@@ -4,6 +4,7 @@ require.config({
 		// libraries
 		jquery: 'libs/jquery-min',
 		jquerymobile: 'libs/jquery.mobile-min',
+        gmap3:'libs/gmap3',
 		underscore: 'libs/underscore-min',
 		backbone: 'libs/backbone-min',
 		text: 'libs/text',
@@ -23,6 +24,7 @@ require([
 'backbone',
 'jquery',
 'jquerymobile',
+'gmap3',
 'app'
 ], function( Backbone, $ ){
 
