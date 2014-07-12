@@ -1,23 +1,20 @@
 package com.sirius.sequenziatore.server.model;
 
-public class GeographicConstraint extends Constraint
+public class GeographicData
 {
-	//Minimun Radius
-	private final static double MIN_RADIUS=50;
-	
-	//Other fields
-	private int id;
+	//Fields
+	private String description;
 	private double latitude;
 	private double longitude;
 	private double altitude;
 	private double radius;
 	
 	//Getter & Setter
-	public int getId() {
-		return id;
+	public String getDescription() {
+		return description;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public double getLatitude() {
 		return latitude;
@@ -40,15 +37,7 @@ public class GeographicConstraint extends Constraint
 	public double getRadius() {
 		return radius;
 	}
-	public void setRadius(double radius) 
-	{
-		if(radius<MIN_RADIUS)
-		{
-			this.radius = MIN_RADIUS;
-		}
-		else
-		{
-			this.radius = radius;
-		}
+	public void setRadius(double radius) {
+		this.radius = radius;
 	}
 }

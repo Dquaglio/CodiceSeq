@@ -1,7 +1,6 @@
 package com.sirius.sequenziatore.server.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class Process  implements ITransferObject
 {
@@ -11,8 +10,6 @@ public class Process  implements ITransferObject
 	private int completionsMax;
 	private Date dateOfTermination;
 	private boolean terminated;
-	private	int maxTree;
-	private List<Integer> stepsId;
 	private int id;
 	
 	//Getter & Setter
@@ -45,18 +42,6 @@ public class Process  implements ITransferObject
 	}
 	public void setTerminated(boolean terminated) {
 		this.terminated = terminated;
-	}
-	public int getMaxTree() {
-		return maxTree;
-	}
-	public void setMaxTree(int maxTree) {
-		this.maxTree = maxTree;
-	}
-	public List<Integer> getStepsId() {
-		return stepsId;
-	}
-	public void setStepsId(List<Integer> stepsId) {
-		this.stepsId = stepsId;
 	}
 	public int getId() {
 		return id;

@@ -45,7 +45,6 @@ public class UserDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
-			ex.printStackTrace();
 			return null;
 		}
 		finally{}
@@ -57,7 +56,7 @@ public class UserDao implements IDataAcessObject
 		try
 		{
 			String selQuery="SELECT * FROM user";
-			List<User> users= new ArrayList<User>();
+			List<User> users=new ArrayList<User>();
 			List<Map<String, Object>> rows = jdbcTemplate.queryForList(selQuery);
 			for (Map<String, Object> row : rows)
 			{

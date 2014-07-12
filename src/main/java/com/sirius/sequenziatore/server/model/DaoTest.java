@@ -1,32 +1,22 @@
-/*package com.sirius.sequenziatore.server.model;
+package com.sirius.sequenziatore.server.model;
+
+//import java.util.Date;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.sirius.sequenziatore.server.model.ITelephoneDao;
 
 public class DaoTest
 {
 	public static void main(String[] args) throws ClassNotFoundException
 	{
 		//Preparazione
-		ApplicationContext applicationContext=new ClassPathXmlApplicationContext("dao/daoContext.xml");
-		ITelephoneDao dao=applicationContext.getBean("telephoneDao", ITelephoneDao.class);
+		ApplicationContext applicationContext=new ClassPathXmlApplicationContext("com/sirius/sequenziatore/server/model/daoContext.xml");
+		ProcessDao dao=applicationContext.getBean("ProcessDao", ProcessDao.class);
 		//Resto... (query, ecc..)
-		
-		System.out.println(dao.selectTelephone("Marco", "Botter").getNumber()); //SELEZIONE: OK
-		
-		//dao.deleteTelephone("Gilberto", "File"); //CANCELLAZIONE: OK
-		
-		//dao.insertTelephone(new Telephone("Tullio", "Vardanega", "3030303030")); //INSERIMENTO: OK
-		
-		/*try {
-			dao.updateTelephone(new Telephone("Tullio", "Vardanega", "3333333333")); //AGGIORNAMENTO: OK
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
+		Process pro=new Process();
+		pro.setName("Prova");
+		pro.setDescription("descrizione...");
+		pro.setTerminated(false);
+		//System.out.println(dao.insertProcess(pro));
 	}
 }
-*/

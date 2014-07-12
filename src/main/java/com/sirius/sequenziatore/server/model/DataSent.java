@@ -7,9 +7,8 @@ public class DataSent implements ITransferObject
 	//Fields
 	private String userName;
 	private int stepId;
-	private List<IDataValue> data;
+	private List<IDataValue> values;
 	
-	public DataSent(){}
 	//Getter & Setter
 	public String getUserName() {
 		return userName;
@@ -17,11 +16,11 @@ public class DataSent implements ITransferObject
 	public void setUser(String userName) {
 		this.userName = userName;
 	}
-	public List<IDataValue> getData() {
-		return data;
+	public List<IDataValue> getValues() {
+		return values;
 	}
-	public void setData(List<IDataValue> values) {
-		this.data = values;
+	public void setValues(List<IDataValue> values) {
+		this.values = values;
 	}
 	public int getStepId() {
 		return stepId;

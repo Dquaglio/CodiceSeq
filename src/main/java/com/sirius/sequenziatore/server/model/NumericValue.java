@@ -1,6 +1,6 @@
 package com.sirius.sequenziatore.server.model;
 
-public class NumericValue implements IDataValue
+public class NumericValue
 {
 	//Fields
 	private int id;
@@ -8,7 +8,12 @@ public class NumericValue implements IDataValue
 	private int dataId;
 	
 	//Getter & Setter
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public double getValue() {
 		return value;
 	}

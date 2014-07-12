@@ -7,10 +7,13 @@ public class Step implements ITransferObject
 	//Fields
 	private int id;
 	private String description;
-	private List<Data> data;
-	private List<Condition> conditions;
-	private boolean first;
-	private int processId;
+	private int nextStepId;
+	private boolean requiresApproval;
+	private boolean optional;
+	private List<NumericData> numericData;
+	private List<TextualData> textualData;
+	private List<ImageData> imageData;
+	private GeographicData requirdPosition;
 	
 	//Getter & Setter
 	public int getId() {
@@ -25,28 +28,46 @@ public class Step implements ITransferObject
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<Data> getData() {
-		return data;
+	public int getNextStepId() {
+		return nextStepId;
 	}
-	public void setData(List<Data> data) {
-		this.data = data;
+	public void setNextStepId(int nextStepId) {
+		this.nextStepId = nextStepId;
 	}
-	public List<Condition> getConditions() {
-		return conditions;
+	public boolean requiresApproval() {
+		return requiresApproval;
 	}
-	public void setConditions(List<Condition> conditions) {
-		this.conditions = conditions;
+	public void setRequiresApproval(boolean requiresApproval) {
+		this.requiresApproval = requiresApproval;
 	}
-	public int getProcessId() {
-		return processId;
+	public boolean isOptional() {
+		return optional;
 	}
-	public void setProcessId(int processId) {
-		this.processId = processId;
+	public void setOptional(boolean optional) {
+		this.optional = optional;
 	}
-	public boolean isFirst() {
-		return first;
+	public List<NumericData> getNumericData() {
+		return numericData;
 	}
-	public void setFirst(boolean first) {
-		this.first = first;
+	public void setNumericData(List<NumericData> numericData) {
+		this.numericData = numericData;
+	}
+	public List<TextualData> getTextualData() {
+		return textualData;
+	}
+	public void setTextualData(List<TextualData> textualData) {
+		this.textualData = textualData;
+	}
+	public List<ImageData> getImageData() {
+		return imageData;
+	}
+	public void setImageData(List<ImageData> imageData) {
+		this.imageData = imageData;
+	}
+	public GeographicData getRequirdPosition() {
+		return requirdPosition;
+	}
+	public void setRequirdPosition(GeographicData requirdPosition) {
+		this.requirdPosition = requirdPosition;
 	}
 }
