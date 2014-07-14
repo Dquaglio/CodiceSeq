@@ -1,3 +1,14 @@
+<%
+/*!
+* \File: loginTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-10
+* \Class: loginTemplate
+* \Package: com.sirius.sequenziatore.client.view
+* \Brief: template della pagina di autenticazione
+*/
+%>
 <div data-role="header">
 	<h1>Autenticazione</h1>
 </div><!-- /header -->
@@ -12,9 +23,19 @@
 		<label for="password">Password</label>
 		<input type="password" id="password" required />
 
-		<input type="submit" id="submit" value="Accedi" />
+		<input type="submit" id="submit" value="Accedi"/>
 
 	</form>
 	<p>Non sei registrato? <a href="#register"> Clicca per iscriverti</a>.</p>
 
 </div><!-- /content -->
+
+<div data-role="popup" id="alert" data-overlay-theme="b" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h2>Errore</h2>
+	</div>
+	<div role="main" class="ui-content">
+		<p class="ui-content"></p>
+	</div>
+</div><!-- /alert -->

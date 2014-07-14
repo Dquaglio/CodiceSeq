@@ -8,62 +8,26 @@ define([
 
 	var ProcessDataCollection = Backbone.Collection.extend({
 
-		model: ProcessData,
-		
-		fetchStepData: function(stepId) {
-			if(typeof this.step === "undefined") this.step = new Step({ id: stepId });
-			this.url = "resources/js/data/stepdata"+this.step.id+"processowner.json";
-			if(this.step.id != stepId) this.step.id = stepId;
-			var self = this;
-			$.when(this.fetch(), this.step.fetch()).done( function() {
-				self.trigger("dataFetched");
-			});
-		},
-		
-		fetchWaitingData: function() {
-			this.url = "resources/js/data/approvedata.json"; //"\approveData"
-			this.steps = new Steps();
-			var self = this;
-			this.fetch().done( function() {
-				for (i = 0; i < self.models.length; i++) {
-					var stepId = self.models[i].get("stepId");
-					if(!self.get(stepId)) self.steps.add(new Step({ id: stepId }));
-				}
-				$.when.apply(null, self.fetchSteps()).done( function() {
-					self.trigger("dataFetched");
-				});
-			});
+		initialize: function( models, options ) {
+			this.url = "resources/js/data/report"+options.username+options.processId+".json";
+			// this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
 		},
 
-		fetchSteps: function() {
-			var deferreds = [];
-			for (i = 0; i < this.steps.models.length; i++) {
-				deferreds.push( this.steps.models[i].fetch() );
-			}
-			return deferreds;
-		},
+		model: ProcessData
 
-		approveData: function(stepId, username) {	
-			this.remove(this.findWhere({
-				stepId: stepId,
-				userName: username
-			}));
-			alert("Dati approvati");
-			window.location.assign("#checkstep");
-			localStorage.setItem('checkstep', 'true');
-		},
-
-		rejectData: function(stepId, username) {	
-			this.remove(this.findWhere({
-				stepId: stepId,
-				userName: username
-			}));
-			alert("Dati respinti");
-			window.location.assign("#checkstep");
-			localStorage.setItem('checkstep', 'true');
-		}
 	});
-
+	
 	return ProcessDataCollection;
 
 });
+/* Cosente di recuperare dal server i dati inviati dall'utente "username"
+ * riguardanti il processo "processId".
+ * Consente dunque di stampare il report.
+ * 
+ * ESEMPIO UTLIZZO
+ * collection = new ProcessDataCollection([], { username: "Gabriele", processId: 1 });
+ * // stampa collezione in JSON su console
+ * collection.fetch().done( function() {
+ *		collection.log(collection.toJSON())
+ *	});
+ */

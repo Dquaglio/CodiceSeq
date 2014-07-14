@@ -37,7 +37,6 @@ define([
 		},
 
 		render: function(errors) {
-			console.log(this.model.get("name"));
 			$(this.id).html(this.template({
 				errors: typeof errors !== "undefined" ? errors : null,
 				process: this.model.get("name") !== "undefined" ? this.model.toJSON() : null,

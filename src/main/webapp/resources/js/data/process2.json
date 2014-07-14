@@ -1,7 +1,8 @@
 {
-	"id":2,
-	"name":"Prezzo benzina",
-	"description":"Inviaci il prezzo della benzina e le coordinate dei tuoi benzinai di fiducia",
-	"imageUrl":"Prezzo",
-	"stepsId": [3,4]
+	"id": 2,
+	"name": "Prezzo benzina",
+	"description": "Inviaci il prezzo della benzina e le coordinate dei tuoi benzinai di fiducia",
+	"imageUrl": "Prezzo",
+	"terminated": true,
+	"eliminated": false
 }

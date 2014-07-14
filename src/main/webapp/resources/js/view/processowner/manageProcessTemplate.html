@@ -1,85 +1,100 @@
+<%
+/*!
+* \File: manageProcessTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-13
+* \Class: manageProcessTemplate
+* \Package: com.sirius.sequenziatore.client.view.processowner
+* \Brief: template della pagina di gestione di un processo
+*/
+%>
 <div data-role="header">
 	<h1><%= process.name %></h1>
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
-		<% if(processData) { %>
-			<a href="#process?id=<%= process.id %>" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
-		<% } 
-		else { %>
-			<a href="#processes" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
-		<% } %>
+		<a href="#processes" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
 	</div>
-	
+	<div data-role="navbar" data-iconpos="right">
+		<ul>
+			<li><a href="#stepsTab" class="tabButton ui-btn-active">Passi</a></li>
+			<li><a href="#usersTab" class="tabButton">Utenti</a></li>
+			<li><a href="#optionsTab" class="tabButton">Opzioni</a></li>
+		</ul>
+	</div><!-- /navbar -->
 </div><!-- /header -->
 
-<div id="content">
+<div id="content" class="searchList">
 
-	<% if(processData) { %>
-	
-		<form>
-			<input id="searchUserData" data-type="search" placeholder="Ricerca dato o utente...">
-		</form>
-		
-		<ul id="processData" data-inset="true" data-role="listview" data-input="#searchStep" data-filter="true" data-autodividers="false">
-			<% for(i=0; i<processData.length; i++) { %>
-				<li>
-					<p><strong><%= processData[i].userName %></strong></p>
-					
-					<% for(j=0; j< processData[i].values.length; j++) {
-						var value = processData[i].values[j];
-						var find = false;
-						for(n=0; n<stepData.data.length && !find; n++) {
-							if(stepData.data[n].id==value.dataId) {
-								var data = stepData.data[n];
-								find = true;
-							}
-						}
-						if(!find) {
-							if(typeof value.latitude !== "undefined") { %>
-								<p>coordinate: <%= value.latitude %>; <%= value.longitude %></p>
-							<% }
-						}
-						else if(data.type == "IMAGE") { %>
-							<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= data.name %></a></p>
-							<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
-								<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-								<img src="resources/css/images/<%= value.imageUrl %>.png" class="popphoto">
-							</div>
-						<% }
-						else if(data.type == "NUMERIC") { %>
-							<p><%= data.name %>: <%= value.value %></p>
-						<% }
-						else if(data.type == "TEXTUAL") { %>
-							<p><%= data.name %>: <%= value.value %></p>
-					<% }
-				} %>
-					
-				</li>
-			<% } %>
-		</ul>
-	<% }
-	else {
-		if(!steps) { %>
-			<li data-role="fieldcontain">
-					<h3>Nessun dato ricevuto.</h3>
-				</li>
-		<% } else  {%>
+	<div data-role="tabs">
+		<div id="stepsTab" class="mainTab">
+			<form>
+				<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
+			</form>
 
-		<form>
-			<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
-		</form>
-
-		<ul data-role="listview" data-inset="true" data-input="#searchUserData" data-filter="true" data-autodividers="false">
-			<% _.each(steps, function(mystep) { %>
-				<li>
-					<a href="#process?step=<%= mystep.get("id") %>">
-						<%= mystep.get("description") %>
-					</a>
+			<ul data-role="listview" data-inset="true" data-input="#searchStep" data-filter="true" data-autodividers="false">
+				<li data-role="list-divider">
+					<h3 class="description"><%= process.description %></h3>
 				</li>
-			<% }); %>
-		</ul>
-	<% } } %>
+				<%  if(!steps.length) { %>
+					<li data-role="fieldcontain">
+						<h3>Nessun dato ricevuto.</h3>
+					</li>
+				<% }  %>
+				<% _.each(steps, function(_step) { %>
+					<li>
+						<a href="#process?id=<%= process.id %>&step=<%= _step.id %>">
+							<p class="description"><%= _step.description %></p>
+						</a>
+					</li>
+				<% }); %>			
+			</ul>
+		</div><!-- /stepsTab -->
+
+		<div id="usersTab" class="tab">
+			<form>
+				<input id="searchUser" data-type="search" placeholder="Ricerca utente...">
+			</form>
+
+			<ul data-role="listview" data-inset="true" data-input="#searchUser" data-filter="true" data-autodividers="false">
+				<li data-role="list-divider">
+					<h3 class="description"><%= process.description %></h3>
+					<span class="ui-li-count ui-body-inherit"><%= users.length %></span>
+				</li>
+				<%  if(!users.length) { %>
+					<li data-role="fieldcontain">
+						<h3>Nessun dato ricevuto.</h3>
+					</li>
+				<% }  %>
+				<% _.each(users, function(username) { %>
+					<li>
+						<a href="#process?id=<%= process.id %>&username=<%= username %>">
+							<p class="description"><%= username %></p>
+						</a>
+					</li>
+				<% }); %>			
+			</ul>
+		</div><!-- /usersTab -->
+
+		<div id="optionsTab" class="tab">
+			<ul data-role="listview" data-inset="true" class="spacedList">
+				<li data-role="fieldcontain">
+					<h3><%= process.name %></h3>
+					<p><%= process.description %></p>
+					<% if(process.terminated) { %>
+						<p>stato processo: <span class="error"><strong>terminato</strong></span></p>
+						<button id="eliminateProcess" data-inline="true">Elimina processo</button>
+					<% } else {%>
+						<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
+						<button id="terminateProcess" data-inline="true">Termina processo</button>
+				<% } %>
+				</li>
+			</ul>
+		</div><!-- /optionsTab -->
+
+	</div><!-- /tabs -->
+
 </div><!-- /content -->
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
@@ -91,3 +106,13 @@
 	<a data-role="button" id="logout" data-icon="power">Logout</a>
 
 </div><!-- panel -->
+
+<div data-role="popup" id="alert" data-overlay-theme="b" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h3></h3>
+	</div>
+	<div role="main" class="ui-content">
+		<p class="ui-content"></p>
+	</div>
+</div><!-- /alert -->

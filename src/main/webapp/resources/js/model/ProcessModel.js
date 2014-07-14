@@ -1,40 +1,40 @@
 define([
  'backbone',
- 'underscore',
  'jquery',
  'collection/StepCollection'
-], function( Backbone, _, $, StepCollection ){
+], function( Backbone, $, StepCollection ){
 
 	var Process = Backbone.Model.extend({
 
-		url: function() {
-			return "resources/js/data/process"+this.id+".json";
-		},
+		steps: null,
 
-		steps: new StepCollection(),
-
-		fetchProcess: function(id) {
-			this.steps.reset();
-			if(this.id!=id) this.id = id;
-			var self = this;
-			this.fetch().done( function() {
-				var stepsId = self.get("stepsId");
-				for(var i=0; i<stepsId.length; i++) {
-					self.steps.add(new self.steps.model({ id: stepsId[i] }));
-					console.log(i);
-				}
-				$.when.apply(null, self.fetchSteps()).done( function() {
-					self.trigger("processFetched");
-				});
+		initialize: function( attributes, options ) {
+			this.steps = new StepCollection([], {
+				processId: this.id,
+				username: options.username
 			});
 		},
 
-		fetchSteps: function() {
-			var deferreds = [];
-			for (i = 0; i < this.steps.models.length; i++) {
-				deferreds.push( this.steps.models[i].fetch() );
-			}
-			return deferreds;
+		url: function() {
+			return "resources/js/data/process"+this.id+".json";
+			//return "http://localhost:8080/sequenziatore/process/"+this.id;
+		},
+		
+		fetch: function() {
+			return $.when(
+				this.steps.fetch(),
+				this.constructor.__super__.fetch.apply(this)
+			);
+		},
+
+		subscribe: function( username ) {
+			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
+			$.post( url, true);
+		},
+
+		unsubscribe: function() {
+			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
+			$.post( url, false);
 		}
 
 	});
@@ -42,3 +42,13 @@ define([
 	return Process;
 
 });
+/* Cosente di recuperare dal server le informazioni su un processo, iscriversi e disiscriversi.
+ * Inoltre l'oggetto this.steps contiene la collezione dei passi del processo.
+ * 
+ * ESEMPIO UTLIZZO
+ * model = new ProcessModel({ id: 1 }, { username: "Gabriele" });
+ * // stampa modello in JSON su console
+ * model.fetch().done( function() {
+ *		console.log(model.toJSON());
+ *	});
+ */

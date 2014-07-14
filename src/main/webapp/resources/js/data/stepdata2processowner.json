@@ -1,7 +1,7 @@
 [
 	{
 		"stepId": 2,
-		"userName":"White",
+		"username":"White",
 		"values": [
 			{ "value": "Vedo una grande statua", "dataId":2 },
 			{ "imageUrl": "statua", "dataId":3 },
