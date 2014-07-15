@@ -10,6 +10,7 @@ public class Process  implements ITransferObject
 	private int completionsMax;
 	private Date dateOfTermination;
 	private boolean terminated;
+	private boolean eliminated;
 	private int id;
 	
 	//Getter & Setter
@@ -42,6 +43,12 @@ public class Process  implements ITransferObject
 	}
 	public void setTerminated(boolean terminated) {
 		this.terminated = terminated;
+	}
+	public boolean isEliminated() {
+		return eliminated;
+	}
+	public void setEliminated(boolean eliminated) {
+		this.eliminated = eliminated;
 	}
 	public int getId() {
 		return id;

@@ -1,5 +1,13 @@
 [
 	{
+		"stepId": 1,
+		"username":"White",
+		"values": [
+			{"value": "Vedo poche ragazze", "dataId":1},
+			{ "latitude": 45.411331, "longitude": 11.8876318, "altitude":17 }
+   		]
+	},
+	{
 		"stepId": 2,
 		"username":"White",
 		"values": [

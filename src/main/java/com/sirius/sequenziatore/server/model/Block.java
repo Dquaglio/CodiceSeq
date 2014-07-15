@@ -11,6 +11,7 @@ public class Block implements ITransferObject
 	private int id;
 	private BlockTypes type;
 	private int requiredSteps;
+	private boolean first;
 	private int nextBlockId;
 	private List<Step> steps;
 	
@@ -44,5 +45,11 @@ public class Block implements ITransferObject
 	}
 	public void setSteps(List<Step> steps) {
 		this.steps = steps;
+	}
+	public boolean isFirst() {
+		return first;
+	}
+	public void setFirst(boolean first) {
+		this.first = first;
 	}
 }

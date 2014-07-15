@@ -2,8 +2,17 @@
 div[data-role="page"] {
 	height: 100%;
 }
+label {
+	display: inline;
+}
 #content {
-	padding: 1em;
+	padding: 1em 1em 1em 1em;
+}
+.searchList {
+	padding: 0 1em 0 1em !important;
+}
+.spacedList {
+	margin: 1em 0 1em 0;
 }
 #panel {
 	background-color: #f0f0f0;
@@ -12,14 +21,20 @@ div[data-role="page"] {
 	background-position: left 50% bottom 2em;
 	background-size: 80%;
 }
-label {
-	display: inline;
+/* COLORI
+ * =======================
+ * verde luninoso  : 5ec41f 
+ * verde scuro     : 108040 
+ * verde pallido   : edfce6
+ * rosso forte     : ab2525
+ * rosso brillante : d8000c
+ */
+.description {
+	white-space:normal !important; /* va a capo se la larghezza del testo è maggiore di quella del contenitore */
 }
-/*
-div.ui-input-text {
-	max-width: 400px !important
+.alerts {
+	color: #5ec41f;
 }
-*/
 .tab {
 	display: none;
 }

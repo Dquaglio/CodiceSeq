@@ -1,7 +1,8 @@
 {
-	"id":1,
-	"name":"Caccia al tesoro",
-	"description":"Esegui i vari passi che ti porteranno a trovare il tesoro",
-	"imageUrl":"Tesoro",
-	"stepsId": [1,2]
+	"id": 1,
+	"name": "Caccia al tesoro",
+	"description": "Esegui i vari passi che ti porteranno a trovare il tesoro",
+	"imageUrl": "Tesoro",
+	"terminated": false,
+	"eliminated": false
 }

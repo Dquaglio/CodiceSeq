@@ -1,5 +1,15 @@
 [
 	{
+		"stepId": 3,
+		"username": "Greeen",
+		"values": [
+			{"value": "Da Luigi", "dataId":4},
+			{"value": 15, "dataId":5},
+			{"value": 5, "dataId":6},
+			{"value": 2, "dataId":7}
+		]
+	},
+	{
 		"stepId": 4,
 		"username": "Green",
 		"values": [

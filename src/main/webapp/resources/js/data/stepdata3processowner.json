@@ -1,7 +1,7 @@
 [
 	{
 		"stepId": 3,
-		"userName": "Nigri",
+		"username": "Nigri",
 		"values": [
 			{"value": "Da Carlo", "dataId":4},
 			{"value": 15, "dataId":5},
@@ -11,7 +11,7 @@
 	},
 	{
 		"stepId": 3,
-		"userName": "Greeen",
+		"username": "Greeen",
 		"values": [
 			{"value": "Da Luigi", "dataId":4},
 			{"value": 15, "dataId":5},

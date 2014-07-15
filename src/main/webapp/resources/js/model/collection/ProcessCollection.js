@@ -1,23 +1,29 @@
 define([
-'backbone',
-'model/ProcessModel'
+ 'backbone',
+ 'model/ProcessModel'
 ], function( Backbone, Process ){
 
 	var Processes = Backbone.Collection.extend({
 
-		model: Process,
-		
-		url: function() {
-			return "resources/js/data/processprocessowner.json";
+		initialize: function( options ) {
+			this.url = "resources/js/data/user"+options.username+"processlist.json";
+			//this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/processlist";
 		},
 
-		parse: function(response) {
-			if(localStorage.getItem('process')) { response.push(JSON.parse(localStorage.getItem('process'))); }
-			return response;
-		}
+		model: Process
 
 	});
 
 	return Processes;
 
 });
+/* Cosente di recuperare dal server i processi.
+ * Per ora non sono divisi in iscritto/nonIscritto perché stiamo snellendo questa funzione.
+ * 
+ * ESEMPIO UTLIZZO
+ * collection = new ProcessCollection({ username: "Gabriele" });
+ * // stampa collezione in JSON su console
+ * collection.fetch().done( function() {
+ *		console.log(collection.toJSON());
+ *	});
+ */
