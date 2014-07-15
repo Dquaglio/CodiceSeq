@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value="/user/{username}")
 public class UserProcessController {
-
+	
 }

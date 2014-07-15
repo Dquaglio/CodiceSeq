@@ -1,5 +1,7 @@
 package com.sirius.sequenziatore.server.presenter.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,5 +18,14 @@ public class UserStepController {
 	public void saveStepData(@RequestBody DataSent step,@RequestBody int nextStep){
 		
 	}
+	
+	@Autowired
+	  private SimpMessagingTemplate template;
+
+	  public void sendNotification(String username) {
+	    String dest = "/notify";
+
+	    this.template.convertAndSendToUser(username, dest, "WEWEWEWWEWEW");
+	  }
 
 }
