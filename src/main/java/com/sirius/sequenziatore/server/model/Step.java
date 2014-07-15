@@ -6,6 +6,7 @@ public class Step implements ITransferObject
 {
 	//Fields
 	private int id;
+	private boolean first;
 	private String description;
 	private int nextStepId;
 	private boolean requiresApproval;
@@ -69,5 +70,11 @@ public class Step implements ITransferObject
 	}
 	public void setRequirdPosition(GeographicData requirdPosition) {
 		this.requirdPosition = requirdPosition;
+	}
+	public boolean isFirst() {
+		return first;
+	}
+	public void setFirst(boolean first) {
+		this.first = first;
 	}
 }

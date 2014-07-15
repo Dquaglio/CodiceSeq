@@ -1,5 +1,6 @@
 package com.sirius.sequenziatore.server.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class DataSent implements ITransferObject
@@ -7,6 +8,7 @@ public class DataSent implements ITransferObject
 	//Fields
 	private String userName;
 	private int stepId;
+	private Date sentTime;
 	private List<IDataValue> values;
 	
 	//Getter & Setter
@@ -27,5 +29,11 @@ public class DataSent implements ITransferObject
 	}
 	public void setStepId(int stepId) {
 		this.stepId = stepId;
+	}
+	public Date getSentTime() {
+		return sentTime;
+	}
+	public void setSentTime(Date sentTime) {
+		this.sentTime = sentTime;
 	}
 }
