@@ -1,8 +1,9 @@
 /*!
 * \File: Router.js
 * \Author: Vanni Giachin <vanni.giachin@gmail.com>
+*          Marcomin Gabriele <gabriele.marcomin@gmail.com>
 * \Date: 2014-05-26
-* \LastModified: 2014-07-10
+* \LastModified: 2014-07-15
 * \Class: Router
 * \Package: com.sirius.sequenziatore.client.presenter
 * \Brief: Gestisce gli eventi di routing e il caricamento dei moduli a seconda dei privilegi utente
@@ -29,13 +30,8 @@ define([
 			"checkstep": "checkStep",
 			"processes": "processes",
 			"process": "process",
-            "send_data" :"sendData",
-            "send_number" : "sendnumber",
-            "send_text" : "sendText",
-            "send_position" :"sendPosition",
-            "send_number" : "sendNumber",
 			"register":"register",
-			"*actions": "home",
+			"*actions": "home"
 		},
 
 /* =====================================================================================
@@ -110,70 +106,6 @@ define([
 					this.changePage("#process");
 				}
 			}
-		},
-
-        //Funzioni di routing per la parte User
-
-        sendData:function(){
-            if(this.checkSession("#send_data")) {
-                if(typeof this.views["#send_data"] == 'undefined')
-                    this.load('presenter/user/SendData',"#send_data");
-               else {
-                    this.views["#send_data"].update();
-                    this.changePage("#send_data");
-                }
-            }
-        },
-
-        sendImage:function(){
-            if(this.checkSession("#send_image")) {
-                if(typeof this.views["#send_image"] == 'undefined')
-                    this.load('presenter/user/SendImage',"#send_image");
-                else {
-                    this.views["#send_image"].update();
-                    this.changePage("#send_image");
-                }
-            }
-        },
-
-        sendText:function(){
-            if(this.checkSession("#send_text")) {
-                if(typeof this.views["#send_text"] == 'undefined')
-                    this.load('presenter/user/SendText',"#send_text");
-                else {
-                    this.views["#send_text"].update();
-                    this.changePage("#send_text");
-                }
-            }
-        },
-
-        sendPosition:function(){
-            if(this.checkSession("#send_position")) {
-                if(typeof this.views["#send_position"] == 'undefined')
-                    this.load('presenter/user/SendPosition',"#send_position");
-                else {
-                    this.views["#send_position"].update();
-                    this.changePage("#send_position");
-                }
-            }
-        },
-
-        sendNumber:function(){
-            if(this.checkSession("#send_number")) {
-                if(typeof this.views["#send_number"] == 'undefined')
-                    this.load('presenter/user/SendNumber',"#send_number");
-                else {
-                    this.views["#send_number"].update();
-                    this.changePage("#send_number");
-                }
-            }
-        },
-
-		register:function() {
-			if(typeof this.views["#register"] == 'undefined') {
-				this.load('presenter/user/Register',"#register");
-			}
-			else this.changePage("#register");
 		},
 
 /* ===================================================================================== */
