@@ -57,16 +57,9 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>4.0.3.RELEASE</version>
 		</dependency>
-		<!--  <dependency>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<groupId>org.codehaus.jackson</groupId>
-			<version>1.9.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>1.9.13</version>
-		</dependency>-->
+		<!-- <dependency> <artifactId>jackson-mapper-asl</artifactId> <groupId>org.codehaus.jackson</groupId> 
+			<version>1.9.12</version> </dependency> <dependency> <groupId>org.codehaus.jackson</groupId> 
+			<artifactId>jackson-core-asl</artifactId> <version>1.9.13</version> </dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -123,15 +116,15 @@
 			<version>2.4.1</version>
 		</dependency>
 		<dependency>
-	<groupId>com.fasterxml.jackson.core</groupId>
-	<artifactId>jackson-core</artifactId>
-	<version>2.4.1</version>
-</dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.1</version>
+		</dependency>
 		<dependency>
-  <groupId>com.fasterxml.jackson.core</groupId>
-  <artifactId>jackson-databind</artifactId>
-  <version>2.3.3</version>
-</dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.3.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>sequenziatore</finalName>

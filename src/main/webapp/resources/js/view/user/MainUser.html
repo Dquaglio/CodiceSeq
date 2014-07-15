@@ -8,10 +8,37 @@
 
 <div id="content">
 
-	<ul data-role="listview">
-        <li><a href="#process?id=active">Processi in esecuzione</a></li>
-		<li><a href="#process?id=new">Processi disponibili</a></li>
-    </ul>
+	<form>
+		<input id="searchProcess" data-type="search" placeholder="Ricerca processo...">
+	</form>
+
+	<ul data-role="listview" data-inset="true" data-input="#searchProcess" data-filter="true" data-autodividers="false">
+		<li data-role="list-divider">Processi in esecuzione</li>
+		<% for(i=0; i<processes.length; i++) { %>
+			<% if(typeof processes[i].subscribed !== "undefined") { %>
+				<li>
+					<a href="#process?id=<%= processes[i].id %>">
+						<img src="resources/css/images/<%= processes[i].imageUrl %>.png"></img>
+						<h3><%= processes[i].name %></h3>
+						<p><%= processes[i].description %></p>
+					</a>
+				</li>
+			<% }
+		} %>
+		<li data-role="list-divider">Processi disponibili</li>
+		<% for(i=0; i<processes.length; i++) {
+			if(typeof processes[i].subscribed === "undefined") { %>
+				<li>
+					<a href="#process?id=<%= processes[i].id %>">
+						<img src="resources/css/images/<%= processes[i].imageUrl %>.png"></img>
+						<h3><%= processes[i].name %></h3>
+						<p><%= processes[i].description %></p>
+					</a>
+				</li>
+			<% }
+		} %>
+
+	</ul>
 		
 </div><!-- /content -->
 

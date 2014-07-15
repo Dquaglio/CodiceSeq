@@ -33,7 +33,7 @@ define([
             var type_process=null;
             if(result=="new")
                 type_process="subscribable";
-            else if(result="active")
+            else if(result="subscribe")
                 type_process="just subscribed";
 
             $(this.id).html(this.template({ processes: this.collection.toJSON() })).enhanceWithin();

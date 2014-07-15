@@ -19,13 +19,6 @@ public class UserStepController {
 		
 	}
 	
-	@Autowired
-	  private SimpMessagingTemplate template;
-
-	  public void sendNotification(String username) {
-	    String dest = "/notify";
-
-	    this.template.convertAndSendToUser(username, dest, "WEWEWEWWEWEW");
-	  }
+	
 
 }

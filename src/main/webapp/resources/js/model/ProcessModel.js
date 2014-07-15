@@ -8,33 +8,45 @@ define([
 
 		steps: null,
 
-		initialize: function( attributes, options ) {
-			this.steps = new StepCollection([], {
-				processId: this.id,
-				username: options.username
-			});
+		initialize: function() {
+			this.steps = new StepCollection({ processId: this.id });
 		},
 
 		url: function() {
 			return "resources/js/data/process"+this.id+".json";
-			//return "http://localhost:8080/sequenziatore/process/"+this.id;
 		},
-		
+		// "http://localhost:8080/sequenziatore/process/"+this.id,
+
+		//  Backbone.Model.fetch overriding
 		fetch: function() {
 			return $.when(
-				this.steps.fetch(),
-				this.constructor.__super__.fetch.apply(this)
+				// esegue il fetch dei dati del processo
+				this.constructor.__super__.fetch.apply(this),
+
+				this.getUsernameList()
 			);
 		},
-
-		subscribe: function( username ) {
-			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
-			$.post( url, true);
+		
+		getUsernameList: function() {
+			var self = this;
+			//var url = "http://localhost:8080/sequenziatore/userlist/"+this.id;
+			var url = "resources/js/data/userlist"+this.id+".json";
+			return $.post( url, function(data) {
+				self.users = data;
+			});
 		},
-
-		unsubscribe: function() {
-			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
-			$.post( url, false);
+		
+		terminate: function() {
+			var url = "http://localhost:8080/sequenziatore/terminateprocess/"+this.id+"/processowner";
+			return $.post( url, function() {
+				this.set("terminated", true);
+			});
+		},
+		
+		eliminate: function() {
+			return $.post(
+				"http://localhost:8080/sequenziatore/deleteprocess/"+this.id+"/processowner"
+			);
 		}
 
 	});
@@ -42,13 +54,3 @@ define([
 	return Process;
 
 });
-/* Cosente di recuperare dal server le informazioni su un processo, iscriversi e disiscriversi.
- * Inoltre l'oggetto this.steps contiene la collezione dei passi del processo.
- * 
- * ESEMPIO UTLIZZO
- * model = new ProcessModel({ id: 1 }, { username: "Gabriele" });
- * // stampa modello in JSON su console
- * model.fetch().done( function() {
- *		console.log(model.toJSON());
- *	});
- */
