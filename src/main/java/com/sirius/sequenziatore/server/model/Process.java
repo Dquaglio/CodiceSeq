@@ -11,6 +11,7 @@ public class Process  implements ITransferObject
 	private Date dateOfTermination;
 	private boolean terminated;
 	private boolean eliminated;
+	private String imageUrl;
 	private int id;
 	
 	//Getter & Setter
@@ -55,5 +56,11 @@ public class Process  implements ITransferObject
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

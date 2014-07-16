@@ -123,4 +123,33 @@ public class UserDao implements IDataAcessObject
 		}
 		finally{}
 	}
+	
+	public List<User> getUserByProcess(int idProcess)
+	{
+		try
+		{
+			List<User> users=new ArrayList<User>();
+			String selQuery="SELECT DISTINCT us.userName , us.password, us.name, us.surName, us.dateOfBirth, us.email FROM user us JOIN (process p JOIN ((userstep u JOIN step s ON u.currentStepId=s.id) JOIN block b ON s.idBlock=b.id) ON p.id=b.idProcess) ON u.userName=us.userName WHERE p.id=?";
+			Object[] params=new Object[] {idProcess};
+			List<Map<String, Object>> rows = jdbcTemplate.queryForList(selQuery, params);
+			for (Map<String, Object> row : rows)
+			{
+				User user=new User();
+				user.setUserName((String)row.get("userName"));
+				user.setPassword((String)row.get("password"));
+				user.setName((String)row.get("name"));
+				user.setSurname((String)row.get("surName"));
+				user.setDateOfBirth((Date)row.get("dateOfBirth"));
+				user.setEmail((String)row.get("email"));
+				users.add(user);
+			}
+			//Fine
+			return users;
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+		finally{}
+	}
 }
