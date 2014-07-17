@@ -49,14 +49,15 @@ define([
 				description: "descrizione prova",
 				terminated: false,
 				eliminated: false,
-				imageUrl: null,
+				imageUrl: null
 			});
 			var blocks = [];
 			blocks.push({
 				type: "unordered",
 				requiredSteps: 1,
 				nextBlock: null,
-				steps: null
+				steps: null,
+				first: true
 			});
 			process.save([], { blocks: blocks }).done( function(data) {
 				$.ajax({
