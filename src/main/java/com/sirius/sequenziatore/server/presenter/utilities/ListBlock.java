@@ -5,13 +5,13 @@ import java.util.List;
 import com.sirius.sequenziatore.server.model.Block;
 
 public class ListBlock {
-	List<Block> block;
+	List<Block> blocks;
 	ListBlock(){};
-	public List<Block> getBlock() {
-		return block;
+	public List<Block> getBlocks() {
+		return blocks;
 	}
 
-	public void setBlock(List<Block> block) {
-		this.block = block;
+	public void setBlocks(List<Block> blocks) {
+		this.blocks = blocks;
 	}
 }

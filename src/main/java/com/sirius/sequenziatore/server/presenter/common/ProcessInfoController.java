@@ -41,6 +41,7 @@ public class ProcessInfoController implements ServletContextAware {
 	}
 	//metodo e oggetto per mvc annotation driven per salvare le immagini
 	@RequestMapping(value="/saveimage", method=RequestMethod.POST)
+	@ResponseBody
 	public void uploadImage(@RequestParam(value="image")MultipartFile image){
 		if(image.isEmpty()){
 			System.out.println("Immagine vuota!!!!");

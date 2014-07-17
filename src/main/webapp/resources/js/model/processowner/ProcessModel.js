@@ -11,13 +11,16 @@ define([
 		initialize: function() {
 			this.steps = new StepCollection([], { processId: this.id });
 		},
-		
+
 		save: function(attributes, options) {
+			console.log({process:JSON.stringify(this.toJSON()),blocks:JSON.stringify(options.blocks)});
 			return $.ajax({
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
-				data: { process: this.toJSON(), blocks: options.blocks },
-				dataType: "application/json"
+				data:JSON.stringify({process:this.toJSON(),blocks:options.blocks}),
+				cache:true,
+				dataType: "json",
+				contentType:"application/json;charset=utf-8"
 			});
 		},
 		
