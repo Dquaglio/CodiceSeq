@@ -8,24 +8,26 @@ define([
 
 	var ProcessDataCollection = Backbone.Collection.extend({
 
-		model: ProcessData,
+		initialize: function( models, options ) {
+			this.url = "resources/js/data/report"+options.username+options.processId+".json";
+			// this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
+		},
 
-		fetch: function(options) {
-			if(options.stepId) {
-				this.url = "resources/js/data/stepdata"+options.stepId+"processowner.json";
-				// this.url = "http://localhost:8080/sequenziatore/stepdata/"+options.stepId+"/processowner";
-			}
-			else if(options.processId && options.username) {
-				// this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
-			}
-			return this.constructor.__super__.fetch.apply(this);
-		}
-
-		// this.url = "resources/js/data/approvedata.json";
-		// this.url = "http://localhost:8080/sequenziatore/approvedata";
+		model: ProcessData
 
 	});
 	
 	return ProcessDataCollection;
 
 });
+/* Cosente di recuperare dal server i dati inviati dall'utente "username"
+ * riguardanti il processo "processId".
+ * Consente dunque di stampare il report.
+ * 
+ * ESEMPIO UTLIZZO
+ * collection = new ProcessDataCollection([], { username: "Gabriele", processId: 1 });
+ * // stampa collezione in JSON su console
+ * collection.fetch().done( function() {
+ *		collection.log(collection.toJSON())
+ *	});
+ */

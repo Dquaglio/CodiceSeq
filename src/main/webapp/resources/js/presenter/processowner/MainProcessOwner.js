@@ -13,7 +13,7 @@ define([
  'backbone',
  'presenter/BasePresenter',
  'text!view/processowner/mainProcessOwnerTemplate.html',
- 'model/ProcessModel',
+ 'model/processowner/ProcessModel',
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, mainProcessOwnerTemplate, Process ){
 
@@ -49,15 +49,15 @@ define([
 				description: "descrizione prova",
 				terminated: false,
 				eliminated: false,
-				imageUrl: null,
+				imageUrl: null
 			});
 			var blocks = [];
 			blocks.push({
 				type: "unordered",
 				requiredSteps: 1,
 				nextBlock: null,
-				first:true,
-				steps: null
+				steps: null,
+				first: true
 			});
 			process.save([], { blocks: blocks }).done( function(data) {
 				$.ajax({
