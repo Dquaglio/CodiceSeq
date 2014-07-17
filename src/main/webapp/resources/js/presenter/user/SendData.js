@@ -4,15 +4,15 @@ define([
  'backbone',
  'presenter/BasePresenter',
  'text!view/user/SendData.html',
- 'model/ProcessDataCollection',
+ 'model/ProcessModel',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, SendDataTemplate, ProcessDataCollection ){
+], function( $, _, Backbone, BasePresenter, SendDataTemplate, Process ){
 
 	var SendData = BasePresenter.extend({
 
 	    //attributi
 
-        process: new ProcessDataCollection(),
+        process: new Process(),
         id: '#send_data',
         el: $('body'),
         template: _.template(SendDataTemplate),
@@ -26,7 +26,6 @@ define([
 		},
 
         render: function() {
-            process.fetch();
 		    $(this.id).html(this.template({
 					            text: true,
 					            position: true,

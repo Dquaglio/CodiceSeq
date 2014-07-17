@@ -13,14 +13,16 @@ define([
  'backbone',
  'presenter/BasePresenter',
  'text!view/processowner/mainProcessOwnerTemplate.html',
+ 'model/ProcessModel',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, mainProcessOwnerTemplate ){
+], function( $, _, Backbone, BasePresenter, mainProcessOwnerTemplate, Process ){
 
 	var MainProcessOwner = BasePresenter.extend({
 
 		// constructor
 		initialize: function() {
 			this.constructor.__super__.createPage.call(this, "home");
+			_.extend(this.events, BasePresenter.prototype.events);
 			this.render();
 		},
 
@@ -30,6 +32,51 @@ define([
 
 		el: $('body'),
 		
+		events: {
+			'submit #myForm': 'sendData'
+		},
+
+		sendData: function( event ) {
+			event.preventDefault();
+			var file = $("#image")[0].files[0];
+			var formData = new FormData();
+			formData.append("image", file);
+			
+			var process = new Process();
+			process.set({
+				id: 1,
+				name: "Processo prova",
+				description: "descrizione prova",
+				terminated: false,
+				eliminated: false,
+				imageUrl: null,
+			});
+			var blocks = [];
+			blocks.push({
+				type: "unordered",
+				requiredSteps: 1,
+				nextBlock: null,
+				first:true,
+				steps: null
+			});
+			process.save([], { blocks: blocks }).done( function(data) {
+				$.ajax({
+					 url: "http://localhost:8080/sequenziatore/process/"+data+"/saveimage",
+					 data: formData,
+					 cache: false,
+					 contentType: false,
+					 processData: false,
+					 type: 'POST',
+				}).done( function( data ) {
+					console.log("dati inviati");
+					console.log(data);
+				}).fail( function(a, error) {
+					console.log("errore: dati non inviati");
+					console.log(error);
+				});
+			});
+		},
+
 		render: function( waitingDataNumber ) {
 			// 0 as default value
 			waitingDataNumber = typeof waitingDataNumber !== "undefined" ? waitingDataNumber : 0;

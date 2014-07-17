@@ -37,7 +37,7 @@ define([
 		},
 
 		isLogged: function() {
-			return Boolean(sessionStorage.getItem("usertype"));
+			return !Boolean(sessionStorage.getItem("usertype"));
 		},
 		
 		isUser: function() {

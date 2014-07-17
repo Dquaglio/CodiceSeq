@@ -5,7 +5,7 @@ define([
 
 	var Steps = Backbone.Collection.extend({
 		
-		initialize: function( options ) {
+		initialize: function( models, options ) {
 			this.processId = options.processId;
 		},
 		

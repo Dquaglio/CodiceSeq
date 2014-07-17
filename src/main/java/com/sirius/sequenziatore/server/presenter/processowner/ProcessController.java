@@ -4,14 +4,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sirius.sequenziatore.server.presenter.utilities.ListBlock;
 
 @Controller
-@RequestMapping(value="/stepdata/{idstep}/processowner")
+@RequestMapping(value="/process/processowner")
 public class ProcessController {
 	@RequestMapping(method=RequestMethod.POST,consumes = "application/json", produces = "application/json")
-	public void createProcess(@RequestBody Process toBeCreated,@RequestParam(value="idstep") int idstep){
-		
+	@ResponseBody
+	public int createProcess(@RequestBody Process process,@RequestBody ListBlock blocks){
+		System.out.println("Creato processo");
+		return 1;
 	}
 
 }
