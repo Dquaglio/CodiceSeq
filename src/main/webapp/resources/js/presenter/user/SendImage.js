@@ -200,7 +200,7 @@ define([
 			alert("Passo saltato");
 			this.process.steps.remove(this.process.steps.models[0]);
 			this.render();
-		},
+		}
 
 	});
 
