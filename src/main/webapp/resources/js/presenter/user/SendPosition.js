@@ -59,6 +59,30 @@ define([
 		},
 
 		_checkCoordinates: function() {
+                $('#canvas').gmap3({
+                    getgeoloc:{
+                        callback : function(cords){
+                            if (cords){
+                                $('#canvas').html(cords.lat());
+                                $(this).gmap3({
+                                    map:{
+                                        options: {
+                                            center:cords,
+                                            zoom: 18,
+                                            disableDefaultUI: true
+                                        }
+                                    },
+                                    marker:{
+                                        latLng:cords,
+                                        options:{icon: "../../../img/user.png"}
+                                    }
+                                });
+                            } else {
+                                $('#canvas').html('not localised !');
+                            }
+                        }
+                    }
+                });
 		},
 
 		_getCoordinatesDistanceInMeters: function(position1, position2) {
