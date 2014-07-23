@@ -12,7 +12,7 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'collection/ProcessCollection',
+ 'collection/processowner/ProcessCollection',
  'text!view/processowner/openProcessTemplate.html',
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, Processes, openProcessTemplate ){
@@ -21,9 +21,9 @@ define([
 
 		collection: new Processes(),
 
+		// constructor
 		initialize: function () {
 			this.constructor.__super__.createPage.call(this, "processes");
-			//this.listenTo(this.collection, 'sync', this.render);
 			this.update();
 		},
 

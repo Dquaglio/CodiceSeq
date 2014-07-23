@@ -3,7 +3,7 @@
 		"stepId": 1,
 		"username":"Gabriele",
 		"values": [
-			{ "value": "presentazione gruppo Sirius", "dataId":1 },
+			{ "value": "presentazione gruppo Sirius", "dataId": 1 },
 			{ "latitude": 45.411129, "longitude": 11.8879344, "altitude":17 } 
 		]
 	},
@@ -11,8 +11,8 @@
 		"stepId": 1,
 		"username":"White",
 		"values": [
-			{"value": "Vedo poche ragazze", "dataId":1},
+			{ "dataId": 1, "value": "Vedo poche ragazze"},
 			{ "latitude": 45.411331, "longitude": 11.8876318, "altitude":17 }
-   		]
+   	]
 	}
 ]

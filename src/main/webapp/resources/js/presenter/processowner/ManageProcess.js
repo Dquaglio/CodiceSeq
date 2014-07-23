@@ -12,131 +12,165 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'model/ProcessModel',
- 'collection/processDataCollection'
+ 'presenter/processowner/ProcessData',
+ 'model/processowner/ProcessModel',
  'text!view/processowner/manageProcessTemplate.html',
- 'text!view/processowner/processDataTemplate.html',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, Process, ProcessData, manageProcessTemplate, processDataTemplate ){
+], function( $, _, Backbone, BasePresenter, ProcessDataLogic, Process, manageProcessTemplate ){
 
 	var ManageProcess = BasePresenter.extend({
 
 		process: null,
+		
+		processDataLogic: new ProcessDataLogic(),
 
-		initialize: function () {
+		// constructor
+		initialize: function() {
 			this.constructor.__super__.createPage.call(this, "process");
 			_.extend(this.events, BasePresenter.prototype.events);
-			
 			this.update();
 		},
+
+		template: _.template(manageProcessTemplate),
 
 		id: '#process',
 
 		el: $('body'),
 
+		// events list
 		events: {
 			'click .tabButton': 'changeTab',
 			'click #terminateProcess': 'terminateProcess',
-			'click #eliminateProcess': 'eliminateProcess'
+			'click #eliminateProcess': 'eliminateProcess',
+			'click a.link': 'activateLink'
 		},
 
-		render: function( template ) {
-			options = { process: this.process.toJSON() };
-			var steps = new Array();
-			if(stepId = this.getParam("stepId")) {
-				steps.push(this.process.steps.get(stepId).toJSON());
-				options["processData"] = this.processData.toJSON();
-			}
-			else if(username = this.getParam("username")) {
-				var self = this;
-				_.each(this.processData, function(data) { 
-					var step = self.process.steps.get(data.stepId).toJSON();
-					step["processData"] = data.toJSON();
-					steps.push(step);
-				}
-			}
-			else {
-				steps = this.process.steps.toJSON();
-				options["users"] = this.process.users.toJSON();
-			}
-			$(this.id).html(template( options )).enhanceWithin();
+		render: function( options ) {
+			// template rendering and JQM css enhance
+			$(this.id).html(this.template( options )).enhanceWithin();
+			
+			// imposta la tab/scheda corrente
+			if( typeof this.currentTab != "undefined" && this.currentTab != $(".mainTab").attr("id") ) {
+				//$(".tabButton[href=#"+this.currentTab+"]").addClass("ui-btn-active");
+				$(".tabButton[href=#"+this.currentTab+"]").click();
+			};
+			this.currentTab = $(".mainTab").attr("id");
 		},
 
+		// aggiorna i dati della pagina recuperandoli dal server
 		update: function() {
 			if(processId = this.getParam("id")) {
+				// creazione del processo con id "processId", se non ancora presente
 				if(!this.process || this.process.id != processId ) {
 					this.process = new Process({ id: processId });
 				}
+				
 				var self = this;
-				$.when(
+				// recupero dal server dei dati del processo "process"
+				return $.when(
 					this.process.fetch(),
 					this.process.steps.fetch()
 				).done( function() {
-					if(stepId = this.getParam("step")) {
-						self.processData.fetch({ stepId: stepId }).done( function() {
-							self.render( _.template( processDataTemplate ) );
-						});
+				
+					options = {
+						process: self.process.toJSON(),
+						steps: self.process.steps.toJSON()
+					};
+					// (a): gestione dei dati ricevuti relativi al passo con id "stepId"
+					if(stepId = self.getParam("step")) {
+						self.currentTab = "stepsTab";
+						self.processDataLogic.update( { stepId: stepId }, options );
 					}
-					else if(username = this.getParam("username")) {
-						self.processData.fetch({
-							processId: processId, 
-							username: username 
-						}).done( function() {
-							self.render( _.template( processDataTemplate ) );
-						});
+					// (b): gestione dei dati ricevuti dall'utente "username", relativi al processo "process"
+					else if(username = self.getParam("username")) {
+						self.currentTab = "usersTab";
+						self.processDataLogic.update(
+							{ processId: processId, username: username }, options
+						);
 					}
-					else self.render( _.template( manageProcessTemplate ) );
+					// (c): gestione del processo "process"
+					else {	
+						options["users"] = self.process.users;
+						self.render( options );
+					}
+					
+				}).fail( function( error ) {
+					// gestione errori
+					if(error.status == 0) self.printMessage("Errore", "Errore di connessione.");
+					else self.render({ error: "Processo inesistente o eliminato" });
+					
 				});
 			}
-			else {
-			
-			}
+			else this.render({ error: "Processo inesistente o eliminato" });
+
 		},
 
-		getParam: function(param) {
+		// ritorna il paramentro get con nome "param" se presente nella url, altrimenti ritorna false
+		getParam: function( param ) {
 			var hash = window.location.hash;
 			var expression = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})|"+param+"=(\\w{1,20})");
 			var result = expression.exec(hash);
 			return result ? ( result[3] || Number(result[2]) ) : false;
 		},
-		
-		changeTab: function(event) {
+
+		// getione dell'evento di cambio tab
+		changeTab: function( event ) {
 			event.preventDefault();
+			event.stopPropagation();
 			var target =  $(event.target).attr("href");
 			$(".tab, .mainTab").hide();
 			$(target).show();
+			$(".tabButton.ui-btn-active").removeClass("ui-btn-active");
+			$(event.target).addClass("ui-btn-active");
 		},
-		
+
+		// gestione della richiesta di eliminazione di un processo terminato dalla lista dei processi gestibili dal process owner
 		eliminateProcess: function() {
-			this.process.eliminate().done(function() {
-				$("#alert h3").text("Azione eseguita");
-				$("#alert p").text("Il processo è stato eliminato.");
+			var self = this;
+			this.process.eliminate().done( function() {
+				self.printMessage("Azione eseguita", "Il processo è stato eliminato.");
 				$("#alert").on( "popupafterclose", function() {
 					window.location.assign("#processes");
 				});
-			}).fail(function() {
-				$("#alert h3").text("Errore");
-				$("#alert p").text("Errore di connessione.");
-			}).always(function() {
-				$("#alert").popup("open");
+			}).fail( function( error ) {
+				if(error.status == 0) self.printMessage("Errore", "Errore di connessione.");
+				// begin test	
+				else if(error.status == 404) self.printMessage("Test error", error.status+" "+error.statusText);
+				// end test
+				else self.update();
 			});
 		},
-		
+
+		// gestione della richiesta di terminazione di un processo
 		terminateProcess: function(event) {
 			var self = this;
-			this.process.terminate().done(function() {
-				var activeTab = $(".tab:visible").attr("id");
-				self.render({});
-				$("#alert h3").text("Azione eseguita");
-				$("#alert p").text("Il processo è stato terminato.");
-				$("a[href=#"+activeTab+"]").click();
-			}).fail(function() {
-				$("#alert h3").text("Errore");
-				$("#alert p").text("Errore di connessione.");
-			}).always(function() {
-				$("#alert").popup("open");
+			this.currentTab = $(".tab:visible").attr("id");
+			this.process.terminate().done( function() {
+				self.update().done( function() {
+					self.printMessage("Azione eseguita", "Il processo è stato terminato.");
+				});
+			}).fail( function( error ) {
+				if(error.status == 0) self.printMessage("Errore", "Errore di connessione.");
+				// begin test	
+				else if(error.status == 404) self.printMessage("Test error", error.status+" "+error.statusText);
+				// end test
+				else self.update();
 			});
-		}
+		},
+
+		// apre un popup con titolo "title" e contenuto "content"
+		printMessage: function( title, content ) {
+			$("#alert h3").text( title );
+			$("#alert p").text( content );
+			$("#alert").popup("open");
+		},
+
+		// gestione della navigazione tra pagine tramite link contenuti all'interno di un tab
+		activateLink: function( event ) {
+			event.preventDefault();
+			var target =  $(event.currentTarget).attr("href");
+			window.location.assign(target);
+		},
 
 	});
 

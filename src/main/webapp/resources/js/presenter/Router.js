@@ -1,7 +1,7 @@
 /*!
 * \File: Router.js
 * \Author: Vanni Giachin <vanni.giachin@gmail.com>
-*          Marcomin Gabriele <gabriele.marcomin@gmail.com>
+* \Author: Marcomin Gabriele <gabriele.marcomin@gmail.com>
 * \Date: 2014-05-26
 * \LastModified: 2014-07-15
 * \Class: Router
@@ -20,7 +20,7 @@ define([
 	var Router = Backbone.Router.extend({
 
 		userData: new UserDataModel(),
-		
+
 		views: new Array(),
 
 		routes: {

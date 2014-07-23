@@ -1,8 +1,17 @@
+/*!
+* \File: StepModel.js 
+* \Author: Vanni Giachin <vanni.giachin@gmail.com> 
+* \Date: 2014-05-26 
+* \LastModified: 2014-07-22
+* \Class: StepModel
+* \Package: com.sirius.sequenziatore.client.model
+* \Brief: Gestione dei dati di un passo di un processo
+*/
 define([
- 'backbone',
+ 'backbone'
 ], function( Backbone ){
 
-	var Step = Backbone.Model.extend({
+	var StepModel = Backbone.Model.extend({
 
 		url: function() {
 			return "resources/js/data/step"+this.id+".json";
@@ -10,7 +19,7 @@ define([
 
 	});
 
-	return Step;
+	return StepModel;
 
 });
 /* Cosente di recuperare dal server le informazioni sulla struttura di un passo.

@@ -1,20 +1,18 @@
 {
 	"id": 3,
-	"processId": 2,
-	"description":"Inviaci il prezzo dei carburanti e il nome del benzinaio",
-	"first":true,
-	"data"  : [
-		{ "name": "Nome benzinaio", "type":"TEXTUAL", "id":4 },
-		{ "name": "prezzo benzina(€)", "type":"NUMERIC", "id":5 },
-		{ "name": "prezzo gasolio(€)", "type":"NUMERIC", "id":6 },
-		{ "name": "prezzo idrogeno(€)", "type":"NUMERIC","id":7 }
+	"description": "Inviaci il prezzo dei carburanti e il nome del benzinaio",
+	"first": true,
+	"nextStepId": 4,
+	"requiresApproval": false,
+	"optional": false,
+	"textualData" : [
+		{ "id": 1, "description": "Nome benzinaio" }
 	],
-	"conditions": [
-		{
-			"nextStepId":4,
-			"requiresApproval": false,
-			"optional":false,
-			"constraints":[]
- 		}
-	]
+	"numericData": [
+		{ "id": 2, "description": "prezzo benzina(€)" },
+		{ "id": 3, "description": "prezzo gasolio(€)" },
+		{ "id": 4, "description": "prezzo idrogeno(€)" }
+	],
+	"imageData": null,
+	"geographicData": null
 }

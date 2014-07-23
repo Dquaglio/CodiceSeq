@@ -26,7 +26,7 @@
 		</form>
 
 		<ul data-role="listview" data-inset="true" data-input="#searchProcess" data-filter="true" data-autodividers="false">
-			<% _.each(processes, function(process) { 
+			<% _.each(processes, function(process) {
 				if(!process.eliminated) { %>
 					<li>
 						<a href="#process?id=<%= process.id %>" class="ui-content">

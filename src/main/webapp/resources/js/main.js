@@ -4,7 +4,7 @@ require.config({
 		// libraries
 		jquery: 'libs/jquery-min',
 		jquerymobile: 'libs/jquery.mobile-min',
-        gmap3: 'libs/gmap3',
+		gmap3: 'libs/gmap3',
 		underscore: 'libs/underscore-min',
 		backbone: 'libs/backbone-min',
 		text: 'libs/text',
@@ -20,17 +20,20 @@ require.config({
 	}
 });
 
-require([
-'backbone',
-'jquery',
-'gmap3',
-'jquerymobile',
-'app'
-], function( Backbone, $ ){
+define([
+ 'backbone',
+ 'jquery',
+ 'presenter/Router',
+ 'jquerymobile'
+], function( Backbone, $, Router ){
 
 	// jquerymobile configuration
 	$.mobile.hashListeningEnabled = false;
 	$.mobile.linkBindingEnabled = false;
 	$.mobile.ajaxEnabled = false;
 	$.mobile.pushStateEnabled = false;
+
+	var router = new Router();
+	Backbone.history.start();
+
 });

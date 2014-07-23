@@ -10,92 +10,118 @@
 */
 %>
 <div data-role="header">
-	<h1><%= process.name %></h1>
+	<h1>
+		<% if( typeof error === "undefined" ) { %> 
+			<%= process.name %>
+		<% } else { %>
+			Gestione processo
+		<% } %>
+	</h1>
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
 		<a href="#processes" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
 	</div>
-	<div data-role="navbar" data-iconpos="right">
-		<ul>
-			<li><a href="#stepsTab" class="tabButton ui-btn-active">Passi</a></li>
-			<li><a href="#usersTab" class="tabButton">Utenti</a></li>
-			<li><a href="#optionsTab" class="tabButton">Opzioni</a></li>
-		</ul>
-	</div><!-- /navbar -->
+	<% if( typeof error === "undefined" ) { %> 
+		<div data-role="navbar" data-iconpos="right">
+			<ul>
+				<li><a href="#stepsTab" class="tabButton ui-btn-active">Passi</a></li>
+				<li><a href="#usersTab" class="tabButton">Utenti</a></li>
+				<li><a href="#optionsTab" class="tabButton">Opzioni</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	<% } %>
 </div><!-- /header -->
 
-<div id="content" class="searchList">
+<% if( typeof error === "undefined" ) { %>
 
-	<div data-role="tabs">
-		<div id="stepsTab" class="mainTab">
-			<form>
-				<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
-			</form>
+	<div id="content" class="searchList">
 
-			<ul data-role="listview" data-inset="true" data-input="#searchStep" data-filter="true" data-autodividers="false">
-				<li data-role="list-divider">
-					<h3 class="description"><%= process.description %></h3>
-				</li>
-				<%  if(!steps.length) { %>
+		<div data-role="tabs" id="tabs">
+			<div id="stepsTab" class="mainTab">
+				<form>
+					<input id="searchStep" data-type="search" placeholder="Ricerca passo...">
+				</form>
+
+				<ul data-role="listview" data-inset="true" data-input="#searchStep" data-filter="true" data-autodividers="false">
+					<li data-role="list-divider">
+						<h3 class="description"><%= process.description %></h3>
+					</li>
+					<%  if(!steps.length) { %>
+						<li data-role="fieldcontain">
+							<h3>Nessun dato ricevuto.</h3>
+						</li>
+					<% }  %>
+					<% _.each(steps, function(_step) { %>
+						<li>
+							<a class="link" href="#process?id=<%= process.id %>&step=<%= _step.id %>">
+								<p class="description"><%= _step.description %></p>
+							</a>
+						</li>
+					<% }); %>			
+				</ul>
+			</div><!-- /stepsTab -->
+
+			<div id="usersTab" class="tab">
+				<form>
+					<input id="searchUser" data-type="search" placeholder="Ricerca utente...">
+				</form>
+
+				<ul data-role="listview" data-inset="true" data-input="#searchUser" data-filter="true" data-autodividers="false">
+					<li data-role="list-divider">
+						<h3 class="description"><%= process.description %></h3>
+						<span class="ui-li-count ui-body-inherit"><%= users.length %></span>
+					</li>
+					<%  if(!users.length) { %>
+						<li data-role="fieldcontain">
+							<h3>Nessun dato ricevuto.</h3>
+						</li>
+					<% }  %>
+					<% _.each( users, function(username) { %>
+						<li>
+							<a class="link" href="#process?id=<%= process.id %>&username=<%= username %>">
+								<p class="description"><%= username %></p>
+							</a>
+						</li>
+					<% }); %>			
+				</ul>
+			</div><!-- /usersTab -->
+
+			<div id="optionsTab" class="tab">
+				<ul data-role="listview" data-inset="true" class="spacedList">
 					<li data-role="fieldcontain">
-						<h3>Nessun dato ricevuto.</h3>
+						<h3><%= process.name %></h3>
+						<p><%= process.description %></p>
+						<% if(process.terminated) { %>
+							<p>stato processo: <span class="error"><strong>terminato</strong></span></p>
+							<button id="eliminateProcess" data-inline="true">Elimina processo</button>
+						<% } else {%>
+							<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
+							<button id="terminateProcess" data-inline="true">Termina processo</button>
+					<% } %>
 					</li>
-				<% }  %>
-				<% _.each(steps, function(_step) { %>
-					<li>
-						<a href="#process?id=<%= process.id %>&step=<%= _step.id %>">
-							<p class="description"><%= _step.description %></p>
-						</a>
-					</li>
-				<% }); %>			
-			</ul>
-		</div><!-- /stepsTab -->
+				</ul>
+			</div><!-- /optionsTab -->
 
-		<div id="usersTab" class="tab">
-			<form>
-				<input id="searchUser" data-type="search" placeholder="Ricerca utente...">
-			</form>
+		</div><!-- /tabs -->
 
-			<ul data-role="listview" data-inset="true" data-input="#searchUser" data-filter="true" data-autodividers="false">
-				<li data-role="list-divider">
-					<h3 class="description"><%= process.description %></h3>
-					<span class="ui-li-count ui-body-inherit"><%= users.length %></span>
-				</li>
-				<%  if(!users.length) { %>
-					<li data-role="fieldcontain">
-						<h3>Nessun dato ricevuto.</h3>
-					</li>
-				<% }  %>
-				<% _.each(users, function(username) { %>
-					<li>
-						<a href="#process?id=<%= process.id %>&username=<%= username %>">
-							<p class="description"><%= username %></p>
-						</a>
-					</li>
-				<% }); %>			
-			</ul>
-		</div><!-- /usersTab -->
+	</div><!-- /content -->
 
-		<div id="optionsTab" class="tab">
-			<ul data-role="listview" data-inset="true" class="spacedList">
-				<li data-role="fieldcontain">
-					<h3><%= process.name %></h3>
-					<p><%= process.description %></p>
-					<% if(process.terminated) { %>
-						<p>stato processo: <span class="error"><strong>terminato</strong></span></p>
-						<button id="eliminateProcess" data-inline="true">Elimina processo</button>
-					<% } else {%>
-						<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
-						<button id="terminateProcess" data-inline="true">Termina processo</button>
-				<% } %>
-				</li>
-			</ul>
-		</div><!-- /optionsTab -->
+<% } else { %>
 
-	</div><!-- /tabs -->
+	<div id="content">
+		<ul data-role="listview" data-inset="true">
+			<li data-role="list-divider">
+				<h3>Errore</h3>
+			</li>
+			<li data-role="fieldcontain">
+				<p class="description">
+					<%= error %>. Torna alla <a href="#processes">Gestione dei processi</a>.
+				</p>
+			</li>
+	</div><!-- /content error -->
 
-</div><!-- /content -->
+<% } %>
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
 	

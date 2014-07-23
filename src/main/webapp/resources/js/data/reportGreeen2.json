@@ -3,20 +3,20 @@
 		"stepId": 3,
 		"username": "Greeen",
 		"values": [
-			{"value": "Da Luigi", "dataId":4},
-			{"value": 15, "dataId":5},
-			{"value": 5, "dataId":6},
-			{"value": 2, "dataId":7}
+			{"value": "Da Luigi", "dataId": 1},
+			{"value": 15, "dataId": 2},
+			{"value": 5, "dataId": 3},
+			{"value": 2, "dataId": 4}
 		]
 	},
 	{
 		"stepId": 4,
 		"username": "Green",
 		"values": [
-			{"value": "Alla botte", "dataId":8},
-			{"value": 2, "dataId":9},
-			{"value": 4, "dataId":10},
-			{"value": 7, "dataId":11}
+			{"value": "Alla botte", "dataId": 1},
+			{"value": 2, "dataId": 2},
+			{"value": 4, "dataId": 3},
+			{"value": 7, "dataId": 4}
 		]
 	}
 ]

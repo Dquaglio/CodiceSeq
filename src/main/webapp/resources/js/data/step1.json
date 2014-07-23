@@ -1,25 +1,18 @@
 {
 	"id": 1,
-	"processId": 1,
 	"description": "Raggiungi torre archimede, dicci cosa vedi e inviaci le coordinate",
-	"first": true,
-	"data"  : [
-		{ "name": "Cosa vedi", "type":"TEXTUAL", "id": 1 }
+	"nextStep": 2,
+	"requiresApproval": false,
+	"optional": true,
+	"textualData" : [
+		{ "id": 1, "description": "Cosa vedi" }
 	],
-	"conditions": [
-		{
-			"nextStepId": 2,
-			"requiresApproval": false,
-			"optional": true,
-			"constraints":[
-				{
-					"latitude": 45.411331,
-					"longitude": 11.8876318,
-					"altitude": 17,
-					"radius": 2000,
-					"associatedDataId": null				
-				}
-			]
- 		}
-	]
+	"numericData": null,
+	"imageData": null,
+	"geographicData": {
+		"latitude": 45.411331,
+		"longitude": 11.8876318,
+		"altitude": 17,
+		"radius": 2000			
+	}
 }

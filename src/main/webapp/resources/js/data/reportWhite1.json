@@ -1,19 +1,19 @@
 [
 	{
 		"stepId": 1,
-		"username":"White",
+		"username": "White",
 		"values": [
-			{"value": "Vedo poche ragazze", "dataId":1},
-			{ "latitude": 45.411331, "longitude": 11.8876318, "altitude":17 }
+			{ "value": "Vedo poche ragazze", "dataId": 1},
+			{ "latitude": 45.411331, "longitude": 11.8876318, "altitude": 17 }
    		]
 	},
 	{
 		"stepId": 2,
-		"username":"White",
+		"username": "White",
 		"values": [
-			{ "value": "Vedo una grande statua", "dataId":2 },
-			{ "imageUrl": "statua", "dataId":3 },
-			{ "latitude": 100, "longitude": 20, "altitude":50 } 
+			{ "value": "Vedo una grande statua", "dataId": 1 },
+			{ "imageUrl": "statua", "dataId": 2 },
+			{ "latitude": 100, "longitude": 20, "altitude": 50 } 
 		]
 	}
 ]
