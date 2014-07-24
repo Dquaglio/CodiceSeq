@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.common;
+package com.sirius.sequenziatore.server.controller.common;
 
 import java.io.IOException;
 

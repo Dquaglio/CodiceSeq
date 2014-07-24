@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.common;
+package com.sirius.sequenziatore.server.controller.utilities;
 
 import org.springframework.web.multipart.MultipartFile;
 

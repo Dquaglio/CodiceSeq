@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.processowner;
+package com.sirius.sequenziatore.server.controller.processowner;
 
 import java.util.ArrayList;
 import java.util.List;

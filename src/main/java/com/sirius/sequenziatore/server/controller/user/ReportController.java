@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.user;
+package com.sirius.sequenziatore.server.controller.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

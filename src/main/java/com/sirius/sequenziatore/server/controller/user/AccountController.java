@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.user;
+package com.sirius.sequenziatore.server.controller.user;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

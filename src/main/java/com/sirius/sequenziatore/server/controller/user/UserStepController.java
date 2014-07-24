@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.user;
+package com.sirius.sequenziatore.server.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

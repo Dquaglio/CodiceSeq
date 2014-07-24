@@ -1,4 +1,4 @@
-package com.sirius.sequenziatore.server.presenter.utilities;
+package com.sirius.sequenziatore.server.controller.utilities;
 
 import java.util.List;
 
