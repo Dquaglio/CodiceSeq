@@ -24,6 +24,7 @@ define([
  'backbone',
  'jquery',
  'presenter/Router',
+ 'gmap3',
  'jquerymobile'
 ], function( Backbone, $, Router ){
 
