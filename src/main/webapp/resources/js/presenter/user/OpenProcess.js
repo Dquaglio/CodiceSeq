@@ -15,39 +15,50 @@ define([
     'presenter/BasePresenter',
     'text!view/user/OpenProcess.html',
     'collection/ProcessCollection'
-], function( $, _, Backbone, BasePresenter, openProcessTemplate, Processes ){
+], function( $, _, Backbone, BasePresenter, openProcessTemplate, ProcessCollection ){
+
+    var template= _.template(openProcessTemplate);
+    var collection= new ProcessCollection();
+
+    var extractGet=function(expression,string){
+        var result=new RegExp(expression).exec(string);
+        return result;
+    }
+
+
 
     var OpenProcess = BasePresenter.extend({
 
-        collection: new Processes(),
+
 
         initialize: function () {
             this.constructor.__super__.createPage.call(this, "processes");
             this.listenTo(this.collection, 'all', this.render);
         },
 
-        template: _.template(openProcessTemplate),
+
 
         id: '#processes',
 
         el: $('body'),
 
         render: function() {
+            collection.fetch();
+            //variabile che contiene i processi
+            var processJson=collection.toJSON();
             this.update();
-            var address = window.location.hash;
-            var exp = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})");
-            var result = exp.exec(address);
+            var result = extractGet("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})",address);
             var type_process=null;
             if(result=="new")
                 type_process="subscribable";
-            else if(result="active")
+            else if(result="ongoing")
                 type_process="just subscribed";
 
-            $(this.id).html(this.template({ processes: this.collection.toJSON() })).enhanceWithin();
+            $(this.id).html(this.template({ processes: processJson })).enhanceWithin();
         },
 
         update: function() {
-            this.collection.fetch();
+            collection.fetch();
         }
 
     });

@@ -8,12 +8,32 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, sendTextTemplate, Process ){
 
-	var SendText = BasePresenter.extend({
+    var process = null;
+    var template = _.template(sendTextTemplate);
+
+    var getParam = function(param) {
+        var hash = window.location.hash;
+        var expression = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})");
+        var result = expression.exec(hash);
+        return result ? result[2] : false;
+    }
+
+    var update = function() {
+        var processId = this.getParam("id");
+        this.process.fetchProcess(processId);
+    }
+
+
+    var get = function(model) {
+        if(typeof model == Process )
+            this._process=model;
+    }
+
+    var SendText = BasePresenter.extend({
 
         //attributi
 
-		_process: null,
-        template: _.template(sendTextTemplate),
+
         id: '#process',
         el: $('body'),
 
@@ -34,27 +54,10 @@ define([
 		},
 
 		render: function() {
-					$(this.id).html(this.template).enhanceWithin();
+					$(this.id).html(template).enhanceWithin();
 			
-		},
-
-		_getParam: function(param) {
-			var hash = window.location.hash;
-			var expression = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})");
-			var result = expression.exec(hash);
-			return result ? result[2] : false;
-		},
-
-		_update: function() {
-			var processId = this.getParam("id");
-			this.process.fetchProcess(processId);
-		},
-
-
-		get: function(model) {
-            if(typeof model == Process )
-                this._process=model;
 		}
+
 
 	});
 

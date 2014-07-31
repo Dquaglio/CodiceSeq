@@ -8,14 +8,17 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, SendDataTemplate, ProcessDataCollection ){
 
+    var process = new ProcessDataCollection();
+    var template = _.template(SendDataTemplate);
+
 	var SendData = BasePresenter.extend({
 
 	    //attributi
 
-        process: new ProcessDataCollection(),
+
         id: '#send_data',
         el: $('body'),
-        template: _.template(SendDataTemplate),
+
 
 
         //metodi
@@ -27,7 +30,7 @@ define([
 
         render: function() {
             process.fetch();
-		    $(this.id).html(this.template({
+		    $(this.id).html(template({
 					            text: true,
 					            position: true,
 					            number: true,

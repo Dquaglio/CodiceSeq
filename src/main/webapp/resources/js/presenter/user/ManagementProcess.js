@@ -9,13 +9,15 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter,BaseTemplate, manageProcessTemplate, Process ){
 
+    var baseTemplate= _.template(BaseTemplate);
+    var template= _.template(manageProcessTemplate);
+    var process= new Process();
+
 	var ManagementProcess = BasePresenter.extend({
 
-	    //attributi
 
-        baseTemplate: _.template(BaseTemplate),
-        template: _.template(manageProcessTemplate),
-        process: new Process(),
+
+
         id: '#process',
         el: $('body'),
 

@@ -46,6 +46,6 @@ define([
 
     });
 
-    return ManageProcess;
+    return SendNumber;
 
 });
