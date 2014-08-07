@@ -11,10 +11,11 @@ public class Step implements ITransferObject
 	private int nextStepId;
 	private boolean requiresApproval;
 	private boolean optional;
+	private int processId;
 	private List<NumericData> numericData;
 	private List<TextualData> textualData;
 	private List<ImageData> imageData;
-	private GeographicData requirdPosition;
+	private GeographicData requiredPosition;
 	
 	//Getter & Setter
 	public int getId() {
@@ -47,6 +48,12 @@ public class Step implements ITransferObject
 	public void setOptional(boolean optional) {
 		this.optional = optional;
 	}
+	public int getProcessId() {
+		return processId;
+	}
+	public void setProcessId(int processId) {
+		this.processId = processId;
+	}
 	public List<NumericData> getNumericData() {
 		return numericData;
 	}
@@ -65,11 +72,11 @@ public class Step implements ITransferObject
 	public void setImageData(List<ImageData> imageData) {
 		this.imageData = imageData;
 	}
-	public GeographicData getRequirdPosition() {
-		return requirdPosition;
+	public GeographicData getRequiredPosition() {
+		return requiredPosition;
 	}
-	public void setRequirdPosition(GeographicData requirdPosition) {
-		this.requirdPosition = requirdPosition;
+	public void setRequiredPosition(GeographicData requiredPosition) {
+		this.requiredPosition = requiredPosition;
 	}
 	public boolean isFirst() {
 		return first;

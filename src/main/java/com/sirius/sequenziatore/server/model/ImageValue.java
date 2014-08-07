@@ -3,27 +3,25 @@ package com.sirius.sequenziatore.server.model;
 public class ImageValue implements IDataValue 
 {
 	//Fields
-	private int id;
 	private String imageUrl;
-	private int dataId;
+	private DataTypes type;
+	
+	//Constructor
+	public ImageValue()	{
+		this.type=DataTypes.IMAGE;
+	}
 	
 	//Getter & Setter
-	public int getId() {
-		return id;
+	public DataTypes getType()	{
+		return type;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setType(DataTypes type)	{
+		this.type=type;
 	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-	public int getDataId() {
-		return dataId;
-	}
-	public void setDataId(int dataId) {
-		this.dataId = dataId;
 	}
 }

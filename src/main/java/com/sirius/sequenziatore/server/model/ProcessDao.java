@@ -150,12 +150,13 @@ public class ProcessDao implements IDataAcessObject
 					}
 					params.put("requiresApproval", step.requiresApproval());
 					params.put("optional", step.isOptional());
+					params.put("processId", step.getProcessId());
 					stepId=stepsji.executeAndReturnKey(params).intValue();
 					//Dati e vincoli del passo
 					List<NumericData> numerics=step.getNumericData();
 					List<TextualData> textuals=step.getTextualData();
 					List<ImageData> images=step.getImageData();
-					GeographicData geographic=step.getRequirdPosition();
+					GeographicData geographic=step.getRequiredPosition();
 					int dataId=0;
 					//Dati Numerici
 					if(numerics!=null)
@@ -174,7 +175,7 @@ public class ProcessDao implements IDataAcessObject
 							params.put("type", "NUMERIC");
 							params.put("isDecimal", numeric.isDecimal());
 							params.put("minValue", numeric.getMinValue());
-							params.put("maxxValue", numeric.getMaxValue());
+							params.put("masValue", numeric.getMaxValue());
 							bondsji.execute(params);
 						}
 					}

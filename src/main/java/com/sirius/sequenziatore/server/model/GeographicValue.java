@@ -3,18 +3,22 @@ package com.sirius.sequenziatore.server.model;
 public class GeographicValue implements IDataValue
 {
 	//Fields
-	private int id;
 	private double latitude;
 	private double longitude;
 	private double altitude;
-	private int dataId;
+	private DataTypes type;
+	
+	//Constructor
+	public GeographicValue()	{
+		this.type=DataTypes.GEOGRAPHIC;
+	}
 	
 	//Getter & Setter
-	public int getId() {
-		return id;
+	public DataTypes getType()	{
+		return type;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setType(DataTypes type)	{
+		this.type=type;
 	}
 	public double getLatitude() {
 		return latitude;
@@ -33,11 +37,5 @@ public class GeographicValue implements IDataValue
 	}
 	public void setAltitude(double altitude) {
 		this.altitude = altitude;
-	}
-	public int getDataId() {
-		return dataId;
-	}
-	public void setDataId(int dataId) {
-		this.dataId = dataId;
 	}
 }
