@@ -23,25 +23,28 @@ import com.sirius.sequenziatore.server.service.ProcessInfoService;
 
 @Controller
 @RequestMapping(value="/process/{idprocess}")
-public class ProcessInfoController  {
+public class ProcessInfoController  { //classe addetta a ritornare le informazioni riguardanti i processi
 	@Autowired
 	private ProcessInfoService processInfoService;
+	
 	//metodo che ritorna la struttura di un processo
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
 	public Process getProcessInformation(@PathVariable int idprocess){
-		Process toBeReturned=processInfoService.getProcess(idprocess);
-		if(toBeReturned!=null){
+		Process toBeReturned=processInfoService.getProcess(idprocess);//ottengo il processo da ritornare
+		if(toBeReturned!=null){//se il processo esiste lo ritorno
 			return toBeReturned;
 		}
 		throw new IllegalStateException("Processo non presente");
 	}
+	
 	//metodo per salvare le immagini
 	@RequestMapping(value="/saveimage", method=RequestMethod.POST)
 	@ResponseBody
 	public void uploadImage(@RequestParam(value="image")MultipartFile image){
 		boolean result=processInfoService.saveImage(image);
-		}
+	}
+	
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY,   reason = "Il processo cercato non è presente")
 	public void handleException3(IllegalStateException ex, HttpServletResponse response) throws IOException{

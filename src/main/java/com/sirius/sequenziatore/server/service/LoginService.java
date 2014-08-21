@@ -3,6 +3,7 @@ package com.sirius.sequenziatore.server.service;
 import org.springframework.stereotype.Service;
 
 import com.sirius.sequenziatore.server.model.ProcessOwner;
+import com.sirius.sequenziatore.server.model.ProcessOwnerDao;
 import com.sirius.sequenziatore.server.model.User;
 import com.sirius.sequenziatore.server.model.UserDao;
 
@@ -20,7 +21,7 @@ public class LoginService {
 			}
 		}
 		//eseguo il controllo per il processOwner
-		ProcessOwner processOwner=processOwnerDao.getProcessOwner(toBeChecked.getUserName());
+		ProcessOwner processOwner=processOwnerDao.getProcessOwner();
 		if(processOwner!=null)
 			if(processOwner.getPassword().equals(toBeChecked.getUserName())){
 				return 2;
