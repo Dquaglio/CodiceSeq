@@ -22,12 +22,12 @@ import com.sirius.sequenziatore.server.service.ApproveStepService;
 @Controller
 @RequestMapping(value="/approvedata")
 public class ApproveStepController {
-	@Autowired
+	@Autowired//service per gestire tutte le operazioni
 	ApproveStepService approveStepService;
 	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public List<DataSent> getStepToApprove(){
-		List<DataSent> stepToBeApproved=new ArrayList<DataSent>();
+		List<DataSent> stepToBeApproved=new ArrayList<DataSent>();//variabile che conterrà la lista di passi in attesa di approvazione
 		stepToBeApproved=approveStepService.getStepToBeApproved();
 		if(stepToBeApproved!=null)
 			return stepToBeApproved;
