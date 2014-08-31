@@ -24,7 +24,6 @@ define([
  'backbone',
  'jquery',
  'presenter/Router',
- 'gmap3',
  'jquerymobile'
 ], function( Backbone, $, Router ){
 
@@ -33,6 +32,7 @@ define([
 	$.mobile.linkBindingEnabled = false;
 	$.mobile.ajaxEnabled = false;
 	$.mobile.pushStateEnabled = false;
+	$.mobile.autoInitializePage = false;
 
 	var router = new Router();
 	Backbone.history.start();

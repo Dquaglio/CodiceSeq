@@ -3,7 +3,7 @@
 * \Author: Vanni Giachin <vanni.giachin@gmail.com>
 * \Author: Marcomin Gabriele <gabriele.marcomin@gmail.com>
 * \Date: 2014-05-26
-* \LastModified: 2014-07-15
+* \LastModified: 2014-08-29
 * \Class: Router
 * \Package: com.sirius.sequenziatore.client.presenter
 * \Brief: Gestisce gli eventi di routing e il caricamento dei moduli a seconda dei privilegi utente
@@ -17,11 +17,59 @@ define([
  'jquerymobile'
 ], function( $, Backbone, UserDataModel, LoginLogic, require ) {
 
+	// Carica un presenter associadolo alla pagina "pageId"
+	var load = function( resource, pageId, async ) {
+		// default value
+		async = typeof async !== "undefined" ? async : false;
+
+		var self = this;
+		require([resource], function(Module) {
+			var presenter = new Module({ session: self.userData });
+			self.presenters[pageId] = presenter;
+			// il presenter viene aggiunto alla lista degli observer del gestore delle notifiche
+			addObserver.call( self, presenter );
+			// il presenter necessita di recuperare dati dal server prima di essere renderizzato
+			if(async) {
+				// gestione del metodo asincrono "update"
+				self.listenTo( presenter, "updated", function() {
+					changePage(pageId);
+				});
+				presenter.update();
+			}
+			else {
+				presenter.render();
+				changePage(pageId);
+			}
+		});
+	};
+
+	// aggiunge il presenter all'oggetto eventDispatcher che gestisce le notifiche
+	var addObserver = function( presenter ) {
+		if( this.eventDispatcher == null ) {
+			if( this.userData.isLogged() ) {
+				if( this.userData.isUser() ) var resource = "presenter/user/EventDispatcher";
+				else var resource = "presenter/processowner/EventDispatcher";
+				var self = this;
+				require([resource], function( EventDispatcher ) {
+					self.eventDispatcher = new EventDispatcher();
+					self.eventDispatcher.addObserver( presenter );
+					self.eventDispatcher.startListen();
+				});
+			}
+		}
+		else this.eventDispatcher.addObserver( presenter );
+	};
+
+	// Cambia la pagina corrente ed effettua una transizione
+	var changePage = function( pageId ) {
+		$( ":mobile-pagecontainer" ).pagecontainer( "change", pageId, { changeHash: false } );
+	};
+
 	var Router = Backbone.Router.extend({
 
 		userData: new UserDataModel(),
-
-		views: new Array(),
+		presenters: new Array(),
+		eventDispatcher: null,
 
 		routes: {
 			"": "home",
@@ -30,108 +78,66 @@ define([
 			"checkstep": "checkStep",
 			"processes": "processes",
 			"process": "process",
-			"register":"register",
+			"register": "register",
 			"*actions": "home"
 		},
 
-/* =====================================================================================
- * Gestione degli eventi di routing
- * Viene renderizzata la pagina richiesta e vengono inizializzati i presenter associati,
- * a secoda dei privilegi dell'utente identificato dai dati "userData".
- * ===================================================================================== */
-
-		home: function() {
-			if(this.checkSession("#home")) {
-				if(typeof this.views["#home"] == 'undefined') {
-					if(this.userData.isUser()) this.load('presenter/user/MainUser',"#home");
-					else this.load('presenter/processowner/MainProcessOwner',"#home");
-				}
+		// Backbone.Router.execute() override
+		execute: function(callback, args) {
+			if(callback) {
+				// Controllo sessione
+				if( this.userData.isLogged() ) callback.apply(this, args);
 				else {
-					if(this.userData.isUser()) { this.views["#home"].render(); }
-					this.changePage("#home");
+					// gestione autenticazione
+					if( typeof this.presenters["#login"] === "undefined" ) {
+						this.presenters["#login"] = new LoginLogic({ model: this.userData });
+						this.presenters["#login"].render();
+					}
+					changePage("#home");
 				}
 			}
+		},
+
+		// Gestione degli eventi di routing
+
+		home: function() {
+			if(typeof this.presenters["#home"] == 'undefined') {
+				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home");
+				else load.call(this,'presenter/processowner/MainProcessOwner',"#home",true);
+			}
+			else this.presenters["#home"].update();
 		},
 
 		newProcess: function() {
-			if(this.checkSession("#newprocess")) {
-				if(typeof this.views["#newprocess"] == 'undefined') {
-					if(this.userData.isUser()) {
-						window.location = "#home";
-						location.reload();
-					}
-					else this.load('presenter/processowner/NewProcess',"#newprocess");
-				}
-				else this.changePage("#newprocess");
+			if(typeof this.presenters["#newprocess"] == 'undefined') {
+				if( this.userData.isUser() ) window.location.replace( "#home" );
+				else load.call(this,'presenter/processowner/NewProcess',"#newprocess");
 			}
+			else changePage("#newprocess");
 		},
 
 		processes: function() {
-			if(this.checkSession("#processes")) {
-				if(typeof this.views["#processes"] == 'undefined') {
-					if(this.userData.isUser()) {}
-					else this.load('presenter/processowner/OpenProcess',"#processes");
-				}
-				else {
-					this.views["#processes"].update();
-					this.changePage("#processes");
-				}
+			if(typeof this.presenters["#processes"] == 'undefined') {
+				if( this.userData.isUser() ) {}
+				else load.call(this,'presenter/processowner/OpenProcess',"#processes",true);
 			}
+			else this.presenters["#processes"].update();
 		},
 
 		checkStep: function() {
-			if(this.checkSession("#checkstep")) {
-				if(typeof this.views["#checkstep"] == 'undefined') {
-					if(this.userData.isUser()) {
-						window.location = "#home";
-						location.reload();
-					}
-					else this.load('presenter/processowner/CheckStep',"#checkstep");
-				}
-				else {
-					this.views["#checkstep"].render();
-					this.changePage("#checkstep");
-				}
+			if(typeof this.presenters["#checkstep"] == 'undefined') {
+				if( this.userData.isUser() ) window.location.replace("#home");
+				else load.call(this,'presenter/processowner/CheckStep',"#checkstep",true);
 			}
+			else this.presenters["#checkstep"].update();
 		},
 
 		process: function() {
-			if(this.checkSession("#process")) {
-				if(typeof this.views["#process"] == 'undefined') {
-					if(this.userData.isUser()) this.load('presenter/user/ManageProcess',"#process");
-					else this.load('presenter/processowner/ManageProcess',"#process");
-				}
-				else {
-					this.views["#process"].update();
-					this.changePage("#process");
-				}
+			if(typeof this.presenters["#process"] == 'undefined') {
+				if( this.userData.isUser() ) load.call(this,'presenter/user/ManageProcess',"#process",true);
+				else load.call(this,'presenter/processowner/ManageProcess',"#process",true);
 			}
-		},
-
-/* ===================================================================================== */
-
-		// Controllo sessione e gestione autenticazione
-		checkSession: function(pageId) {
-			if(this.userData.isLogged()) return true;
-			else {
-				var page = new LoginLogic({ model: this.userData, id: pageId });
-				this.changePage(pageId);
-				return false;
-			}
-		},
-
-		// Crea un oggetto di tipo "resource", che identifica il modulo che consente la gestione della pagina "pageId"
-		load: function(resource, pageId) {
-			var self = this;
-			require([resource], function(View) {
-				self.views[pageId] = new View();
-				self.changePage(pageId);
-			});
-		},
-
-		// Cambia la pagina corrente ed effettua una transizione
-		changePage: function(pageId) {
-			$( ":mobile-pagecontainer" ).pagecontainer( "change", pageId, { changeHash: false } );
+			else this.presenters["#process"].update();
 		}
 
 	});

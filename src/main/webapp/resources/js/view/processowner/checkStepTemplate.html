@@ -1,88 +1,130 @@
+<%
+/*!
+* \File: checkStepTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-24
+* \Class: checkStepTemplate
+* \Package: com.sirius.sequenziatore.client.view.processowner
+* \Brief: template della pagina di gestione dei dati in attesa di approvazione
+*/
+%>
 <div data-role="header">
 	<h1>Controllo passi</h1>
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
-		<% if(typeof stepData !== "undefined") { %>
+		<% if( processId ) { %>
 			<a href="#checkstep" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
 		<% } %>
 	</div>
-	
 </div><!-- /header -->
 
-<div id="content">
-	<% if(typeof stepData === "undefined") { %>
+<% if( !error ) { %>
+
+	<% if( processId ) {
+		
+		var process = _.findWhere( processes, { id: processId } );
+		if( !process ) { 
+			error = { text: "Nessun dato del processo selezionato richiede approvazione", status: 400 };
+		} 
+		else { %>
+
+			<div id="content" class="searchList">
+
+			<form>
+				<input id="searchData" data-type="search" placeholder="Ricerca dato o utente...">
+			</form>
+
+			<ul data-role="listview" data-inset="true" data-input="#searchData" data-filter="true" data-autodividers="false">
+				<li data-role="list-divider">
+					<h3 class="description"><%= process.name %></h3>
+					<p class="description"><%= process.description %></p>
+				</li>
+				<% _.each( _.where( steps, { processId: processId } ), function( _step ) {
+					_.each( _.where( waitingData, { stepId: _step.id } ), function( data ) { %>
+						<li>
+							<a class="link" href="#checkstep?step=<%= _step.id %>&username=<%= data.username %>">
+								<p class="description"><strong><%= data.username %></strong></p>
+								<p class="description"><%= _step.description %></p>
+							</a>
+						</li>
+					<% }); 
+				}); %>
+			</ul>
+		<% } %>
+
+	<% } else { %>
+
+		<div id="content" class="searchList">
+
 		<form>
-			<input id="searchWaitingSteps" data-type="search" placeholder="Ricerca dato...">
+			<input id="searchProcess" data-type="search" placeholder="Ricerca processo...">
 		</form>
 
-		<ul data-role="listview" data-inset="true" data-input="#searchWaitingSteps" data-filter="true" data-autodividers="false">
-			<% if(!processData.length) { %>
-				<li data-role="fieldcontain">
-					<h3>Nessun dato richiede controllo.</h3>
-				</li>
-			<% } for(i=0; i<processData.length; i++) { %>
+		<ul data-role="listview" data-inset="true" data-input="#searchProcess" data-filter="true" data-autodividers="false">
+			<% _.each( processes, function(process) {
+				var dataNumber = 0;
+				_.where( steps, { processId: process.id } ).forEach( function( _step ) {
+					dataNumber += _.where(waitingData, { stepId: _step.id }).length;
+				}); %>
 				<li>
-					<a href="#checkstep?stepId=<%= processData[i].stepId %>&username=<%= processData[i].userName %>">
-						<%= processData[i].userName %>: 
-						<%= steps[processData[i].stepId].description %>
+					<a href="#checkstep?id=<%= process.id %>" class="ui-content">
+						<img src="resources/css/images/<%= process.imageUrl %>.png"></img>
+						<h3><%= process.name %></h3>
+						<p><%= process.description %></p>
+						<span class="ui-li-count ui-body-inherit"><%= dataNumber %></span>
 					</a>
+				</li>
+			<% }); %>
+		</ul>
+
+	<% } %>
+
+	</div><!-- /content -->
+
+<% } if( error ) { %>
+
+	<div id="content">
+		<ul data-role="listview" data-inset="true">
+			<% if( error.status == 0) { %>
+				<li data-role="list-divider">
+					<h3><%= error.text %></h3>
+				</li>
+				<li data-role="fieldcontain">
+					<button id="reloadPage" data-inline="true">Ricarica</button>
+				</li>
+			<% } else { %>
+				<li data-role="list-divider">
+					<h3>Errore</h3>
+				</li>
+				<li data-role="fieldcontain">
+					<p class="description">
+						<%= error.text %>. Torna alla sezione <a href="#checkstep">Controllo passi</a>.
+					</p>
 				</li>
 			<% } %>
 		</ul>
-	<% }
-	else { %>
-		<ul id="processData" data-inset="true" data-role="listview" data-input="#search" data-filter="true" data-autodividers="false">
-			<li>
-				<p><strong><%= processData.userName %></strong></p>
-				<% for(i=0; i< processData.values.length; i++) {
-					var value = processData.values[i];
-					var find = false;
-					for(n=0; n<stepData.data.length && !find; n++) {
-						if(stepData.data[n].id==value.dataId) {
-							var data = stepData.data[n];
-							find = true;
-						}
-					}
-					if(!find) {
-						if(typeof value.latitude !== "undefined") { %>
-							<p>coordinate: <%= value.latitude %>; <%= value.longitude %></p>
-						<% }
-					}
-					else if(data.type == "IMAGE") { %>
-						<p>immagine: <a href="#pop<%= value.imageUrl %>" data-rel="popup"><%= data.name %></a></p>
-						<div data-role="popup" id="pop<%= value.imageUrl %>" class="photopopup">
-							<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-							<img src="resources/css/images/<%= value.imageUrl %>.png" class="popphoto">
-						</div>
-					<% }
-					else if(data.type == "NUMERIC") { %>
-						<p><%= data.name %>: <%= value.value %></p>
-					<% }
-					else if(data.type == "TEXTUAL") { %>
-						<p><%= data.name %>: <%= value.value %></p>
-					<% }
-				} %>
+	</div><!-- /content error -->
 
-			</li>
-
-		</ul>
-
-		<div data-role="controlgroup">
-			<button data-icon="check" id="approve">Approva</button>
-			<button data-icon="forbidden" id="reject">Respingi</button>
-		</div>
-		
-	<% } %>
-
-</div><!-- /content -->
+<% } %>
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
 	
 	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
 
-	<p>Ciao ProcessOwner!</p>
+	<p>Ciao <%= username %>!</p>
 	
 	<a data-role="button" id="logout" data-icon="power">Logout</a>
 
 </div><!-- panel -->
+
+<div data-role="popup" id="alert" data-overlay-theme="b" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h3></h3>
+	</div>
+	<div role="main" class="ui-content">
+		<p class="ui-content"></p>
+	</div>
+</div><!-- /alert -->

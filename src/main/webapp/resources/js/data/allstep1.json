@@ -1,6 +1,7 @@
 [
 	{
 		"id": 1,
+		"processId": 1,
 		"description": "Raggiungi torre archimede, dicci cosa vedi e inviaci le coordinate",
 		"nextStep": 2,
 		"requiresApproval": false,
@@ -19,6 +20,7 @@
 	},
 	{
 		"id": 2,
+		"processId": 1,
 		"description": "Raggiungi la statua della libertà, dicci cosa vedi e inviaci le coordinate",
 		"nextStepId": null,
 		"requiresApproval": true,

@@ -2,7 +2,7 @@
 * \File: ProcessModel.js 
 * \Author: Vanni Giachin <vanni.giachin@gmail.com> 
 * \Date: 2014-05-26 
-* \LastModified: 2014-07-22
+* \LastModified: 2014-08-29
 * \Class: ProcessModel
 * \Package: com.sirius.sequenziatore.client.model.processowner
 * \Brief: Gestione dei dati di un processo
@@ -15,16 +15,14 @@ define([
 
 	var ProcessModel = Backbone.Model.extend({
 
-		steps: null,
-
 		// constructor
 		initialize: function() {
 			// inizializzazione della collezione dei passi del processo
 			this.steps = new StepCollection([], { processId: this.id });
 		},
 
-		//  Backbone.Model.save overriding
-		save: function(attributes, options) {
+		//  Backbone.Model.save() overriding
+		save: function( attributes, options ) {
 			return $.ajax({
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
@@ -77,7 +75,7 @@ define([
 			var url = "http://localhost:8080/sequenziatore/terminateprocess/"+this.id+"/processowner";
 			return $.post( url, function() {
 				this.set("terminated", true);
-			}).fail(function(){});
+			});
 		},
 
 		// Elimina il processo dalla lista dei processi gestibili dall'utente process owner
@@ -97,7 +95,7 @@ define([
 /* ========================================
 			ESEMPIO SALVATAGGIO PROCESSO
 	========================================
-	file = $("#image")[0].files[0];
+	file = $("#imageId")[0].files[0];
 	var formData = new FormData();
 	formData.append("image", file); 
 	process.save(null, { image: formData });
