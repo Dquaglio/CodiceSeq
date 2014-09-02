@@ -22,7 +22,10 @@
 			<a href="#checkstep">
 				<h3>Controllo passi</h3>
 				<% if(waitingDataNumber) { %>
-					<p>ci sono <strong class="alerts"><%= 3 %> passi</strong> in attesa di approvazione</p>
+					<p>
+						ci sono <strong id="waitingDataNumber" class="alerts"><%= waitingDataNumber %></strong>
+						<strong class="alerts"> passi</strong> in attesa di approvazione
+					</p>
 				<% } else { %>
 					<p><strong>nessun passo</strong> in attesa di approvazione</p>
 				<% } %>

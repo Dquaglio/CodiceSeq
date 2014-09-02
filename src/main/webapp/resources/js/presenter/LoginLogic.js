@@ -2,7 +2,7 @@
 * \File: LoginLogic.js
 * \Author: Vanni Giachin <vanni.giachin@gmail.com>
 * \Date: 2014-05-26
-* \LastModified: 2014-07-10
+* \LastModified: 2014-07-28
 * \Class: LoginLogic
 * \Package: com.sirius.sequenziatore.client.presenter
 * \Brief: Gestione della logica dell'autenticazione
@@ -15,20 +15,24 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, loginTemplate ){
 
+	// PUBLIC
 	var LoginLogic = Backbone.View.extend({
 		
 		// constructor
 		initialize: function () {
-			if(typeof this.id == "undefined") this.id = "#home";
 			// add page to DOM
-			if($(this.id).length == 0) {
-				var page = '<div data-role="page" data-title="Sequenziatore" id="'+this.id.substr(1)+'"></div>';
-				$('body').append(page);
+			if( $(this.id).length == 0 ) {
+				var first = !$("[data-role=page]").length;
+				var page = '<div data-role="page" data-title="Sequenziatore" id="home"></div>';
+				$('body').append(page).enhanceWithin();
+				// la prima pagina dinamicamente aggiunta deve essere inizializzata
+				if(first) $.mobile.initializePage();
 			}
-			this.render();
 		},
 
 		template: _.template(loginTemplate),
+
+		id: "#home",
 
 		el: $('body'),
 
@@ -38,34 +42,23 @@ define([
 		},
 		
 		events: {
-			"submit #loginForm" : "login"
+			"submit #loginForm" : 'login'
 		},
 
 		login: function(event) {
-			event.preventDefault(); // prevent page reload on submit
-			
-			// begin test
-			this.model.login( $("#username").val(), $("#password").val() );
-			if(this.model.isLogged()) {
-				location.reload();
-			}
-			else {
-				$("#alert p").text("Credenziali non corrette");
-				$("#alert").popup("open");
-			}
-			// end test
-			
-			/* management of asynchronous method "login"
-			this.model.login(
-				$("#username").val(),
-				$("#password").val()
-			).done(function() {
-				location.reload();
-			}).fail(function() {
-				$("#alert p").text("Credenziali non corrette");
-				$("#alert").popup("open");
+			// prevent page reload on submit
+			event.preventDefault();
+			// management of asynchronous method "login"
+			var self = this;
+			this.model.login( $("#username").val(), $("#password").val() ).fail(function() {
+				// only for test
+				if( self.model.isLogged() ) location.reload();
+				else {
+					$("#alert p").text("Credenziali non corrette");
+					$("#alert").popup("open");
+					$("#alert").enhanceWithin();
+				}
 			});
-			*/
 		}
 
 	});

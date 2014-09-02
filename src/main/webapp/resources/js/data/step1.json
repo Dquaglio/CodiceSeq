@@ -1,5 +1,6 @@
 {
 	"id": 1,
+	"processId": 1,
 	"description": "Raggiungi torre archimede, dicci cosa vedi e inviaci le coordinate",
 	"nextStep": 2,
 	"requiresApproval": false,

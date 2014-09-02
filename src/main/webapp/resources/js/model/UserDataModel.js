@@ -9,48 +9,87 @@
 */
 define([
  'backbone'
-], function( Backbone ){
+], function( Backbone ) {
 
+	// PRIVATE
+	var cookie = {
+
+		getItem : function( key ) {
+			var expression = new RegExp( key+"=(\\w+)" );
+			var result = expression.exec( document.cookie );
+			return result ? decodeURIComponent( result[1] ) : false;
+		},
+
+		setItem : function( key, value ){
+			document.cookie = key+"="+value+";path=/";
+		},
+
+		hasItem : function( key ){
+			return Boolean( this.getItem(key) );
+		},
+
+		clear: function() {
+			var cookies = document.cookie.split(";");
+			cookies.forEach( function( cookie ) {
+				var name = cookie.substr(0, cookie.indexOf("="));
+				document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+			});
+		}
+
+	};
+
+	// PUBLIC
 	var UserDataModel = Backbone.Model.extend({
-	
+
 		urlRoot: 'http://localhost:8080/sequenziatore/',
 
 		login: function(username, password) {
 			// begin test
-			if(username=="Sirius") {
-				sessionStorage.setItem("usertype", "processowner");
-				sessionStorage.setItem("username", username);
+			if( username=="Sirius" ) {
+				cookie.setItem("usertype", "processowner");
+				cookie.setItem("username", username);
 			}
-			else if(username=="Vanni" || username=="Gabriele" ) {
-				sessionStorage.setItem("usertype", "user");
-				sessionStorage.setItem("username", username);
+			else if( username=="Gabriele" ) {
+				cookie.setItem("usertype", "user");
+				cookie.setItem("username", username);
 			}
 			// end test
-			
-			return $.post( this.urlRoot+"login", { 
-				username: username,
-				password: password
-			}, function(data) {
-				sessionStorage.setItem("usertype", data.usertype);
-				sessionStorage.setItem("username", username);
+			var self = this;
+			return $.ajax({
+				type: "POST",
+				url: this.urlRoot+"login",
+				data: { username: username, password: password }, // JSON.stringify()
+				success: function( data ) {
+					cookie.setItem( "usertype", data.usertype );
+					cookie.setItem( "username", username );
+					self.trigger("login");
+				},
+				// begin test
+				complete: function() {
+					self.trigger("login");
+				}
+				// end test
 			});
+
+		},
+
+		logout: function() {
+			cookie.clear();
+			this.trigger("logout");
 		},
 
 		isLogged: function() {
-			return Boolean(sessionStorage.getItem("usertype"));
+			return cookie.hasItem("usertype");
 		},
-		
+
 		isUser: function() {
-			return sessionStorage.getItem("usertype")=="user";
+			return cookie.getItem("usertype")=="user";
+		},
+
+		getUsername: function() {
+			return cookie.getItem("username");
 		}
 
-	},
-	// STATIC
-	{
-		clearData: function() {
-			sessionStorage.clear();
-			localStorage.clear();
-		}
 	});
 
 	return UserDataModel;

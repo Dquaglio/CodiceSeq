@@ -13,18 +13,19 @@ define([
 ], function( Backbone, Step ){
 
 	var StepCollection = Backbone.Collection.extend({
-		
+
+		model: Step,
+
 		// constructor
 		initialize: function( models, options ) {
-			this.processId = options.processId;
+			options = typeof options !== "undefined" ? options : {};
+			if( options.processId ) this.processId = options.processId;
 		},
-		
+
 		url: function() {
 			return  "resources/js/data/allstep"+this.processId+".json"
 		},
 		//"http://localhost:8080/sequenziatore/allstep/"+this.processId;
-
-		model: Step
 
 	});
 

@@ -2,9 +2,9 @@
 * \File: ManageProcess.js
 * \Author: Vanni Giachin <vanni.giachin@gmail.com>
 * \Date: 2014-05-26
-* \LastModified: 2014-07-14
+* \LastModified: 2014-08-31
 * \Class: ManageProcess
-* \Package: com.sirius.sequenziatore.client.presenter
+* \Package: com.sirius.sequenziatore.client.presenter.processowner
 * \Brief: Gestione di un processo creato
 */
 define([
@@ -18,17 +18,60 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, ProcessDataLogic, Process, manageProcessTemplate ){
 
+	// PRIVATE
+
+	// ritorna il paramentro get con nome "param" se presente nella url, altrimenti ritorna false
+	var getParam = function( param ) {
+		var hash = window.location.hash;
+		var expression = new RegExp("#process\\?(\\w+=\\w+&)*("+param+"=(\\d{1,11}))|("+param+"=(\\w{1,20}))");
+		var result = expression.exec(hash);
+		return result ? ( Number(result[3]) || result[5]  ) : false;
+	};
+	
+	// apre un popup con titolo "title" e contenuto "content"
+	var printMessage = function( title, content ) {
+		$("#alert h3").text( title );
+		$("#alert p").text( content );
+		$("#alert").popup("open");
+	};
+
+	// getione dell'evento di cambio tab
+	changeTab = function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+		var target =  $(event.target).attr("href");
+		$(".tab, .mainTab").hide();
+		$(target).show();
+		$(".tabButton.ui-btn-active").removeClass("ui-btn-active");
+		$(event.target).addClass("ui-btn-active");
+	};
+
+	// gestione della navigazione tra pagine tramite link contenuti all'interno di un tab
+	activateLink = function( event ) {
+		event.preventDefault();
+		var target =  $(event.currentTarget).attr("href");
+		window.location.assign(target);
+	};
+
+	// PUBLIC
 	var ManageProcess = BasePresenter.extend({
 
+		session: null,
 		process: null,
-		
-		processDataLogic: new ProcessDataLogic(),
+		processDataLogic: null,
 
 		// constructor
-		initialize: function() {
-			this.constructor.__super__.createPage.call(this, "process");
+		initialize: function( options ) {
+			BasePresenter.prototype.initialize.apply(this, options);
+			BasePresenter.prototype.createPage.call(this, "process");
 			_.extend(this.events, BasePresenter.prototype.events);
-			this.update();
+			this.processDataLogic = new ProcessDataLogic({ session: options.session });
+			var self = this;
+			// rilancia l'evento "updated" della sub-view "processDataLogic"
+			this.listenTo( this.processDataLogic, "updated", function() {
+				self.trigger("updated");
+			});
+			this.session = options.session;
 		},
 
 		template: _.template(manageProcessTemplate),
@@ -39,13 +82,15 @@ define([
 
 		// events list
 		events: {
-			'click .tabButton': 'changeTab',
+			'click .tabButton': changeTab,
+			'click a.link': activateLink,
 			'click #terminateProcess': 'terminateProcess',
-			'click #eliminateProcess': 'eliminateProcess',
-			'click a.link': 'activateLink'
+			'click #eliminateProcess': 'eliminateProcess'
 		},
 
-		render: function( options ) {
+		render: function( options, error ) {
+			options["username"] = this.session.getUsername();
+			options["error"] = typeof error !== "undefined" ? error : null;
 			// template rendering and JQM css enhance
 			$(this.id).html(this.template( options )).enhanceWithin();
 			
@@ -59,7 +104,7 @@ define([
 
 		// aggiorna i dati della pagina recuperandoli dal server
 		update: function() {
-			if(processId = this.getParam("id")) {
+			if(processId = getParam("id")) {
 				// creazione del processo con id "processId", se non ancora presente
 				if(!this.process || this.process.id != processId ) {
 					this.process = new Process({ id: processId });
@@ -77,12 +122,12 @@ define([
 						steps: self.process.steps.toJSON()
 					};
 					// (a): gestione dei dati ricevuti relativi al passo con id "stepId"
-					if(stepId = self.getParam("step")) {
+					if(stepId = getParam("step")) {
 						self.currentTab = "stepsTab";
 						self.processDataLogic.update( { stepId: stepId }, options );
 					}
 					// (b): gestione dei dati ricevuti dall'utente "username", relativi al processo "process"
-					else if(username = self.getParam("username")) {
+					else if(username = getParam("username")) {
 						self.currentTab = "usersTab";
 						self.processDataLogic.update(
 							{ processId: processId, username: username }, options
@@ -92,52 +137,33 @@ define([
 					else {	
 						options["users"] = self.process.users;
 						self.render( options );
+						self.trigger("updated");
 					}
 					
 				}).fail( function( error ) {
 					// gestione errori
-					if(error.status == 0) self.printMessage("Errore", "Errore di connessione.");
-					else self.render({ error: "Processo inesistente o eliminato" });
-					
+					if(error.status == 0) self.render({}, { text: "Errore di connessione", status: 0 });
+					else self.render({}, { text: "Processo inesistente o eliminato", status: error.status });
+					self.trigger("updated");
 				});
 			}
-			else this.render({ error: "Processo inesistente o eliminato" });
-
+			else {
+				this.render({}, { text: "Processo inesistente o eliminato", status: 400 });
+				this.trigger("updated");
+			}
 		},
-
-		// ritorna il paramentro get con nome "param" se presente nella url, altrimenti ritorna false
-		getParam: function( param ) {
-			var hash = window.location.hash;
-			var expression = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})|"+param+"=(\\w{1,20})");
-			var result = expression.exec(hash);
-			return result ? ( result[3] || Number(result[2]) ) : false;
-		},
-
-		// getione dell'evento di cambio tab
-		changeTab: function( event ) {
-			event.preventDefault();
-			event.stopPropagation();
-			var target =  $(event.target).attr("href");
-			$(".tab, .mainTab").hide();
-			$(target).show();
-			$(".tabButton.ui-btn-active").removeClass("ui-btn-active");
-			$(event.target).addClass("ui-btn-active");
-		},
-
+		
 		// gestione della richiesta di eliminazione di un processo terminato dalla lista dei processi gestibili dal process owner
 		eliminateProcess: function() {
 			var self = this;
 			this.process.eliminate().done( function() {
-				self.printMessage("Azione eseguita", "Il processo è stato eliminato.");
+				printMessage("Azione eseguita", "Il processo è stato eliminato.");
 				$("#alert").on( "popupafterclose", function() {
 					window.location.assign("#processes");
 				});
 			}).fail( function( error ) {
-				if(error.status == 0) self.printMessage("Errore", "Errore di connessione.");
-				// begin test	
-				else if(error.status == 404) self.printMessage("Test error", error.status+" "+error.statusText);
-				// end test
-				else self.update();
+				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
+				else printMessage("Errore", error.status+" "+error.statusText);
 			});
 		},
 
@@ -147,30 +173,13 @@ define([
 			this.currentTab = $(".tab:visible").attr("id");
 			this.process.terminate().done( function() {
 				self.update().done( function() {
-					self.printMessage("Azione eseguita", "Il processo è stato terminato.");
+					printMessage("Azione eseguita", "Il processo è stato terminato.");
 				});
 			}).fail( function( error ) {
-				if(error.status == 0) self.printMessage("Errore", "Errore di connessione.");
-				// begin test	
-				else if(error.status == 404) self.printMessage("Test error", error.status+" "+error.statusText);
-				// end test
-				else self.update();
+				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
+				else printMessage("Errore", error.status+" "+error.statusText);
 			});
-		},
-
-		// apre un popup con titolo "title" e contenuto "content"
-		printMessage: function( title, content ) {
-			$("#alert h3").text( title );
-			$("#alert p").text( content );
-			$("#alert").popup("open");
-		},
-
-		// gestione della navigazione tra pagine tramite link contenuti all'interno di un tab
-		activateLink: function( event ) {
-			event.preventDefault();
-			var target =  $(event.currentTarget).attr("href");
-			window.location.assign(target);
-		},
+		}
 
 	});
 

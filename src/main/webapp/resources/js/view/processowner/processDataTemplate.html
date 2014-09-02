@@ -28,15 +28,25 @@
 
 	<div id="content">
 		<ul data-role="listview" data-inset="true">
-			<li data-role="list-divider">
-				<h3>Errore</h3>
-			</li>
-			<li data-role="fieldcontain">
-				<p class="description">
-					<%= error %>. Torna alla gestione del processo 
+			<% if( error.status == 0) { %>
+				<li data-role="list-divider">
+					<h3><%= error.text %></h3>
+				</li>
+				<li data-role="fieldcontain">
+					<button id="reloadPage" data-inline="true">Ricarica</button>
+				</li>
+			<% } else { %>
+				<li data-role="list-divider">
+					<h3>Errore</h3>
+				</li>
+				<li data-role="fieldcontain">
+					<p class="description">
+						<%= error.text %>. Torna alla gestione del processo 
 						<a href="#process?id=<%= process.id %>"><%= process.name %></a>.
-				</p>
-			</li>
+					</p>
+				</li>
+			<% } %>
+		</ul>
 	</div><!-- /content error -->
 
 <% } else { %>
@@ -152,7 +162,7 @@
 	
 	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
 
-	<p>Ciao ProcessOwner!</p>
+	<p>Ciao <%= username %>!</p>
 	
 	<a data-role="button" id="logout" data-icon="power">Logout</a>
 

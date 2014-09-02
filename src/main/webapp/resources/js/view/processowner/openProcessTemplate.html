@@ -3,7 +3,7 @@
 * \File: openProcessTemplate.html
 * \Author: Vanni Giachin <vanni.giachin@gmail.com>
 * \Date: 2014-05-26
-* \LastModified: 2014-07-11
+* \LastModified: 2014-08-31
 * \Class: openProcessTemplate
 * \Package: com.sirius.sequenziatore.client.view.processowner
 * \Brief: template della pagina di scelta e ricerca di un processo
@@ -16,6 +16,8 @@
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
 	</div>
 </div><!-- /header -->
+
+<% if( !error ) { %>
 
 <div id="content" class="searchList">
 
@@ -51,6 +53,21 @@
 	<% } %>
 		
 </div><!-- /content -->
+
+<% } else { %>
+
+<div id="content">
+	<ul data-role="listview" data-inset="true">
+		<li data-role="list-divider">
+			<h3><%= error.text %></h3>
+		</li>
+		<li data-role="fieldcontain">
+			<button id="reloadPage" data-inline="true">Ricarica</button>
+		</li>
+	</ul>
+</div><!-- /content error -->
+
+<% } %>
 
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
 	

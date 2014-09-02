@@ -27,8 +27,9 @@ define([
  * // data corrente; il formato è da concordare con i progettisti del database
  * var now = new Date();
  *
- * var model = new ProcessDataModel();
- * model.set({ stepId: 1, username: "Gabriele", dateTime: now, values: values });
+ * var model = new ProcessDataModel({ 
+ *		stepId: 1, username: "Gabriele", dateTime: now, values: values 
+ *	});
  *
  * // per testare si può invertire fail con save
  * model.save().done( function() {
