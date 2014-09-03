@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import com.sirius.sequenziatore.server.model.Block.BlockTypes;
+
 @Repository
 public class ProcessDao implements IDataAcessObject 
 {
@@ -335,7 +336,7 @@ public class ProcessDao implements IDataAcessObject
 			SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("userstep");
 			if(firstBlock.getType()==BlockTypes.SEQUENTIAL)
 			{
-				//Se ï¿½ sequenziale
+				//Se è sequenziale
 				selQuery="SELECT id FROM step WHERE isFirst=1 AND idBlock=?";
 				params=new Object[] {firstBlock.getId()};
 				int firstStepId=jdbcTemplate.queryForInt(selQuery, params);
@@ -347,7 +348,7 @@ public class ProcessDao implements IDataAcessObject
 			}
 			else
 			{
-				//Se ï¿½ non ordinato
+				//Se è non ordinato
 				selQuery="SELECT id FROM step WHERE idBlock=?";
 				params=new Object[] {firstBlock.getId()};
 				Map<String, Object> args = new HashMap<String, Object>();

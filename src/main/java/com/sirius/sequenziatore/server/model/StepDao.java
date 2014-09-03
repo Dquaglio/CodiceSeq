@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sirius.sequenziatore.server.model.Block.BlockTypes;
 import com.sirius.sequenziatore.server.model.UserStep.StepStates;
+
 @Repository
 public class StepDao implements IDataAcessObject 
 {
@@ -25,7 +26,7 @@ public class StepDao implements IDataAcessObject
 		this.jdbcTemplate=jdbcTemplate;
 	}
 	
-	public Step getStep(final int id)
+	public Step getStep(int id)
 	{
 		try
 		{
@@ -102,7 +103,7 @@ public class StepDao implements IDataAcessObject
 			Object[] params=new Object[]{"GEOGRAPHIC",id};
 			if(jdbcTemplate.queryForInt(selQuery, params)!=0)
 			{
-				//Se c'ï¿½ il dato geografico
+				//Se c'è il dato geografico
 				GeographicData geographicData=new GeographicData();
 				selQuery="SELECT * FROM data WHERE type=? AND currentStepId=?";
 				Map<String,Object> row=jdbcTemplate.queryForMap(selQuery, new Object[]{IDataValue.DataTypes.GEOGRAPHIC.toString(), id});
@@ -435,12 +436,12 @@ public class StepDao implements IDataAcessObject
 				Block.BlockTypes blockType=Block.BlockTypes.valueOf((String)row.get("type"));
 				if(blockType==Block.BlockTypes.SEQUENTIAL)
 				{
-					//Il blocco ï¿½ sequenziale
+					//Il blocco è sequenziale
 					selQuery="SELECT nextStepId FROM step WHERE id=?";
 					int nextStepId=jdbcTemplate.queryForInt(selQuery, stepId);
 					if(nextStepId!=0)
 					{
-						//Non ï¿½ l'ultimo passo del blocco, impostazione passo succesivo
+						//Non è l'ultimo passo del blocco, impostazione passo succesivo
 						SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("datasent");
 						Map<String, Object> args = new HashMap<String, Object>();
 						args.put("currentStepId", nextStepId);
@@ -456,7 +457,7 @@ public class StepDao implements IDataAcessObject
 				}
 				else
 				{
-					//Il blocco ï¿½ non ordinato
+					//Il blocco è non ordinato
 					selQuery="SELECT requiredStep FROM block WHERE id=?";
 					int requiredStep=jdbcTemplate.queryForInt(selQuery, new Object[]{blockId});
 					selQuery="SELECT COUNT(*) FROM userstep WHERE currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
@@ -503,7 +504,7 @@ public class StepDao implements IDataAcessObject
 				SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("userstep");
 				if(nextBlock.getType()==BlockTypes.SEQUENTIAL)
 				{
-					//Se ï¿½ sequenziale
+					//Se è sequenziale
 					selQuery="SELECT id FROM step WHERE isFirst=1 AND idBlock=?";
 					params=new Object[]{nextBlock.getId()};
 					int firstStepId=jdbcTemplate.queryForInt(selQuery, params);
@@ -515,7 +516,7 @@ public class StepDao implements IDataAcessObject
 				}
 				else
 				{
-					//Se ï¿½ non ordinato
+					//Se è non ordinato
 					selQuery="SELECT id FROM step WHERE idBlock=?";
 					params=new Object[] {nextBlock.getId()};
 					Map<String, Object> args = new HashMap<String, Object>();
