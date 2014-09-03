@@ -9,12 +9,15 @@ import com.sirius.sequenziatore.server.model.Process;
 import com.sirius.sequenziatore.server.model.ProcessDao;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProcessInfoService implements ServletContextAware{
+	@Autowired
+	private ProcessDao processDao;
 	private ServletContext servletContext;
 	@Override
 	public void setServletContext(ServletContext servletContext) {
@@ -37,7 +40,6 @@ public class ProcessInfoService implements ServletContextAware{
 	}
 	public Process getProcess(int id){
 		Process toBeReturned;
-		ProcessDao processDao;
 		toBeReturned=processDao.getProcess(id);
 		return toBeReturned;
 	}

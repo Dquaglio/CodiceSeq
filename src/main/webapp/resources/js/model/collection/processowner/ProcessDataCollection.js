@@ -37,8 +37,8 @@ define([
 		// salva nella collezione i dati in attesa di approvazione
 		fetchWaiting: function( options ) {
 			options = typeof options !== "undefined" ? options : {};
-			this.url = "resources/js/data/approvedata.json";
-			// this.url = "http://localhost:8080/sequenziatore/approvedata";
+			//this.url = "resources/js/data/approvedata.json";
+			this.url = "http://localhost:8080/sequenziatore/approvedata";
 			var self = this;
 			var deferred = $.Deferred();
 			this.constructor.__super__.fetch.apply(this).then( function() {
@@ -48,6 +48,8 @@ define([
 					else deferred.resolve( data );
 				}
 				deferred.resolve( null );
+			},function(){
+				deferred.reject();
 			});
 			return deferred.promise();
 		},

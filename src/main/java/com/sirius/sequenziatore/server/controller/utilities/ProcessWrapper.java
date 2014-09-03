@@ -7,7 +7,7 @@ import com.sirius.sequenziatore.server.model.Block;
 public class ProcessWrapper {
 	Process process;//processo da creare
 	List<Block> blockList; //lista di blocchi di cui è composto il processo
-	
+	public ProcessWrapper(){}
 	public Process getProcess() {
 		return process;
 	}

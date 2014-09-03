@@ -19,7 +19,7 @@ import com.sirius.sequenziatore.server.service.StepService;
 
 @Controller
 @RequestMapping(value="/stepdata/{idstep}/processowner")
-public class StepController {
+public class StepController {//classe che gestisce la comunicazione con il client per quanto riguarda 
 	StepService stepService;
 	@RequestMapping(method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
@@ -30,6 +30,7 @@ public class StepController {
 			return toBeReturned;
 		throw new IllegalStateException("errore nessun dato trovato");
 	}
+	//gestore delle eccezioni
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND,   reason = "Dati non trovati")
 	public void handleException3(IllegalStateException ex, HttpServletResponse response) throws IOException{

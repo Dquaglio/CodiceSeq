@@ -10,11 +10,6 @@ public class UserStep implements ITransferObject
 	private String userName;
 	private StepStates state;
 	
-	public UserStep(String username, int stepId, StepStates stepState) {
-		currentStepId=stepId;
-		userName=username;
-		state=stepState;
-	}
 	//Getter & Setter
 	public int getCurrentStepId() {
 		return currentStepId;

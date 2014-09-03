@@ -27,12 +27,11 @@ define([
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
 				data: JSON.stringify( this.toJSON() ),
-				cache: true,
 				dataType: "json",
-				contentType: "application/json;charset=utf-8",
-				success: function( data ) {
+				contentType: "application/json;charset=utf-8"/*,*/
+				/*success: function( data ) {
 					self.saveImage( options.image, data );
-				}
+				}*/
 			});
 		},
 

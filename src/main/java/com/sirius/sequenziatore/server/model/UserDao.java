@@ -9,7 +9,8 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public class UserDao implements IDataAcessObject 
 {
 	private JdbcTemplate jdbcTemplate; //Origine dati
@@ -55,6 +56,9 @@ public class UserDao implements IDataAcessObject
 	{
 		try
 		{
+			if(jdbcTemplate==null){
+				System.out.println("jdbcblabla è null");
+			}
 			String selQuery="SELECT * FROM user";
 			List<User> users=new ArrayList<User>();
 			List<Map<String, Object>> rows = jdbcTemplate.queryForList(selQuery);

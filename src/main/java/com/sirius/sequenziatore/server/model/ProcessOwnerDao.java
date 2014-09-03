@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public class ProcessOwnerDao implements IDataAcessObject 
 {
 	private JdbcTemplate jdbcTemplate;

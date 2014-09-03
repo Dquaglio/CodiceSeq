@@ -23,7 +23,7 @@ import com.sirius.sequenziatore.server.service.ApproveStepService;
 @RequestMapping(value="/approvedata")
 public class ApproveStepController {
 	@Autowired//service per gestire tutte le operazioni
-	ApproveStepService approveStepService;
+	private ApproveStepService approveStepService;
 	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public List<DataSent> getStepToApprove(){
@@ -38,11 +38,13 @@ public class ApproveStepController {
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	//classe che gestisce il risultato della moderazione di un passo da parte del process owner
-	public void approveResponse(@RequestParam String username,@RequestParam int stepId,@RequestParam boolean response){
-		boolean result=approveStepService.manageResponse(username ,stepId, response);
-		if(result==false){
-			throw new IllegalStateException("errore nell' approvazione del passo");
-		}
+	public void approveResponse(@RequestParam(value="username") String username,@RequestParam(value="stepId") int stepId,@RequestParam(value="state") boolean response){
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAASERVER "+username+stepId+response);
+		//System.out.println(username+stepId+response);
+		//boolean result=approveStepService.manageResponse(username ,stepId, response);
+		//if(result==false){
+			//throw new IllegalStateException("errore nell' approvazione del passo");
+		//}
 	}
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND,   reason = "Passi in attesa di approvazione non trovati")

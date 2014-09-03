@@ -26,9 +26,10 @@ public class ProcessController {
 	@RequestMapping(method=RequestMethod.POST,consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public void createProcess(@RequestBody ProcessWrapper processToBeCreated){
+		System.out.println(processToBeCreated.getBlockList().get(0).getId()+" "+processToBeCreated.getProcess().getDateOfTermination().toString());
 		boolean result;
-		result=processService.createProcess(processToBeCreated);
-		if(result==false)
+		//result=processService.createProcess(processToBeCreated);
+		//if(result==false)
 			throw new IllegalStateException("errore nella creazione del processo");
 	}
 	//gestore delle eccezioni

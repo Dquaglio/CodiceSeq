@@ -14,8 +14,9 @@ define([
  'presenter/BasePresenter',
  'collection/processowner/ProcessDataCollection',
  'text!view/processowner/mainProcessOwnerTemplate.html',
+ 'model/processowner/ProcessModel',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, ProcessDataCollection, mainProcessOwnerTemplate ) {
+], function( $, _, Backbone, BasePresenter, ProcessDataCollection, mainProcessOwnerTemplate ,X) {
 
 	var MainProcessOwner = BasePresenter.extend({
 
@@ -28,6 +29,33 @@ define([
 			BasePresenter.prototype.createPage.call(this, "home");
 			this.session = options.session;
 			this.waitingDataNumber = 0;
+			var process={
+					name:"name",
+					description:"description",
+					completionsMax:21,
+					dateOfTermination:new Date(2014,08,30,10,5,8),
+					terminated:false,
+					eliminated:false,
+					imageUrl:"indirizzo immagine",
+					id:25,
+			};
+			var blockList=[];
+			var block={
+					id:21,
+					type:null,
+					requiredSteps:4,
+					first:true,
+					nextBlockId:-1,
+					steps:null
+			};
+			blockList.push(block);
+			var x=new X({process:process,blockList:blockList});
+			
+			x.save().done(function(){
+				console.log("YEAH");
+			}).fail(function(error){
+				console.log(error.status+error.statusText);
+			});
 		},
 
 		template: _.template(mainProcessOwnerTemplate),

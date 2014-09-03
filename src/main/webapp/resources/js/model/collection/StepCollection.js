@@ -1,21 +1,23 @@
 define([
  'backbone',
+ 'jquery',
  'model/StepModel'
-], function( Backbone, Step ){
+], function( Backbone,$, Step ){
 
 	var Steps = Backbone.Collection.extend({
 		
 		initialize: function( models, options ) {
-			//this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"\subscribe\"+options.processid;
-			this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
+			this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
+			//this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
 		},
 		
 		model: Step,
 		
 		fetch: function() {
-			var deferred = $.Deferred();
-			var self = this;
-			$.get( url, function( data ) {
+			//var deferred = $.Deferred();
+			//var self = this;
+			console.log(this.url);
+			return $.ajax({url:this.url,dataType:"json",type:"GET"});/*, function( data ) {
 				for(i=0; i<data.length; i++) {
 					var step = new Step({ id: data[i].stepId, state: data[i].state });
 					self.push(step);
@@ -24,7 +26,7 @@ define([
 					deferred.resolve();
 				});
 			}, "json");
-			return deferred.promise();
+			return deferred.promise();*/
 		},
 
 		fetchSteps: function() {

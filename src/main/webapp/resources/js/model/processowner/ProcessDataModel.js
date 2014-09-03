@@ -17,18 +17,18 @@ define([
 
 		// Approva o respinge il dato
 		approve: function( approved ) {
-			var state = approved ? "APPROVED" : "REJECTED";
+			//var state = approved ? "APPROVED" : "REJECTED";
+			var state=approved;
 			var dataState = {
-				stepId: this.get("stepId"),
 				username: this.get("username"),
+				stepId: this.get("stepId"),
 				state: state
 			};
+			console.log(dataState.username+dataState.stepId+dataState.state);
 			return $.ajax({
 				type: "POST",
 				url: this.url,
-				data: JSON.stringify( dataState ),
-				dataType: "json",
-				contentType: "application/json;charset=utf-8",
+				data:"username=asdad&stepId=21&state=true"
 			});
 		}
 
