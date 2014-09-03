@@ -55,6 +55,12 @@ define([
 			}
 			// end test
 			var self = this;
+			var data = { username: username, password: password };
+			return $.ajax({
+				type: "POST",
+				url: this.urlRoot+"login",
+				data: $.param( data )
+			});
 			return $.ajax({
 				type: "POST",
 				url: this.urlRoot+"login",
@@ -62,15 +68,8 @@ define([
 				success: function( data ) {
 					cookie.setItem( "usertype", data.usertype );
 					cookie.setItem( "username", username );
-					self.trigger("login");
-				},
-				// begin test
-				complete: function() {
-					self.trigger("login");
 				}
-				// end test
 			});
-
 		},
 
 		logout: function() {
@@ -79,7 +78,7 @@ define([
 		},
 
 		isLogged: function() {
-			return cookie.hasItem("usertype");
+			return !cookie.hasItem("usertype");
 		},
 
 		isUser: function() {

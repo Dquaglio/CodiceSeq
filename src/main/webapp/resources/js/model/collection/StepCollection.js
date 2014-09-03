@@ -1,32 +1,46 @@
+/*!
+* \File: ProcessDataCollection.js 
+* \Author: Vanni Giachin <vanni.giachin@gmail.com> 
+* \Date: 2014-05-26 
+* \LastModified: 2014-07-22
+* \Class: ProcessDataCollection
+* \Package: com.sirius.sequenziatore.client.model.collection
+* \Brief: Gestione della collezione dei dati inviati da un utente riguardanti un processo
+*/
 define([
- 'backbone',
  'jquery',
+ 'backbone',
  'model/StepModel'
-], function( Backbone,$, Step ){
+], function( $, Backbone, StepModel ){
 
-	var Steps = Backbone.Collection.extend({
-		
+	var StepCollection = Backbone.Collection.extend({
+
 		initialize: function( models, options ) {
-			this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
-			//this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
+			//this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
+			this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
 		},
-		
-		model: Step,
-		
+
+		model: StepModel,
+
 		fetch: function() {
-			//var deferred = $.Deferred();
-			//var self = this;
-			console.log(this.url);
-			return $.ajax({url:this.url,dataType:"json",type:"GET"});/*, function( data ) {
-				for(i=0; i<data.length; i++) {
-					var step = new Step({ id: data[i].stepId, state: data[i].state });
-					self.push(step);
-				}
-				$.when.apply(null, self.fetchSteps()).done( function() {
-					deferred.resolve();
-				});
-			}, "json");
-			return deferred.promise();*/
+			var deferred = $.Deferred();
+			var self = this;
+			$.ajax({	
+				type:"GET",
+				url:this.url,
+				dataType:"json",
+				success: function( data ) {
+					for(i=0; i<data.length; i++) {
+						var step = new StepModel({ id: data[i].stepId, state: data[i].state });
+						self.push(step);
+					}
+					$.when.apply(null, self.fetchSteps()).done( function() {
+						deferred.resolve();
+					}).fail( function(error) { deferred.reject(error); });
+				},
+				error: function( error ) { deferred.reject(error); }
+			});
+			return deferred.promise();
 		},
 
 		fetchSteps: function() {
@@ -39,7 +53,7 @@ define([
 
 	});
 
-	return Steps;
+	return StepCollection;
 
 });
 /* Cosente di recuperare dal server le informazioni sui passi eseguibili 
