@@ -1,6 +1,7 @@
 package com.sirius.sequenziatore.server.controller.common;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -36,10 +37,18 @@ public class Test implements ServletContextAware{
 	@ResponseBody
 	public List<User> test(){
 		System.out.println("");
+		User user=new User();
+		user.setName("asdsada");
+		user.setDateOfBirth(new Date(1992, 02, 25));
+		user.setEmail("skfas");
+		user.setPassword("asdsaw");
+		user.setSurname("qwrtweas");
+		user.setUserName("asdasdafrefsd");
+		boolean x=userDao.insertUser(user);
 		List<User> toBeReturned=new ArrayList<User>();
 		toBeReturned=userDao.getAllUser();
 		if(toBeReturned==null)
-			System.out.println("null");
+			System.out.println("null"+x);
 		return toBeReturned;
 	}
 }
