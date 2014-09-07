@@ -9,7 +9,7 @@
 */
 define([
 'backbone',
-'model/ProcessModel'
+'model/processowner/ProcessModel'
 ], function( Backbone, ProcessModel ){
 
 	var ProcessCollection = Backbone.Collection.extend({

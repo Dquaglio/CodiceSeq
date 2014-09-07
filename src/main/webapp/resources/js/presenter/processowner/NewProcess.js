@@ -12,7 +12,8 @@ define([
 		model: new Process(),
 
 		initialize: function () {
-			this.constructor.__super__.createPage.call(this, "newprocess");
+			BasePresenter.prototype.initialize.apply(this, options);
+			BasePresenter.prototype.createPage.call(this, "newprocess");
 			_.extend(this.events, BasePresenter.prototype.events);
 			this.model.clear();
 			this.model.steps.reset();

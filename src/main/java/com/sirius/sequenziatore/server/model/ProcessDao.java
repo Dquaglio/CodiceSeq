@@ -11,9 +11,11 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
 import com.sirius.sequenziatore.server.model.Block.BlockTypes;
 
+@Repository
 public class ProcessDao implements IDataAcessObject 
 {
 	private JdbcTemplate jdbcTemplate; //Origine dati

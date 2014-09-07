@@ -1,5 +1,6 @@
 {
 	"id": 2,
+	"processId": 1,
 	"description": "Raggiungi la statua della libertà, dicci cosa vedi e inviaci le coordinate",
 	"nextStepId": null,
 	"requiresApproval": true,

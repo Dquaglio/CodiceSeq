@@ -8,11 +8,28 @@
 * \Brief: Gestione dei dati inviati da un utente relativi ad un passo
 */
 define([
- 'backbone',
-], function( Backbone ){
+ 'jquery',
+ 'backbone'
+], function( $, Backbone ){
 
 	var ProcessDataModel = Backbone.Model.extend({
-	
+
+		url: "http://localhost:8080/sequenziatore/approvedata",
+
+		// Approva o respinge il dato
+		approve: function( approved ) {
+			var dataState = {
+				username: this.get("username"),
+				stepId: this.get("stepId"),
+				state: approved // approved ? "APPROVED" : "REJECTED";
+			};
+			return $.ajax({
+				type: "POST",
+				url: this.url,
+				data: $.param( dataState )
+			});
+		}
+
 	});
 
 	return ProcessDataModel;

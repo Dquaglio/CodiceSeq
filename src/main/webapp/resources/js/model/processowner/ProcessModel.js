@@ -2,20 +2,18 @@
 * \File: ProcessModel.js 
 * \Author: Vanni Giachin <vanni.giachin@gmail.com> 
 * \Date: 2014-05-26 
-* \LastModified: 2014-07-22
+* \LastModified: 2014-08-29
 * \Class: ProcessModel
 * \Package: com.sirius.sequenziatore.client.model.processowner
 * \Brief: Gestione dei dati di un processo
 */
 define([
- 'backbone',
  'jquery',
+ 'backbone',
  'collection/processowner/StepCollection'
-], function( Backbone, $, StepCollection ){
+], function( $, Backbone, StepCollection ){
 
 	var ProcessModel = Backbone.Model.extend({
-
-		steps: null,
 
 		// constructor
 		initialize: function() {
@@ -23,19 +21,24 @@ define([
 			this.steps = new StepCollection([], { processId: this.id });
 		},
 
-		//  Backbone.Model.save overriding
-		save: function(attributes, options) {
-			return $.ajax({
+		//  Backbone.Model.save() overriding
+		save: function( attributes, options ) {
+			var self = this;
+			var deferred = $.Deferred();
+			$.ajax({
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
 				data: JSON.stringify( this.toJSON() ),
-				cache: true,
 				dataType: "json",
 				contentType: "application/json;charset=utf-8",
 				success: function( data ) {
-					self.saveImage( options.image, data );
-				}
+					self.saveImage( options.image, data ).done( function() {
+						deferred.resolve();
+					}).fail( function( error ) { deferred.reject(error); });
+				},
+				error: function( error ) { deferred.reject(error); }
 			});
+			return deferred.promise();
 		},
 
 		// salvataggio dell'immagine di un processo
@@ -67,24 +70,39 @@ define([
 			var self = this;
 			//var url = "http://localhost:8080/sequenziatore/userlist/"+this.id;
 			var url = "resources/js/data/userlist"+this.id+".json";
-			return $.get( url, function(data) {
-				self.users = data;
-			});
+			return $.ajax({
+				type: "GET",
+				url: url,
+				dataType:"json",
+				success: function(data) {
+					self.users = data;
+				}
+			);
 		},
 
 		// Termina il processo
 		terminate: function() {
 			var url = "http://localhost:8080/sequenziatore/terminateprocess/"+this.id+"/processowner";
-			return $.post( url, function() {
-				this.set("terminated", true);
-			}).fail(function(){});
+			var self = this;
+			return $.ajax({
+				type: "POST",
+				url: this.url,
+				success: function() {
+					self.set("terminated", true);
+				}
+			});
 		},
 
 		// Elimina il processo dalla lista dei processi gestibili dall'utente process owner
 		eliminate: function() {
 			var url = "http://localhost:8080/sequenziatore/deleteprocess/"+this.id+"/processowner";
-			return $.post( url, function() {
-				this.set("eliminated", true);
+			var self = this;
+			return $.ajax({
+				type: "POST",
+				url: this.url,
+				success: function() {
+					self.set("eliminated", true);
+				}
 			});
 		}
 
@@ -97,7 +115,7 @@ define([
 /* ========================================
 			ESEMPIO SALVATAGGIO PROCESSO
 	========================================
-	file = $("#image")[0].files[0];
+	file = $("#imageId")[0].files[0];
 	var formData = new FormData();
 	formData.append("image", file); 
 	process.save(null, { image: formData });

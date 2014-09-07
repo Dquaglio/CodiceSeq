@@ -1,25 +1,31 @@
+/*!
+* \File: ProcessModel.js 
+* \Author: Vanni Giachin <vanni.giachin@gmail.com> 
+* \Date: 2014-05-26 
+* \LastModified: 2014-07-22
+* \Class: ProcessModel
+* \Package: com.sirius.sequenziatore.client.model
+* \Brief: Gestione di un processo
+*/
 define([
- 'backbone',
  'jquery',
+ 'backbone',
  'collection/StepCollection'
-], function( Backbone, $, StepCollection ){
+], function( $, Backbone, StepCollection ) {
 
-	var Process = Backbone.Model.extend({
+	var ProcessModel = Backbone.Model.extend({
 
 		steps: null,
 
 		initialize: function( attributes, options ) {
+			this.url = "resources/js/data/process"+this.id+".json";
+			//this.url = "http://localhost:8080/sequenziatore/process/"+this.id;
 			this.steps = new StepCollection([], {
 				processId: this.id,
 				username: options.username
 			});
 		},
 
-		url: function() {
-			return "resources/js/data/process"+this.id+".json";
-			//return "http://localhost:8080/sequenziatore/process/"+this.id;
-		},
-		
 		fetch: function() {
 			return $.when(
 				this.steps.fetch(),
@@ -29,17 +35,27 @@ define([
 
 		subscribe: function( username ) {
 			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
-			$.post( url, true);
+			var data = { subscription: true };
+			return $.ajax({
+				type: "POST",
+				url: url,
+				data: $.param( data )
+			});
 		},
 
 		unsubscribe: function() {
 			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
-			$.post( url, false);
+			var data = { subscription: false };
+			return $.ajax({
+				type: "POST",
+				url: url,
+				data: $.param( data )
+			});
 		}
 
 	});
 
-	return Process;
+	return ProcessModel;
 
 });
 /* Cosente di recuperare dal server le informazioni su un processo, iscriversi e disiscriversi.

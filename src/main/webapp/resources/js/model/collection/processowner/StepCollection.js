@@ -8,23 +8,22 @@
 * \Brief: Gestione dei dati riguardanti la collezione dei passi di un processo
 */
 define([
+ 'jquery',
  'backbone',
  'model/StepModel'
-], function( Backbone, Step ){
+], function( $, Backbone, StepModel ){
 
 	var StepCollection = Backbone.Collection.extend({
-		
+
+		model: StepModel,
+
 		// constructor
 		initialize: function( models, options ) {
-			this.processId = options.processId;
-		},
-		
-		url: function() {
-			return  "resources/js/data/allstep"+this.processId+".json"
-		},
-		//"http://localhost:8080/sequenziatore/allstep/"+this.processId;
-
-		model: Step
+			this.url = "resources/js/data/allstep"+this.processId+".json";
+			//this.url = "http://localhost:8080/sequenziatore/allstep/"+this.processId;
+			options = typeof options !== "undefined" ? options : {};
+			if( options.processId ) this.processId = options.processId;
+		}
 
 	});
 

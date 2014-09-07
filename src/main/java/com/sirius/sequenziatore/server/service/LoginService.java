@@ -1,5 +1,6 @@
 package com.sirius.sequenziatore.server.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sirius.sequenziatore.server.model.ProcessOwner;
@@ -9,10 +10,11 @@ import com.sirius.sequenziatore.server.model.UserDao;
 
 @Service
 public class LoginService {
+	@Autowired
+	private UserDao userDao;
+	private ProcessOwnerDao processOwnerDao;
 	/*il metodo dovrà ritornare 0 se non esiste, 1 se è un utente e 2 se è un processowner*/
 	public int checkLogin(User toBeChecked){
-		UserDao userDao;
-		ProcessOwnerDao processOwnerDao;
 		//eseguo il controllo per l utente
 		User finded=userDao.getUser(toBeChecked.getUserName());
 		if(finded!=null){//se l utente trovato è null, il database non contiene l utente cercato

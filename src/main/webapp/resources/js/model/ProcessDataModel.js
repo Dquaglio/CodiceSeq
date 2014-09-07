@@ -1,3 +1,12 @@
+/*!
+* \File: ProcessDataModel.js 
+* \Author: Vanni Giachin <vanni.giachin@gmail.com> 
+* \Date: 2014-05-26 
+* \LastModified: 2014-07-22
+* \Class: ProcessDataModel
+* \Package: com.sirius.sequenziatore.client.model
+* \Brief: Gestione dei dati da inviare per superare un passo di un processo
+*/
 define([
  'backbone',
 ], function( Backbone ){
@@ -27,8 +36,9 @@ define([
  * // data corrente; il formato è da concordare con i progettisti del database
  * var now = new Date();
  *
- * var model = new ProcessDataModel();
- * model.set({ stepId: 1, username: "Gabriele", dateTime: now, values: values });
+ * var model = new ProcessDataModel({ 
+ *		stepId: 1, username: "Gabriele", dateTime: now, values: values 
+ *	});
  *
  * // per testare si può invertire fail con save
  * model.save().done( function() {

@@ -1,10 +1,17 @@
+/*!
+* \File: ProcessDataCollection.js 
+* \Author: Vanni Giachin <vanni.giachin@gmail.com> 
+* \Date: 2014-05-26 
+* \LastModified: 2014-07-22
+* \Class: ProcessDataCollection
+* \Package: com.sirius.sequenziatore.client.model.collection
+* \Brief: Gestione della collezione dei dati inviati da un utente riguardanti un processo
+*/
 define([
- 'backbone',
  'jquery',
- 'model/ProcessDataModel',
- 'collection/StepCollection',
- 'model/StepModel'
-], function( Backbone, $, ProcessData, Steps, Step ){
+ 'backbone',
+ 'model/ProcessDataModel'
+], function( $, Backbone, ProcessDataModel ){
 
 	var ProcessDataCollection = Backbone.Collection.extend({
 
@@ -13,7 +20,7 @@ define([
 			// this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
 		},
 
-		model: ProcessData
+		model: ProcessDataModel
 
 	});
 	

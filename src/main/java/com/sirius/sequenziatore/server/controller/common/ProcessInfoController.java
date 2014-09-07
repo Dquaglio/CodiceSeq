@@ -26,9 +26,8 @@ import com.sirius.sequenziatore.server.service.ProcessInfoService;
 public class ProcessInfoController  { //classe addetta a ritornare le informazioni riguardanti i processi
 	@Autowired
 	private ProcessInfoService processInfoService;
-	
 	//metodo che ritorna la struttura di un processo
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Process getProcessInformation(@PathVariable int idprocess){
 		Process toBeReturned=processInfoService.getProcess(idprocess);//ottengo il processo da ritornare
