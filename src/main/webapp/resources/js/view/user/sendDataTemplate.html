@@ -1,0 +1,63 @@
+<div data-role="header">
+	<h1>Invio dati - <%= process.name %></h1>
+	<div class="ui-btn-left">
+		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+	</div>
+	
+</div><!-- /header -->
+
+<div id="content">
+    <ul data-role="listview" data-inset="true">
+
+        <% if(text) { %>
+            <li>
+                <a href="#send_text?id=<%= process.id %>">
+                    Inserisci valori testuali
+                </a>
+            </li>
+        <% } %>
+
+        <% if(number) { %>
+        <li>
+            <a href="#send_number?id=<%= process.id %>">
+                Inserisci valori numerici
+            </a>
+        </li>
+        <% } %>
+
+        <% if(position) { %>
+        <li>
+            <a href="#send_position?id=<%= process.id %>">
+                Inserisci posizione richiesta
+            </a>
+        </li>
+        <% } %>
+
+        <% if(image) { %>
+        <li>
+            <a href="#send_image?id=<%= process.id %>">
+                Inserisci immagini
+            </a>
+        </li>
+        <% } %>
+
+
+    </ul>
+    <form id="sendForm">
+        <input type="submit" id="send" value="Invia"/>
+    </form>
+    </div>
+</div><!-- /content -->
+
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+
+    <button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+    <p>Ciao <%= username %></p>
+
+    <a data-role="button" id="setData" data-icon="user">Gestione account</a>
+
+    <a data-role="button" id="logout" data-icon="power">Logout</a>
+
+</div><!-- panel -->

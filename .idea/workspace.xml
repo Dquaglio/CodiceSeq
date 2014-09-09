@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fdc61c8-16eb-4a87-85a5-55898f3f6aad" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\OpenProcess.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\Register.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\SendData.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\SendImage.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\SendNumber.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\SendPosition.html" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\view\user\SendText.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/ManageBase.html" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/ManageBase.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/OpenProcess.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/OpenProcess.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendPosition.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendPosition.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="4fdc61c8-16eb-4a87-85a5-55898f3f6aad" name="Default" comment="" />
     <ignored path="CodiceSeq.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,16 +53,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ManageBase.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/user/ManageBase.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="595">
-              <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="step2.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/data/step2.json">
           <provider selected="true" editor-type-id="text-editor">
@@ -106,16 +83,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SendPosition.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendPosition.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1156" max-vertical-offset="1768">
-              <caret line="97" column="65" selection-start-line="97" selection-start-column="65" selection-end-line="97" selection-end-column="65" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="sendPositionTemplate.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/user/sendPositionTemplate.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -126,11 +93,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sendImageTemplate.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sendImageTemplate.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/user/sendImageTemplate.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42348754" vertical-offset="17" max-vertical-offset="765">
+            <state vertical-scroll-proportion="-9.153846" vertical-offset="17" max-vertical-offset="765">
               <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="20" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProcessDataModel.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/model/ProcessDataModel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
+              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProcessModel.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/model/ProcessModel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.329932" vertical-offset="0" max-vertical-offset="1139">
+              <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -787,13 +774,18 @@
       <created>1406833422355</created>
       <updated>1406833422355</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="-Correzioni ad Open,SendData e position&#10;-Corretti errori nei template ed aggiunto i pezzi del ManageBase">
+      <created>1410287796190</created>
+      <updated>1410287796190</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32755905" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -808,7 +800,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32755905" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -838,7 +829,8 @@
     <MESSAGE value="-Inizio lavori ripristino file presenter &quot;ripristinati&quot;&#10;-Aggiunto pulsante a SendPosition&#10;-Ri aggiunto framework gmap3" />
     <MESSAGE value="-Incapsulamento variabili private presenter SI eSN&#10; -Ri aggiunto per l'ennesima volta framework gmap3" />
     <MESSAGE value="-Completato MainUser&#10;-Correzioni minori a OpenProcess&#10;-Continuo operazione di incapsulamento" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Completato MainUser&#10;-Correzioni minori a OpenProcess&#10;-Continuo operazione di incapsulamento" />
+    <MESSAGE value="-Correzioni ad Open,SendData e position&#10;-Corretti errori nei template ed aggiunto i pezzi del ManageBase" />
+    <option name="LAST_COMMIT_MESSAGE" value="-Correzioni ad Open,SendData e position&#10;-Corretti errori nei template ed aggiunto i pezzi del ManageBase" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1027,14 +1019,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/model/ProcessModel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="551" max-vertical-offset="1139">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/data/userGabrieleprocesslist.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="408">
@@ -1130,16 +1114,6 @@
         <state vertical-scroll-proportion="39.884617" vertical-offset="1037" max-vertical-offset="1802">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/model/ProcessDataModel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="262" max-vertical-offset="918">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="48" selection-end-column="3" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1241,8 +1215,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/user/sendImageTemplate.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42348754" vertical-offset="17" max-vertical-offset="765">
+        <state vertical-scroll-proportion="-9.153846" vertical-offset="17" max-vertical-offset="765">
           <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="20" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/model/ProcessDataModel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/model/ProcessModel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.329932" vertical-offset="0" max-vertical-offset="1139">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding />
         </state>
       </provider>
