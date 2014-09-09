@@ -6,4 +6,6 @@ public interface IDataValue
 	
 	public DataTypes getType();
 	public void setType(DataTypes type);
+	public void setDataId(int dataId);
+	public int getDataId();
 }

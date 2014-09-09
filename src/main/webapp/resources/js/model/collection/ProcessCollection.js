@@ -39,10 +39,10 @@ define([
  * ESEMPIO UTLIZZO
  * collection = new ProcessCollection({ username: "Gabriele" });
  * // stampa collezione in JSON su console
- * var running = true;
+ *
  * // running==true : fetch processi a cui sei iscritto
  * // running==false : fetch processi a cui puoi iscriverti
- * collection.fetch( running ).done( function() {
+ * collection.fetch({ running: true }).done( function() {
  *		console.log(collection.toJSON());
  *	});
  */

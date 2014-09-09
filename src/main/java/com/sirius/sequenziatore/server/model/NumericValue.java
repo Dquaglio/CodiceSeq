@@ -5,6 +5,7 @@ public class NumericValue implements IDataValue
 	//Fields
 	private double value;
 	private DataTypes type;
+	private int dataId;
 	
 	//Constructor
 	public NumericValue()	{
@@ -23,5 +24,11 @@ public class NumericValue implements IDataValue
 	}
 	public void setValue(double value) {
 		this.value = value;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

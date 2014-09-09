@@ -15,6 +15,7 @@ define([
 
 		url: function() {
 			return "resources/js/data/step"+this.id+".json";
+			//return "http://localhost:8080/sequenziatore/step"+this.id;
 		}
 
 	});

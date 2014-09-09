@@ -5,6 +5,7 @@ public class ImageValue implements IDataValue
 	//Fields
 	private String imageUrl;
 	private DataTypes type;
+	private int dataId;
 	
 	//Constructor
 	public ImageValue()	{
@@ -23,5 +24,11 @@ public class ImageValue implements IDataValue
 	}
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }
