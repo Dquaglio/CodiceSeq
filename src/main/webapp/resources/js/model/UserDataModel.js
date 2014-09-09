@@ -78,7 +78,7 @@ define([
 		},
 
 		isLogged: function() {
-			return !cookie.hasItem("usertype");
+			return cookie.hasItem("usertype");
 		},
 
 		isUser: function() {

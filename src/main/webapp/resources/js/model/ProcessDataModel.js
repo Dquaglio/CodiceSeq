@@ -12,12 +12,20 @@ define([
 ], function( Backbone ){
 
 	var ProcessData = Backbone.Model.extend({
-	
+
+		baseUrl: "http://localhost:8080/stepdata/",
+
 		save: function() {
-			this.url = "http://localhost:8080/stepdata/"+this.stepId+"/user"+this.username;
-			return this.constructor.__super__.save.apply(this);
+			var url = this.baseUrl+this.get("stepId")+"/user"+this.get("username");
+			return $.ajax({
+				type: "POST",
+				url: url,
+				data: JSON.stringify( this.toJSON() ),
+				dataType: "json",
+				contentType: "application/json;charset=utf-8"
+			});
 		}
-	
+
 	});
 
 	return ProcessData;
