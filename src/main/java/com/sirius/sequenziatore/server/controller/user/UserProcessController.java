@@ -19,6 +19,8 @@ import com.sirius.sequenziatore.server.service.UserProcessService;
 public class UserProcessController {
 	@Autowired
 	private UserProcessService userProcessService;
+	
+	//metodo che permette ad un utente di iscriversi e disiscriversi da un pr
 	@RequestMapping(method=RequestMethod.POST, produces = "application/json",value="/subscribe/{processId}")
 	@ResponseBody
 	public void processSubscribe(@RequestParam boolean subscribe,@PathVariable String username,@PathVariable int processId){

@@ -1,5 +1,13 @@
+/*!
+* \File: LoginController.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: LoginController
+* \Package: com.sirius.sequenziatore.server.controller.common
+* \Brief: Gestione della login con il client
+*/
 package com.sirius.sequenziatore.server.controller.common;
-
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;

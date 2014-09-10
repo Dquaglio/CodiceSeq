@@ -16,10 +16,15 @@ public class UserProcessService {
 	private ProcessDao processDao;
 	@Autowired
 	private StepDao stepDao; 
+	
+	//metodo che gestisce l' iscrizione o la disiscrizione di u utente da un processo
 	public boolean subscribeUser(boolean subscribe,int processId, String username){
-		boolean subscribed=false;
-		subscribed=processDao.subscribe(username, processId);
-		return subscribed;
+		boolean operationResult=false;
+		if(subscribe==true)
+			operationResult=processDao.subscribe(username, processId);
+		else
+			operationResult=processDao.unsubscribe(username, processId);
+		return operationResult;
 	}
 	public List<UserStep> retrieveUserStatus(int processId, String username){
 		List<UserStep> userStatus=new ArrayList<UserStep>();
