@@ -77,7 +77,7 @@ define([
 				success: function(data) {
 					self.users = data;
 				}
-			);
+			});
 		},
 
 		// Termina il processo
@@ -86,7 +86,7 @@ define([
 			var self = this;
 			return $.ajax({
 				type: "POST",
-				url: this.url,
+				url: url,
 				success: function() {
 					self.set("terminated", true);
 				}
@@ -99,7 +99,7 @@ define([
 			var self = this;
 			return $.ajax({
 				type: "POST",
-				url: this.url,
+				url: url,
 				success: function() {
 					self.set("eliminated", true);
 				}

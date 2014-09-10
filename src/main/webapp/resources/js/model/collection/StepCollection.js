@@ -26,9 +26,9 @@ define([
 			var deferred = $.Deferred();
 			var self = this;
 			$.ajax({	
-				type:"GET",
-				url:this.url,
-				dataType:"json",
+				type: "GET",
+				url: this.url,
+				dataType: "json",
 				success: function( data ) {
 					for(i=0; i<data.length; i++) {
 						var step = new StepModel({ id: data[i].stepId, state: data[i].state });

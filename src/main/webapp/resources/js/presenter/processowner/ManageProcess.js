@@ -30,9 +30,9 @@ define([
 	
 	// apre un popup con titolo "title" e contenuto "content"
 	var printMessage = function( title, content ) {
-		$("#alert h3").text( title );
-		$("#alert p").text( content );
-		$("#alert").popup("open");
+		$("#process .alertPanel h3").text( title );
+		$("#process .alertPanel p").text( content );
+		$("#process .alertPanel").popup("open");
 	};
 
 	// getione dell'evento di cambio tab
@@ -95,11 +95,9 @@ define([
 			$(this.id).html(this.template( options )).enhanceWithin();
 			
 			// imposta la tab/scheda corrente
-			if( typeof this.currentTab != "undefined" && this.currentTab != $(".mainTab").attr("id") ) {
-				//$(".tabButton[href=#"+this.currentTab+"]").addClass("ui-btn-active");
+			if( typeof this.currentTab != "undefined" && this.currentTab != $(".mainTab").attr("id") )
 				$(".tabButton[href=#"+this.currentTab+"]").click();
-			};
-			this.currentTab = $(".mainTab").attr("id");
+			else this.currentTab = $(".mainTab").attr("id");
 		},
 
 		// aggiorna i dati della pagina recuperandoli dal server
@@ -158,7 +156,7 @@ define([
 			var self = this;
 			this.process.eliminate().done( function() {
 				printMessage("Azione eseguita", "Il processo è stato eliminato.");
-				$("#alert").on( "popupafterclose", function() {
+				$("#process .alertPanel").on( "popupafterclose", function() {
 					window.location.assign("#processes");
 				});
 			}).fail( function( error ) {

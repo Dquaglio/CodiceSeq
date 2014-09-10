@@ -2,44 +2,43 @@ define([
  'jquery',
  'underscore',
  'backbone',
- 'presenter/BasePresenter',
- 'text!view/processowner/addStepTemplate.html'
-], function( $, _, Backbone, BasePresenter, addStepTemplate ){
+ 'text!view/processowner/addStepTemplate.html',
+ 'jquerymobile'
+], function( $, _, Backbone, addStepTemplate ) {
 
-	var ManageProcess = BasePresenter.extend({
+	// apre un popup con titolo "title" e contenuto "content"
+	var printMessage = function( title, content ) {
+		$("#newprocess .alertPanel h3").text( title );
+		$("#newprocess .alertPanel p").text( content );
+		$("#newprocess .alertPanel").popup("open");
+	};
 
-
-		initialize: function () {
-			//this.constructor.__super__.createPage.call(this, "addstep");
-			_.extend(this.events, BasePresenter.prototype.events);
-			
-			this.render();
-		},
+	var AddStep = Backbone.View.extend({
 
 		template: _.template(addStepTemplate),
 		
-		id: '#addstep',
+		id: '#newprocess',
 
 		el: $('body'),
-		
-		render: function(errors) {
-			$(this.id).html(this.template()).enhanceWithin();
-		},
 
 		events: {
-			'submit #processForm': 'saveProcess',
-			'click #cancel': 'cancel',
-			'click #addStep': 'newStep',
-			'click .tabButton': 'changeTab',
-			'change .checkButton': 'showInput',
+			'change #blocksTab .checkButton': 'enableInput',
+			'change #descriptionTab .checkButton': 'showInput'
 		},
 
-		getData: function() {
-			
+		render: function() {
+			// template rendering and JQM css enhance
+			$(this.id).html(this.template({
+				username: this.session.getUsername(),
+			})).enhanceWithin();
+		},
+
+		newStep: function( steps ) {
+		
 		}
 
 	});
 
-	return ManageProcess;
+	return AddStep;
 
 });
