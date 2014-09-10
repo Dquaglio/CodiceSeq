@@ -28,7 +28,6 @@ define([
             if(firstPart[0]=="type")
                 result[unescape(firstPart[0])]=unescape(firstPart[1]);
         }
-        var sito = get['sito'];
         return result;
     }
 
@@ -71,12 +70,12 @@ define([
 
             if(gets.length == 1);{
                 //?type=new
-                if(result=="new") {
+                if(gets["type"]=="new") {
                     subscribe = true;
                     tipo="iscrivibili"
                 }
                 //?type=ongoing
-                else if(result="ongoing"){
+                else if(gets["type"]="ongoing"){
                     subscribe=false;
                     tipo="già iscritti";
                 }

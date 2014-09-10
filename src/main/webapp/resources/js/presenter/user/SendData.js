@@ -6,12 +6,15 @@ define([
     'text!view/user/sendDataTemplate.html',
     'model/ProcessDataModel',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, SendDataTemplate,ProcessDataModel){
+], function( $, _, Backbone, BasePresenter, SendDataTemplate, SendImage , SendText, SendNumber, SendPosition,ProcessDataModel){
 
     var SendData = BasePresenter.extend({
 
         session:null,
         process:null,
+        idProcess:null,
+        idStep:null,
+        el:$('sendData'),
         template : _.template(SendDataTemplate),
 
         //metodi
