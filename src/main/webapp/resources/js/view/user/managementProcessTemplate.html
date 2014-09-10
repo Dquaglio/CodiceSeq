@@ -1,0 +1,65 @@
+<div id="management">
+    <% if(subscription) { %>
+		<form id="subscribeForm">
+			<ul data-role="listview" data-inset="true">
+				<li data-role="fieldcontain">
+					<h3><%= process.name %></h3>
+					<p style="white-space:normal"><%= process.description %></p>
+				</li>
+				<li>
+					<input type="submit" id="submitProcess" value="Iscriviti al processo" data-inline="true" />
+				</li>
+			</ul>
+		
+		</form>
+    <% }
+
+    else { %>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="fieldcontain">
+                <h3><%= process.name %></h3>
+                <p style="white-space:normal"><%= process.description %></p>
+            </li>
+            if(complete) {%>
+		        <li data-role="fieldcontain">
+					<h3>Processo completato con successo</h3>
+					<p>Torna alla <a href="#home">pagina principale</a> per eseguire altri processi</p>
+				</li>
+			</ul>
+		    <%}
+            else{
+                if(steps.length != 0){
+                %>
+                    <li data-role="fieldcontain">
+                        <h3>Scegliere un passo</h3>
+                        <ul data-role="listview" data-inset="true">
+                            <% _.each(steps, function(oneStep){%>
+                                <li>
+                                    <a href="#process?id=<%= process.id %>&step=<%= oneStep.id %>">Passo <%= oneStep.id %></a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </li>
+                <% }
+                else if(step.description != ""){%>
+	                <form id="sendDataForm">
+				        <ul data-role="listview" data-inset="true">
+					        <li data-role="fieldcontain">
+						        <h3>Esecuzione passo</h3>
+						        <p style="white-space:normal"><%= step.description %></p>
+					        </li>
+                            //tabella numero di vincoli
+                            <li data-role="fieldcontain">
+						        <% if(step.optional) { %>
+						            <input type="button" id="skipStep" value="Salta passo" data-inline="true" />
+						        <%}%>
+                            </li>
+					        <li data-role="fieldcontain">
+                                <a href="#process?id=<%= process.name %>&step=<%= step.id %>&sendData=1">Carica i valori</a>
+				            </li>
+                        </ul>
+		            </form>
+		        <%}
+            }
+    }%>
+</div>
