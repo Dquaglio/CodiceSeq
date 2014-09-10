@@ -54,9 +54,9 @@ define([
 				// only for test
 				if( self.model.isLogged() ) location.reload();
 				else {
-					$("#alert p").text("Credenziali non corrette");
-					$("#alert").popup("open");
-					$("#alert").enhanceWithin();
+					$("#home .alertPanel p").text("Credenziali non corrette");
+					$("#home .alertPanel").popup("open");
+					$("#password").val("");
 				}
 			});
 		}

@@ -21,6 +21,8 @@ import com.sirius.sequenziatore.server.service.StepService;
 @RequestMapping(value="/stepdata/{idstep}/processowner")
 public class StepController {//classe che gestisce la comunicazione con il client per quanto riguarda 
 	StepService stepService;
+	
+	//metodo che ritorna una lista di dati inviati dagli utenti al process owner dato un certo passo
 	@RequestMapping(method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
 	public List<DataSent> getStepData(@PathVariable int idStep){

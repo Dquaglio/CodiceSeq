@@ -20,14 +20,9 @@ public class ApproveStepService {
 		stepToBeApproved=stepDao.getWaitingData();
 		return stepToBeApproved;
 	}
-	public boolean manageResponse(String username,int stepId,boolean response){
+	public boolean manageResponse(String username,int stepId,String response){
 		StepStates stepState;
-		if(response==true){
-			stepState=StepStates.APPROVED;
-		}
-		else{
-			stepState=StepStates.REJECTED;
-		}
+		stepState=StepStates.valueOf(response);
 		UserStep userStep=new UserStep();//dichiaro l'oggetto da salvare
 		userStep.setCurrentStepId(stepId);
 		userStep.setState(stepState);
