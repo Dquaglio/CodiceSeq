@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fdc61c8-16eb-4a87-85a5-55898f3f6aad" name="Default" comment="Aggiunto migliorie">
-      <change type="DELETED" beforePath="C:\Users\Gabriele\Documents\GitHub\CodiceSeq\src\main\webapp\resources\js\presenter\user\ManageProcess.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/MainUser.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/MainUser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/ManagementProcess.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/ManagementProcess.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/processowner/OpenProcess.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/processowner/OpenProcess.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/OpenProcess.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/OpenProcess.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/Router.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/Router.js" />
+    <list default="true" id="4fdc61c8-16eb-4a87-85a5-55898f3f6aad" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/managementProcessTemplate.html" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/managementProcessTemplate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/openProcessTemplate.html" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/openProcessTemplate.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/sendDataTemplate.html" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/sendDataTemplate.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CodiceSeq.iws" />
@@ -35,21 +26,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainUser.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="MainUser.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/MainUser.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12631579" vertical-offset="122" max-vertical-offset="731">
+            <state vertical-scroll-proportion="0.0" vertical-offset="122" max-vertical-offset="731">
               <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SendData.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="SendData.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="581" max-vertical-offset="2431">
-              <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
+            <state vertical-scroll-proportion="0.53678477" vertical-offset="1826" max-vertical-offset="2193">
+              <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -169,8 +160,8 @@
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/processowner/OpenProcess.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/OpenProcess.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/ManagementProcess.js" />
-        <option value="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/resources/js/view/user/openProcessTemplate.html" />
+        <option value="$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js" />
       </list>
     </option>
   </component>
@@ -829,7 +820,11 @@
       <created>1410446453790</created>
       <updated>1410446453790</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Aggiunto migliorie">
+      <created>1410471872015</created>
+      <updated>1410471872015</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1216,14 +1211,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="581" max-vertical-offset="2431">
-          <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/view/loginTemplate.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.192307" vertical-offset="194" max-vertical-offset="782">
@@ -1266,8 +1253,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/MainUser.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12631579" vertical-offset="122" max-vertical-offset="731">
+        <state vertical-scroll-proportion="0.0" vertical-offset="122" max-vertical-offset="731">
           <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/resources/js/presenter/user/SendData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53678477" vertical-offset="1826" max-vertical-offset="2193">
+          <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
           <folding />
         </state>
       </provider>
