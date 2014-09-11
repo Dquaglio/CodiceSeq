@@ -8,8 +8,9 @@
 * \Brief: Gestione dei dati utente e di sessione
 */
 define([
+ 'jquery',
  'backbone'
-], function( Backbone ) {
+], function( $, Backbone ) {
 
 	// PRIVATE
 	var cookie = {
