@@ -5,21 +5,35 @@ define([
     'presenter/BasePresenter',
     'text!view/user/sendDataTemplate.html',
     'model/ProcessDataModel',
- 'jquerymobile'
-], function( $, _, Backbone, BasePresenter, SendDataTemplate, SendImage , SendText, SendNumber, SendPosition,ProcessDataModel){
+    'presenter/user/SendImage',
+    'presenter/user/SendText',
+    'presenter/user/SendNumber',
+    'presenter/user/SendPosition',
+    'jquerymobile'
+], function( $, _, Backbone, BasePresenter, SendDataTemplate, ProcessDataModel,SendImage , SendText, SendNumber, SendPosition,ProcessDataModel){
+
+    var getParam = function( param ) {
+        var hash = window.location.hash;
+        var expression = new RegExp("#process\\?(\\w+=\\w+&)*("+param+"=(\\d{1,11}))|("+param+"=(\\w{1,20}))");
+        var result = expression.exec(hash);
+        return result ? ( Number(result[3]) || result[5]  ) : false;
+    };
 
     var SendData = BasePresenter.extend({
 
         session:null,
-        process:null,
+        processData:null,
         idProcess:null,
         idStep:null,
+        collectInformation:null,
         el:$('sendData'),
         template : _.template(SendDataTemplate),
 
         //metodi
 
         initialize: function () {
+            //se l'idStep e idProcess sono nulli oppure è cambiato il passo, creo un nuovo collectInformation
+
             this.session=options.session;
 		},
     /*riferimento per i nomi dei dati
@@ -43,33 +57,47 @@ define([
     }
     }
     */
-        render: function() {
-            this.step;
-            process.fetch();
-            /* blocco render da adattare
-             render: function( options,tipo) {
-             // default value
-             var error = typeof options.error !== "undefined" ? options.error : null;
-             // template rendering and JQM css enhance
-             $(this.id).html(this.template({
-             processes: this.collection.toJSON(),
-             username: this.session.getUsername(),
-             error: error,
-             tipo:tipo
-             })).enhanceWithin();
-             },
-
-
-
-             */
-            //in attesa di modifiche
-		    $(this.id).html(template({
-					            text: true,
-					            position: true,
-					            number: true,
-                                image:true
-				            })).enhanceWithin();
-			},
+        render: function(options) {
+            if((this.idProcess==null || getParam("id")!=this.idProcess)||(this.idStep==null || getParam("step")!=this.idStep)) {
+                this.collectInformation=new Array();
+                this.idProcess=getParam("id");
+                this.idProcess=getParam("step");
+            }
+            var _send=getParam("send");
+            var innerSend=null;
+            if(_send=="image"){
+                if(typeof this.sendImage== undefined)
+                    this.sendImage=new SendImage();
+                innerSend=this.sendImage;
+            }
+            else if(_send="text"){
+                if(typeof this.sendText== undefined)
+                    this.sendText=new SendText();
+                innerSend=this.sendText;
+            }
+            else if(_send="number"){
+                if(typeof this.sendNumber== undefined)
+                    this.sendNumber=new SendNumber();
+                innerSend=this.sendNumber;
+            }
+            else if(_send="position"){
+                if(typeof this.sendPosition== undefined)
+                    this.sendPosition=new SendPosition();
+                innerSend=this.sendPosition;
+            }
+            if(innerSend==null){
+                $(this.el).html(this.template({
+                    image:"",
+                    position:"",
+                    text:"",
+                    number:""
+                }));}
+            else{
+                $(this.el).append(innerSend.el);
+                innerSend.({step:this.process.steps.get(id).toJSON()});
+                innerSend.render();
+            }
+        },
 
         getData:function(){
 

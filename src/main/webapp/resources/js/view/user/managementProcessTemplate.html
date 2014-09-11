@@ -62,4 +62,18 @@
 		        <%}
             }
     }%>
+    <% } else { %>
+
+    <div id="content">
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                <h3><%= error.text %></h3>
+            </li>
+            <li data-role="fieldcontain">
+                <button id="reloadPage" data-inline="true">Ricarica</button>
+            </li>
+        </ul>
+    </div><!-- /content error -->
+
+    <% } %>
 </div>

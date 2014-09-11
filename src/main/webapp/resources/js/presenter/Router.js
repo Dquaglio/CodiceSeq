@@ -102,7 +102,8 @@ define([
 
 		home: function() {
 			if(typeof this.presenters["#home"] == 'undefined') {
-				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home",true);
+				if( this.userData.isUser() ) {load.call(this,'presenter/user/MainUser',"#home",true);
+                console.log("bolscevico")}
 				else load.call(this,'presenter/processowner/MainProcessOwner',"#home",true);
 			}
 			else this.presenters["#home"].update();
@@ -110,7 +111,7 @@ define([
 
         register: function() {
             if(typeof this.presenters["#register"] == 'undefined')
-                load.call(this,'presenter/user/Register',"#register",true);
+                load.call(this,'presenter/user/Register',"#register",false);
             else
                 this.presenters["#register"].update();
         },
@@ -127,7 +128,8 @@ define([
 
 		processes: function() {
 			if(typeof this.presenters["#processes"] == 'undefined') {
-				if( this.userData.isUser() ) {}
+				if( this.userData.isUser())
+                    load.call(this,'presenter/user/OpenProcess',"#processes",true);
 				else load.call(this,'presenter/processowner/OpenProcess',"#processes",true);
 			}
 			else this.presenters["#processes"].update();
@@ -143,7 +145,7 @@ define([
 
 		process: function() {
 			if(typeof this.presenters["#process"] == 'undefined') {
-				if( this.userData.isUser() ) load.call(this,'presenter/user/ManageProcess',"#process",true);
+				if( this.userData.isUser() ) load.call(this,'presenter/user/ManagementProcess',"#process",true);
 				else load.call(this,'presenter/processowner/ManageProcess',"#process",true);
 			}
 			else this.presenters["#process"].update();

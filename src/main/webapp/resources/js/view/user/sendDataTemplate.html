@@ -9,26 +9,23 @@
 
 <div id="content">
     <ul data-role="listview" data-inset="true">
-
         <% if(text) { %>
             <li>
-                <a href="#send_text?id=<%= process.id %>">
+                <a href="#process?id=<%= id% >&step=<%= stepId>&insert=text">
                     Inserisci valori testuali
                 </a>
             </li>
+        <%}%>
+        <%if(number){ %>
+            <li>
+                <a href="#process?id=<%= id% >&step=<%= stepId>&insert=number">
+                    Inserisci valori numerici
+                </a>
+            </li>
         <% } %>
-
-        <% if(number) { %>
-        <li>
-            <a href="#send_number?id=<%= process.id %>">
-                Inserisci valori numerici
-            </a>
-        </li>
-        <% } %>
-
         <% if(position) { %>
         <li>
-            <a href="#send_position?id=<%= process.id %>">
+            <a href="#process?id=<%= id% >&step=<%= stepId>&insert=position">
                 Inserisci posizione richiesta
             </a>
         </li>
@@ -36,13 +33,11 @@
 
         <% if(image) { %>
         <li>
-            <a href="#send_image?id=<%= process.id %>">
+            <a href="#process?id=<%= id% >&step=<%= stepId>&insert=image">
                 Inserisci immagini
             </a>
         </li>
         <% } %>
-
-
     </ul>
     <form id="sendForm">
         <input type="submit" id="send" value="Invia"/>
