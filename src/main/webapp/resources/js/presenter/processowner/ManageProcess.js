@@ -154,12 +154,15 @@ define([
 		// gestione della richiesta di eliminazione di un processo terminato dalla lista dei processi gestibili dal process owner
 		eliminateProcess: function() {
 			var self = this;
+			$.mobile.loading('show');
 			this.process.eliminate().done( function() {
+				$.mobile.loading('hide');
 				printMessage("Azione eseguita", "Il processo è stato eliminato.");
 				$("#process .alertPanel").on( "popupafterclose", function() {
 					window.location.assign("#processes");
 				});
 			}).fail( function( error ) {
+				$.mobile.loading('hide');
 				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
 				else printMessage("Errore", error.status+" "+error.statusText);
 			});
@@ -169,11 +172,14 @@ define([
 		terminateProcess: function(event) {
 			var self = this;
 			this.currentTab = $(".tab:visible").attr("id");
+			$.mobile.loading('show');
 			this.process.terminate().done( function() {
+				$.mobile.loading('hide');
 				self.update().done( function() {
 					printMessage("Azione eseguita", "Il processo è stato terminato.");
 				});
 			}).fail( function( error ) {
+				$.mobile.loading('hide');
 				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
 				else printMessage("Errore", error.status+" "+error.statusText);
 			});

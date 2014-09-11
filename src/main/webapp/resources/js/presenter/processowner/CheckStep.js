@@ -163,7 +163,9 @@ define([
 		approveData: function() {
 			var data = this.collection.findWhere({ stepId: getParam("step"), username: getParam("username") });
 			var self = this;
+			$.mobile.loading('show');
 			data.approve( true ).done( function() {
+				$.mobile.loading('hide');
 				self.collection.remove( data );
 				printMessage("Azione eseguita", "Dati approvati.");
 				$("#checkstep .alertPanel").on( "popupafterclose", function() {
@@ -171,6 +173,7 @@ define([
 					window.location.assign("#checkstep?id="+processId);
 				});
 			}).fail( function( error ) {
+				$.mobile.loading('hide');
 				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
 				else printMessage("Errore", error.status+" "+error.statusText);
 			});
@@ -180,7 +183,9 @@ define([
 		rejectData: function() {
 			var data = this.collection.findWhere({ stepId: getParam("step"), username: getParam("username") });
 			var self = this;
+			$.mobile.loading('show');
 			data.approve( false ).done( function() {
+				$.mobile.loading('hide');
 				self.collection.remove( data );
 				printMessage("Azione eseguita", "Dati respinti.");
 				$("#checkstep .alertPanel").on( "popupafterclose", function() {
@@ -188,6 +193,7 @@ define([
 					window.location.assign("#checkstep?id="+processId);
 				});
 			}).fail( function( error ) {
+				$.mobile.loading('hide');
 				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
 				else printMessage("Errore", error.status+" "+error.statusText);
 			});
