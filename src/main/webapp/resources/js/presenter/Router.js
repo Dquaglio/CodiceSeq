@@ -102,11 +102,20 @@ define([
 
 		home: function() {
 			if(typeof this.presenters["#home"] == 'undefined') {
-				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home");
+				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home",true);
 				else load.call(this,'presenter/processowner/MainProcessOwner',"#home",true);
 			}
 			else this.presenters["#home"].update();
 		},
+
+        register: function() {
+            if(typeof this.presenters["#register"] == 'undefined')
+                load.call(this,'presenter/user/Register',"#register",true);
+            else
+                this.presenters["#register"].update();
+        },
+
+
 
 		newProcess: function() {
 			if(typeof this.presenters["#newprocess"] == 'undefined') {

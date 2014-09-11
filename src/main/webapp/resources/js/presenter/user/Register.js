@@ -9,11 +9,11 @@ define([
 ], function( $, _, Backbone, BasePresenter, UserData, RegisterTemplate ){
 
 
-    var model=new UserData();
-    var template= _.template(RegisterTemplate);
+
 
 	var Register = BasePresenter.extend({
-
+        model:new UserData(),
+        template: _.template(RegisterTemplate),
         id: '#register',
 
         el: $('body'),
@@ -27,7 +27,7 @@ define([
 		},
 
 		render: function() {
-			$(this.id).html(template()).enhanceWithin();
+			$(this.id).html(this.template()).enhanceWithin();
 		},
 
 		events: {
