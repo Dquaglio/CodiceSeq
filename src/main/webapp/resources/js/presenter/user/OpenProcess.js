@@ -18,6 +18,12 @@ define([
 ], function( $, _, Backbone, BasePresenter, openProcessTemplate, ProcessCollection ){
 
     //metodo privato per il parsing dei valori nella querystring
+    var getParam = function( param ) {
+        var hash = window.location.hash;
+        var expression = new RegExp("#process\\?(\\w+=\\w+&)*("+param+"=(\\d{1,11}))|("+param+"=(\\w{1,20}))");
+        var result = expression.exec(hash);
+        return result ? ( Number(result[3]) || result[5]  ) : false;
+    };
     var parseGet=function(){
         var result = new Array();
         var query = window.location.search.substring(1);
@@ -26,6 +32,7 @@ define([
             var stringList = query.split('&');
             var firstPart=stringList[0].split('=');
             if(firstPart[0]=="type")
+                console.log(firstPart[1]);
                 result[unescape(firstPart[0])]=unescape(firstPart[1]);
         }
         return result;
@@ -36,14 +43,17 @@ define([
 
         session:null,
         template: _.template(openProcessTemplate),
-        collection: new ProcessCollection({ username: "Gabriele" }),
+
         id: '#processes',
         el: $('body'),
 
-        initialize: function () {
-            this.constructor.__super__.createPage.call(this, "processes");
-            this.listenTo(this.collection, 'all', this.render);
+        initialize: function (options) {
+            BasePresenter.prototype.initialize.apply(this, options);
+            BasePresenter.prototype.createPage.call(this, "processes");
             this.session = options.session;
+            console.log(this.session.getUsername());
+            this.collection= new ProcessCollection({ username: this.session.getUsername()});
+
         },
 
         //renderizza il template usando i dati acquisiti dal fetching
@@ -54,7 +64,7 @@ define([
             $(this.id).html(this.template({
                 processes: this.collection.toJSON(),
                 username: this.session.getUsername(),
-                error: error,
+                error: "cojon",
                 tipo:tipo
                 })).enhanceWithin();
         },
@@ -62,32 +72,30 @@ define([
         // aggiorna la collezione di processi "collection", recuperando i dati dal server
         update: function() {
             var self = this;
-            var gets = parseGet.call(self);
+            var gets = getParam("type");
             //se la lunghezza dell'array risultato vuol dire che il parsing ha trovato una variabile type
             var subscribe=null;
             //variabile testuale per il template
             var tipo="";
-
-            if(gets.length == 1);{
-                //?type=new
-                if(gets["type"]=="new") {
-                    subscribe = true;
+            if(gets=="new") {
+                    subscribe = false;
                     tipo="iscrivibili"
                 }
                 //?type=ongoing
-                else if(gets["type"]="ongoing"){
-                    subscribe=false;
+                else if(gets=="ongoing"){
+                    subscribe=true;
                     tipo="già iscritti";
                 }
-            }
 
-            self.collection.fetch({subscribe:subscribe}).done( function() {
+            self.collection.fetch({running:true}).done( function() {
+                console.log("pollo");
                 self.render({},tipo);
             }).fail( function(error) {
+                console.log("polla");
                 if(error.status == 0)
-                    self.render({ text: "Errore di connessione" });
+                    self.render({ text: "Errore di connessione" },"ghei");
                 else
-                    self.render({ text: error.status+" "+error.statusText });
+                    self.render({ text: error.status+" "+error.statusText },tipo);
             }).always( function() { self.trigger("updated"); });
         }
     });

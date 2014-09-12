@@ -19,7 +19,7 @@
 
 </div><!-- /header -->
 
-<% if( !error ) { %>
+<% if( error == "mona" ) { %>
 
 <div id="content" class="searchList">
 
@@ -34,7 +34,7 @@
                 if(!process.eliminated) { %>
                     <li>
                         <a href="#process?id=<%= process.id %>" class="ui-content">
-                            <img src="resources/css/images/<%= process.imageUrl %>.png"></img>
+                            <img src="resources/css/images/<%= process.imageUrl %>.png" />
                             <h3><%= process.name %></h3>
                             <p><%= process.description %></p>
                             <% if(process.terminated) { %>

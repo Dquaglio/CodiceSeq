@@ -42,7 +42,7 @@ define([
 			$(this.id).html(this.template({
 				processes: this.collection.toJSON(),
 				username: this.session.getUsername(),
-				error: error
+				error: "mona"
 			})).enhanceWithin();
 		},
 
