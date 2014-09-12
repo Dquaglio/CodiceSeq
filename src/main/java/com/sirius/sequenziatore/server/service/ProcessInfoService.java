@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProcessInfoService implements ServletContextAware{
 	@Autowired
 	private ProcessDao processDao;
-	@Autowired
 	private ServletContext servletContext;
 	@Override
 	public void setServletContext(ServletContext servletContext) {

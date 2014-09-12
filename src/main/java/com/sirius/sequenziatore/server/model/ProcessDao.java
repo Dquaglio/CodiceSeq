@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -22,6 +23,7 @@ public class ProcessDao implements IDataAcessObject
 	private JdbcTemplate jdbcTemplate; //Origine dati
 
 	//Setta origine dati
+	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate=jdbcTemplate;
@@ -290,7 +292,7 @@ public class ProcessDao implements IDataAcessObject
 		finally{}
 	}
 	
-	List<Process> getProcesses(String username)
+	public List<Process> getProcesses(String username)
 	{
 		try
 		{
@@ -343,7 +345,7 @@ public class ProcessDao implements IDataAcessObject
 			SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("userstep");
 			if(firstBlock.getType()==BlockTypes.SEQUENTIAL)
 			{
-				//Se è sequenziale
+				//Se ï¿½ sequenziale
 				selQuery="SELECT id FROM step WHERE isFirst=1 AND idBlock=?";
 				params=new Object[] {firstBlock.getId()};
 				int firstStepId=jdbcTemplate.queryForInt(selQuery, params);
@@ -355,7 +357,7 @@ public class ProcessDao implements IDataAcessObject
 			}
 			else
 			{
-				//Se è non ordinato
+				//Se ï¿½ non ordinato
 				selQuery="SELECT id FROM step WHERE idBlock=?";
 				params=new Object[] {firstBlock.getId()};
 				Map<String, Object> args = new HashMap<String, Object>();

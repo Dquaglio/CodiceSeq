@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sirius.sequenziatore.server.model.ProcessDao;
 import com.sirius.sequenziatore.server.model.StepDao;
 import com.sirius.sequenziatore.server.model.UserStep;
+import com.sirius.sequenziatore.server.model.Process;
 
 @Service
 public class UserProcessService {
@@ -30,5 +31,10 @@ public class UserProcessService {
 		List<UserStep> userStatus=new ArrayList<UserStep>();
 		userStatus=stepDao.userProcessSteps(username, processId);
 		return userStatus;
+	}
+	public List<Process> getProcessList(String username,boolean iscritto){
+		List<Process> processList=new ArrayList<Process>();
+		return processList;
+		
 	}
 }

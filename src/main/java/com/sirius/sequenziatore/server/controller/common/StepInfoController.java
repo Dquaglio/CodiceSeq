@@ -20,9 +20,8 @@ import com.sirius.sequenziatore.server.service.StepInfoService;
 @Controller
 @RequestMapping(value="/step/{idstep}")
 public class StepInfoController {
-	
 	@Autowired
-	StepInfoService stepInfoService;
+	private StepInfoService stepInfoService;
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
 	public Step getStepInformation(@PathVariable int idstep){

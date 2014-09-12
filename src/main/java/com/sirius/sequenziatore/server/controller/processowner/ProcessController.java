@@ -35,6 +35,7 @@ public class ProcessController {
 		if(result==false)
 			throw new IllegalStateException("errore nella creazione del processo");
 	}
+	
 	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public List<Process> getProcessList(){

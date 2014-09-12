@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -20,7 +21,7 @@ import com.sirius.sequenziatore.server.model.UserStep.StepStates;
 public class StepDao implements IDataAcessObject 
 {
 	private JdbcTemplate jdbcTemplate;
-
+	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate=jdbcTemplate;
