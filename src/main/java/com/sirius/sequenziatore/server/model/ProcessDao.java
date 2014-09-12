@@ -323,6 +323,17 @@ public class ProcessDao implements IDataAcessObject
 		finally{}
 	}
 	
+	public List<Process> getSubscribableProcesses(String username)
+	{
+		List<Process> work=getAllProcess();
+		List<Process> my=getProcesses(username);
+		if((work!=null)&&(my!=null))
+		{
+			work.removeAll(my);
+		}
+		return work;
+	}
+	
 	public boolean subscribe(String username, int processId)
 	{
 		try
