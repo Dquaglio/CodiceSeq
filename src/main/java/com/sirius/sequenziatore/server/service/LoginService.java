@@ -12,6 +12,7 @@ import com.sirius.sequenziatore.server.model.UserDao;
 public class LoginService {
 	@Autowired
 	private UserDao userDao;
+	@Autowired
 	private ProcessOwnerDao processOwnerDao;
 	/*il metodo dovrà ritornare 0 se non esiste, 1 se è un utente e 2 se è un processowner*/
 	public int checkLogin(User toBeChecked){

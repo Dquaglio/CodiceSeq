@@ -1,6 +1,8 @@
 package com.sirius.sequenziatore.server.controller.processowner;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sirius.sequenziatore.server.controller.utilities.ProcessWrapper;
+import com.sirius.sequenziatore.server.model.Process;
 import com.sirius.sequenziatore.server.service.ProcessService;
 
 @Controller
@@ -31,6 +34,15 @@ public class ProcessController {
 		result=processService.createProcess(processToBeCreated);
 		if(result==false)
 			throw new IllegalStateException("errore nella creazione del processo");
+	}
+	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public List<Process> getProcessList(){
+		List<Process> processList=new ArrayList<Process>();
+		processList=processService.getProcessList();
+		if(processList==null)
+			throw new IllegalStateException("errore nella ricerca della lista dei processi");
+		return processList;
 	}
 	
 	//gestore delle eccezioni

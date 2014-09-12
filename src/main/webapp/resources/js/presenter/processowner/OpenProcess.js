@@ -37,7 +37,7 @@ define([
 
 		render: function( options ) {
 			// default value
-			var error = typeof options.error !== "undefined" ? options.error : null;
+			var error = typeof options !== "undefined" ? options : null;
 			// template rendering and JQM css enhance
 			$(this.id).html(this.template({
 				processes: this.collection.toJSON(),
