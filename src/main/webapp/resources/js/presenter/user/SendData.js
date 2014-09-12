@@ -28,7 +28,9 @@ define([
         collectInformation:null,
         el:$('sendData'),
         template : _.template(SendDataTemplate),
-
+        events: {
+            'click #send': 'save'
+        },
         //metodi
 
         initialize: function () {
@@ -94,6 +96,7 @@ define([
                 innerSend=this.sendPosition;
                 innerJson=this.step.geographicData;
             }
+            //test per verifica se è necessario chiamare la inner view
             if(innerSend==null){
                 $(this.el).html(this.template({
                     notInner:"true",
