@@ -22,6 +22,7 @@ import com.sirius.sequenziatore.server.model.StepDao;
 import com.sirius.sequenziatore.server.model.User;
 import com.sirius.sequenziatore.server.model.UserDao;
 import com.sirius.sequenziatore.server.model.Process;
+import com.sirius.sequenziatore.server.model.UserStep;
 
 @Controller
 public class Test implements ServletContextAware{
@@ -37,7 +38,7 @@ public class Test implements ServletContextAware{
 	
 	@RequestMapping(value="/test" ,method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
-	public List<Process> prova(){
+	public List<UserStep> prova(){
 		/*if(processOwnerDao==null)
 			System.out.println("è null stepDao cazzooooooo");
 		else
@@ -55,7 +56,7 @@ public class Test implements ServletContextAware{
 		if(list==null)
 			System.out.println("Si pure questo ..ottimo");
 		return list;*/
-		List<Process> list=new ArrayList<Process>();
+		/*List<Process> list=new ArrayList<Process>();
 		if(processDao==null)
 			System.out.println("è null cazzooooooo");
 		else
@@ -64,7 +65,10 @@ public class Test implements ServletContextAware{
 		if(p==null)
 			System.out.println("è vuoto pure questo diaodadj a");
 		list=processDao.getAllProcess();
-		return list;
+		return list;*/
+		List<UserStep> userStatus=new ArrayList<UserStep>();
+		userStatus=stepDao.userProcessSteps("teomondo", 52);
+		return userStatus;
 	}
 
 	@Override

@@ -22,7 +22,7 @@ import com.sirius.sequenziatore.server.service.UserStepService;
 @RequestMapping(value="/stepdata/user")
 public class UserStepController {
 	@Autowired
-	UserStepService userStepService;
+	private UserStepService userStepService;
 	@RequestMapping(method=RequestMethod.POST,value="/{username}")
 	@ResponseBody
 	public void saveStepData(@RequestBody DataSent step,@PathVariable String username){

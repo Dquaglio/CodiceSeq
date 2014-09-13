@@ -27,14 +27,20 @@ public class UserProcessService {
 			operationResult=processDao.unsubscribe(username, processId);
 		return operationResult;
 	}
+	//metodo che ritorna ottiene lo status dell utente
 	public List<UserStep> retrieveUserStatus(int processId, String username){
 		List<UserStep> userStatus=new ArrayList<UserStep>();
 		userStatus=stepDao.userProcessSteps(username, processId);
 		return userStatus;
 	}
+	//metodo che ottiene la lista di processi richiesta all utente
 	public List<Process> getProcessList(String username,boolean iscritto){
 		List<Process> processList=new ArrayList<Process>();
-		return processList;
+		if(iscritto==true)//controllo se il client mi chiede quelli a cui l utente è iscritto o meno
+			processList=processDao.getProcesses(username);//ottieni tutti i processi a cui l utente è iscritto
+		else
+			processList=processDao.getSubscribableProcesses(username);//ottieni i processi a cui l utente non è iscritto
+		return processList;//ritorno la lista corretta
 		
 	}
 }

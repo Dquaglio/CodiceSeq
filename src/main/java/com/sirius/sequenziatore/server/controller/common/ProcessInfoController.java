@@ -40,6 +40,8 @@ public class ProcessInfoController  { //classe addetta a ritornare le informazio
 	@ResponseBody
 	public void uploadImage(@RequestParam(value="image")MultipartFile image){
 		boolean result=processInfoService.saveImage(image);
+		if(result==false)
+			throw new IllegalStateException("impossibile salvare l' immagine");
 	}
 	
 	@ExceptionHandler(IllegalStateException.class)
