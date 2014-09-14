@@ -33,6 +33,7 @@ public class ProcessDaoTest {
 		pcess1.setCompletionsMax(5);
 		pcess1.setId(2);
 		pcess1.setTerminated(false);
+		pcess1.setEliminated(true);
 		//creo e setto secondo oggetto di ritorno
 		Process pcess2 = new Process();
 		pcess2.setName("process2");
@@ -40,6 +41,7 @@ public class ProcessDaoTest {
 		pcess2.setCompletionsMax(5);
 		pcess2.setId(2);
 		pcess2.setTerminated(false);
+		pcess1.setEliminated(false);
 		//setto lista di processi
 		List<Process> listprocess = new ArrayList<Process>();
 		listprocess.add(pcess1);
@@ -48,6 +50,7 @@ public class ProcessDaoTest {
 		when(mproc.getProcess(1)).thenReturn(pcess1);
 		when(mproc.getProcess(2)).thenReturn(pcess2);
 		when(mproc.getAllProcess()).thenReturn(listprocess);
+		when(mproc.getNotEliminated()).thenReturn(listprocess);
 		
 	}
 
@@ -90,11 +93,15 @@ public class ProcessDaoTest {
 
 	@Test
 	public void testGetNotEliminated() {//no test
-		fail("Not yet implemented");
+		List<Process> result = new ArrayList<Process>();
+		//chiamata a metodo sotto test
+		result=mproc.getNotEliminated();
+		//test
+		assertSame(result.get(0).isEliminated() ,false);
 	}
 
 	@Test
-	public void testGetProcesses() {
+	public void testGetProcesses() {//no test
 		fail("Not yet implemented");
 	}
 
