@@ -76,38 +76,12 @@ public class ProcessDaoTest {
 	}
 
 	@Test
-	public void testGetAll() {
-		//da fare
-		assertSame("process1" ,"process1");
-	}
-
-	@Test
-	public void testInsertProcess() {//no test
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testUpdateProcess() {//no test
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetNotEliminated() {//no test
 		List<Process> result = new ArrayList<Process>();
 		//chiamata a metodo sotto test
 		result=mproc.getNotEliminated();
 		//test
 		assertSame(result.get(0).isEliminated() ,false);
-	}
-
-	@Test
-	public void testGetProcesses() {//no test
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSubscribe() {//no test
-		fail("Not yet implemented");
 	}
 
 }
