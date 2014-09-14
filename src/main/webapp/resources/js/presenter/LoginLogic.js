@@ -50,13 +50,18 @@ define([
 			event.preventDefault();
 			// management of asynchronous method "login"
 			var self = this;
-			this.model.login( $("#username").val(), $("#password").val() ).fail(function() {
+			$.mobile.loading('show');
+			this.model.login( $("#username").val(), $("#password").val() ).done( function() {
+				$.mobile.loading('hide');
+				if( self.model.isLogged() ) location.reload();
+			}).fail(function() {
+				$.mobile.loading('hide');
 				// only for test
 				if( self.model.isLogged() ) location.reload();
 				else {
-					$("#alert p").text("Credenziali non corrette");
-					$("#alert").popup("open");
-					$("#alert").enhanceWithin();
+					$("#home .alertPanel p").text("Credenziali non corrette");
+					$("#home .alertPanel").popup("open");
+					$("#password").val("");
 				}
 			});
 		}

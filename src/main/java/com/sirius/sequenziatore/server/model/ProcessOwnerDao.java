@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class ProcessOwnerDao implements IDataAcessObject 
 {
 	private JdbcTemplate jdbcTemplate;
-
+	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate=jdbcTemplate;
@@ -30,6 +31,7 @@ public class ProcessOwnerDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}

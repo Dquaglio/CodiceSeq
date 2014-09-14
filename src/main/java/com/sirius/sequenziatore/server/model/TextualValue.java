@@ -5,6 +5,7 @@ public class TextualValue implements IDataValue
 	//Fields
 	private String value;
 	private DataTypes type;
+	private int dataId;
 	
 	//Constructor
 	public TextualValue()	{
@@ -23,5 +24,11 @@ public class TextualValue implements IDataValue
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

@@ -3,11 +3,13 @@ package com.sirius.sequenziatore.server.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -21,6 +23,7 @@ public class ProcessDao implements IDataAcessObject
 	private JdbcTemplate jdbcTemplate; //Origine dati
 
 	//Setta origine dati
+	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate=jdbcTemplate;
@@ -120,6 +123,7 @@ public class ProcessDao implements IDataAcessObject
 			params.put("imageUrl", imgUrl);
 			int processId=sji.executeAndReturnKey(params).intValue();
 			//Blocchi del processo
+			Collections.reverse(blocks); //Dall'ultimo al primo
 			sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("block").usingGeneratedKeyColumns("id");
 			SimpleJdbcInsert stepsji=new SimpleJdbcInsert(jdbcTemplate).withTableName("step").usingGeneratedKeyColumns("id");
 			SimpleJdbcInsert datasji=new SimpleJdbcInsert(jdbcTemplate).withTableName("data").usingGeneratedKeyColumns("id");
@@ -129,16 +133,21 @@ public class ProcessDao implements IDataAcessObject
 			{
 				params.clear();
 				params.put("idProcess", processId);
-				params.put("type", block.getType().toString());
+				BlockTypes blockType=block.getType();
+				params.put("type", blockType.toString());
 				if(block.getRequiredSteps()!=0)
 				{
 					params.put("requiredStep", block.getRequiredSteps());
 				}
 				params.put("isFirst", block.isFirst());
-				params.put("nextBlockId", block.getNextBlockId());
+				if(blockId!=0)
+				{
+					params.put("nextBlockId", blockId); //Blocco successivo precedentemente inserito
+				}
 				blockId = sji.executeAndReturnKey(params).intValue();
 				//Passi del blocco
 				List<Step> steps=block.getSteps();
+				Collections.reverse(steps); //Dall'ultimo al primo
 				int stepId=0;
 				for(Step step:steps)
 				{
@@ -146,13 +155,13 @@ public class ProcessDao implements IDataAcessObject
 					params.put("idBlock", blockId);
 					params.put("isFirst", step.isFirst());
 					params.put("description", step.getDescription());
-					if(step.getNextStepId()!=0)
+					if((stepId!=0)&&(blockType==Block.BlockTypes.SEQUENTIAL))
 					{
-						params.put("nextStepId", step.getNextStepId());
+						params.put("nextStepId", stepId); //Passo successivo precedentemente inserito
 					}
 					params.put("requiresApproval", step.requiresApproval());
 					params.put("optional", step.isOptional());
-					params.put("processId", step.getProcessId());
+					params.put("processId", processId);
 					stepId=stepsji.executeAndReturnKey(params).intValue();
 					//Dati e vincoli del passo
 					List<NumericData> numerics=step.getNumericData();
@@ -283,7 +292,7 @@ public class ProcessDao implements IDataAcessObject
 		finally{}
 	}
 	
-	List<Process> getProcesses(String username)
+	public List<Process> getProcesses(String username)
 	{
 		try
 		{
@@ -314,6 +323,17 @@ public class ProcessDao implements IDataAcessObject
 		finally{}
 	}
 	
+	public List<Process> getSubscribableProcesses(String username)
+	{
+		List<Process> work=getAllProcess();
+		List<Process> my=getProcesses(username);
+		if((work!=null)&&(my!=null))
+		{
+			work.removeAll(my);
+		}
+		return work;
+	}
+	
 	public boolean subscribe(String username, int processId)
 	{
 		try
@@ -336,7 +356,7 @@ public class ProcessDao implements IDataAcessObject
 			SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("userstep");
 			if(firstBlock.getType()==BlockTypes.SEQUENTIAL)
 			{
-				//Se è sequenziale
+				//Se ï¿½ sequenziale
 				selQuery="SELECT id FROM step WHERE isFirst=1 AND idBlock=?";
 				params=new Object[] {firstBlock.getId()};
 				int firstStepId=jdbcTemplate.queryForInt(selQuery, params);
@@ -348,7 +368,7 @@ public class ProcessDao implements IDataAcessObject
 			}
 			else
 			{
-				//Se è non ordinato
+				//Se ï¿½ non ordinato
 				selQuery="SELECT id FROM step WHERE idBlock=?";
 				params=new Object[] {firstBlock.getId()};
 				Map<String, Object> args = new HashMap<String, Object>();
@@ -364,6 +384,21 @@ public class ProcessDao implements IDataAcessObject
 				}
 			}
 			//Fine
+			return true;
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		finally{}
+	}
+	
+	public boolean unsubscribe(String username, int processId)
+	{
+		try
+		{
+			String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId IN(SELECT id FROM step WHERE processId=?)";
+			jdbcTemplate.update(delQuery, new Object[]{username, processId});
 			return true;
 		}
 		catch(Exception ex)

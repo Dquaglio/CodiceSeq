@@ -111,9 +111,9 @@ define([
 		newProcess: function() {
 			if(typeof this.presenters["#newprocess"] == 'undefined') {
 				if( this.userData.isUser() ) window.location.replace( "#home" );
-				else load.call(this,'presenter/processowner/NewProcess',"#newprocess");
+				else load.call(this,'presenter/processowner/NewProcess',"#newprocess",true);
 			}
-			else changePage("#newprocess");
+			else this.presenters["#newprocess"].update();
 		},
 
 		processes: function() {

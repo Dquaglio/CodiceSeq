@@ -21,6 +21,7 @@ define([
 
     var process =  null;
     var template = _.template(SendPositionTemplate);
+
     var getCoordinatesDistanceInMeters= function(position1, position2) {
         var earthRadius = 6371; // Radius of the earth in km
         var latitudesDistance = (Number(position2.latitude)-Number(position1.latitude)) * (Math.PI/180);
@@ -42,12 +43,14 @@ define([
 
     };
 
-    var checkCoordinates = function() {
+    var computeCoordinates = function() {
         $('#canvas').gmap3({
             getgeoloc:{
                 callback : function(cords){
                     if (cords){
                         $('#canvas').html(cords.lat());
+                        //passo le coordinate calcolate con jqmap alla variabile di istanza
+                        this.coordinates=cords;
                         $(this).gmap3({
                             map:{
                                 options: {
@@ -68,18 +71,10 @@ define([
             }
         });
     }
-    var getParam = function(param) {
-        var hash = window.location.hash;
-        var expression = new RegExp("#process\\?(\\w+=\\w+&)*"+param+"=(\\d{1,11})");
-        var result = expression.exec(hash);
-        return result ? result[2] : false;
-    };
 
     var SendPosition = BasePresenter.extend({
-
-
-        id: '#process',
-        el: $('body'),
+        cordinates:null,
+        el: $('insert'),
         events: {
             'click #checkCoordinates': 'checkCoordinates',
             'click #sendCoordinates': 'insertCoordinates'
@@ -96,14 +91,12 @@ define([
 		},
 
         render: function() {
+            var lat=computeCoordinates.call(this);
 		},
-
-
-
-		update: function() {
-			var processId = this.getParam("id");
-			this.process.fetchProcess(processId);
-		}
+        checkCoordinates:function(){
+            var lat=computeCoordinates.call(this);
+            var distanza=getCoordinatesDistanceInMeters(lat,this.geographicData);
+        }
 
 
 	});

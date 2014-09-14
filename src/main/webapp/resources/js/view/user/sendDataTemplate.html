@@ -1,0 +1,42 @@
+<div id="sendData">
+    <% if(notInner==true){%>
+    <ul data-role="listview" data-inset="true">
+        <% if(text) { %>
+            <li>
+                <a href="#process?id=<%= id% >&step=<%= stepId>&insert=text">
+                    Inserisci valori testuali
+                </a>
+            </li>
+        <%}%>
+        <%if(number){ %>
+            <li>
+                <a href="#process?id=<%= id% >&step=<%= stepId>&insert=number">
+                    Inserisci valori numerici
+                </a>
+            </li>
+        <% } %>
+        <% if(position) { %>
+        <li>
+            <a href="#process?id=<%= id% >&step=<%= stepId>&insert=position">
+                Inserisci posizione richiesta
+            </a>
+        </li>
+        <% } %>
+
+        <% if(image) { %>
+        <li>
+            <a href="#process?id=<%= id% >&step=<%= stepId>&insert=image">
+                Inserisci immagini
+            </a>
+        </li>
+        <% }
+        else{%>
+            <div id="inner" />
+        <%}%>
+    </ul>
+    <form id="sendForm">
+        <input type="submit" id="send" value="Invia"/>
+    </form>
+    </div>
+    <%}>
+</div>

@@ -4,19 +4,25 @@ require.config({
 		// libraries
 		jquery: 'libs/jquery-min',
 		jquerymobile: 'libs/jquery.mobile-min',
+		jqueryui: 'libs/jquery.ui-min',
+		jquerytouch: 'libs/jquery.ui.touch.punch-min',
 		gmap3: 'libs/gmap3',
 		underscore: 'libs/underscore-min',
 		backbone: 'libs/backbone-min',
 		text: 'libs/text',
-
-		// template folder
-		templates: '../templates',
 		
 		model: 'model',
-		collection: 'model/collection',
 		view: 'view',
 		presenter: 'presenter'
 
+	},
+	shim: {
+		backbone: {
+			deps: ['jquery', 'underscore'],
+		},
+		jquerytouch: {
+			deps: [ "jquery", "jqueryui" ]
+		}
 	}
 });
 

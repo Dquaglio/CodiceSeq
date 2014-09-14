@@ -10,7 +10,7 @@
 define([
  'jquery',
  'backbone',
- 'model/StepModel'
+ 'model/processowner/StepModel'
 ], function( $, Backbone, StepModel ){
 
 	var StepCollection = Backbone.Collection.extend({
@@ -19,10 +19,9 @@ define([
 
 		// constructor
 		initialize: function( models, options ) {
-			this.url = "resources/js/data/allstep"+this.processId+".json";
-			//this.url = "http://localhost:8080/sequenziatore/allstep/"+this.processId;
-			options = typeof options !== "undefined" ? options : {};
-			if( options.processId ) this.processId = options.processId;
+			if( typeof options !== "undefined" && options.processId )
+				this.url = "resources/js/data/allstep"+options.processId+".json";
+				//this.url = "http://localhost:8080/sequenziatore/allstep/"+this.processId;
 		}
 
 	});

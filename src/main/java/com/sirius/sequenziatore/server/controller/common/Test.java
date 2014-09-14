@@ -13,20 +13,62 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 
+import com.sirius.sequenziatore.server.model.DataSent;
+import com.sirius.sequenziatore.server.model.ProcessDao;
+import com.sirius.sequenziatore.server.model.ProcessOwner;
+import com.sirius.sequenziatore.server.model.ProcessOwnerDao;
+import com.sirius.sequenziatore.server.model.Step;
+import com.sirius.sequenziatore.server.model.StepDao;
 import com.sirius.sequenziatore.server.model.User;
 import com.sirius.sequenziatore.server.model.UserDao;
+import com.sirius.sequenziatore.server.model.Process;
+import com.sirius.sequenziatore.server.model.UserStep;
 
 @Controller
 public class Test implements ServletContextAware{
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private ProcessDao processDao;
+	@Autowired
+	private StepDao stepDao;
+	@Autowired
+	private ProcessOwnerDao processOwnerDao;
 	private ServletContext servletContext;
 	
-	@RequestMapping(value="/test" ,method=RequestMethod.GET)
+	@RequestMapping(value="/test" ,method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
-	public String prova(){
-		System.out.println(servletContext.getRealPath("/"));
-		return "OK";
+	public List<UserStep> prova(){
+		/*if(processOwnerDao==null)
+			System.out.println("è null stepDao cazzooooooo");
+		else
+			System.out.println("StepDao ok");
+		ProcessOwner po=processOwnerDao.getProcessOwner();
+		if(po==null)
+			System.out.println("po ritornato nullo..vai che passi swe... già");
+		return po;*/
+		//System.out.println(servletContext.getRealPath("/"));
+	/*	if(stepDao==null)
+			System.out.println("è null stepDao cazzooooooo");
+		else
+			System.out.println("StepDao ok");
+		Step list=stepDao.getStep(34);
+		if(list==null)
+			System.out.println("Si pure questo ..ottimo");
+		return list;*/
+		/*List<Process> list=new ArrayList<Process>();
+		if(processDao==null)
+			System.out.println("è null cazzooooooo");
+		else
+			System.out.println("processDao ok");
+		Process p=processDao.getProcess(52);
+		if(p==null)
+			System.out.println("è vuoto pure questo diaodadj a");
+		list=processDao.getAllProcess();
+		return list;*/
+		List<UserStep> userStatus=new ArrayList<UserStep>();
+		userStatus=stepDao.userProcessSteps("teomondo", 52);
+		return userStatus;
 	}
 
 	@Override
@@ -36,7 +78,7 @@ public class Test implements ServletContextAware{
 	@RequestMapping(value="/test2",method=RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public List<User> test(){
-		System.out.println("");
+		/*System.out.println("");
 		User user=new User();
 		user.setName("asdsada");
 		user.setDateOfBirth(new Date(1992, 02, 25));
@@ -44,11 +86,11 @@ public class Test implements ServletContextAware{
 		user.setPassword("asdsaw");
 		user.setSurname("qwrtweas");
 		user.setUserName("asdasdafrefsd");
-		boolean x=userDao.insertUser(user);
+		boolean x=userDao.insertUser(user);*/
 		List<User> toBeReturned=new ArrayList<User>();
 		toBeReturned=userDao.getAllUser();
 		if(toBeReturned==null)
-			System.out.println("null"+x);
+			System.out.println("null");
 		return toBeReturned;
 	}
 }

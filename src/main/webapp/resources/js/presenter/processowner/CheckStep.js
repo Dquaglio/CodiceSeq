@@ -12,9 +12,9 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'collection/processowner/ProcessDataCollection',
- 'collection/processowner/ProcessCollection',
- 'collection/processowner/StepCollection',
+ 'model/processowner/collection/ProcessDataCollection',
+ 'model/processowner/collection/ProcessCollection',
+ 'model/processowner/collection/StepCollection',
  'text!view/processowner/checkStepTemplate.html',
  'text!view/processowner/approveDataTemplate.html',
  'jquerymobile'
@@ -28,10 +28,11 @@ define([
 		return result ? ( Number(result[3]) || result[5]  ) : false;
 	};
 
+	// apre un popup con titolo "title" e contenuto "content"
 	var printMessage = function( title, content ) {
-		$("#alert h3").text( title );
-		$("#alert p").text( content );
-		$("#alert").popup("open");
+		$("#checkstep .alertPanel h3").text( title );
+		$("#checkstep .alertPanel p").text( content );
+		$("#checkstep .alertPanel").popup("open");
 	};
 
 	// recupera le informazioni sui passi relativi ai dati che richidono intervento umano
@@ -162,14 +163,17 @@ define([
 		approveData: function() {
 			var data = this.collection.findWhere({ stepId: getParam("step"), username: getParam("username") });
 			var self = this;
+			$.mobile.loading('show');
 			data.approve( true ).done( function() {
+				$.mobile.loading('hide');
 				self.collection.remove( data );
 				printMessage("Azione eseguita", "Dati approvati.");
-				$("#alert").on( "popupafterclose", function() {
+				$("#checkstep .alertPanel").on( "popupafterclose", function() {
 					var processId = self.steps.get( data.get("stepId") ).get("processId");
 					window.location.assign("#checkstep?id="+processId);
 				});
 			}).fail( function( error ) {
+				$.mobile.loading('hide');
 				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
 				else printMessage("Errore", error.status+" "+error.statusText);
 			});
@@ -179,14 +183,17 @@ define([
 		rejectData: function() {
 			var data = this.collection.findWhere({ stepId: getParam("step"), username: getParam("username") });
 			var self = this;
+			$.mobile.loading('show');
 			data.approve( false ).done( function() {
+				$.mobile.loading('hide');
 				self.collection.remove( data );
 				printMessage("Azione eseguita", "Dati respinti.");
-				$("#alert").on( "popupafterclose", function() {
+				$("#checkstep .alertPanel").on( "popupafterclose", function() {
 					var processId = self.steps.get( data.get("stepId") ).get("processId");
 					window.location.assign("#checkstep?id="+processId);
 				});
 			}).fail( function( error ) {
+				$.mobile.loading('hide');
 				if(error.status == 0) printMessage("Errore", "Errore di connessione.");
 				else printMessage("Errore", error.status+" "+error.statusText);
 			});

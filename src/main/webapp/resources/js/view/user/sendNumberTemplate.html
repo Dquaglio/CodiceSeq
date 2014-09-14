@@ -1,0 +1,39 @@
+<div data-role="header">
+	<h1><%= process.name %></h1>
+	<div class="ui-btn-left">
+		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+	</div>
+	
+</div><!-- /header -->
+
+<div id="content">
+    <form id="sendNumberForm">
+	    <ul data-role="listview" data-inset="true">
+		    <li data-role="fieldcontain">
+			    <h3>Processo: <%= process.name %></h3>
+			</li>
+            <% _.each(numericData, function(numeric){ %>
+            <li data-role="fieldcontain">
+                <label for="<%= numeric.id %>"><%= numeric.description %>:</label>
+                <input type="file" name="<%= numeric.id %>" accept="numeric/*"> <!-- ;capture=camera -->
+            </li>
+            <% } %>
+			<li data-role="fieldcontain">
+			    <input type="submit" id="submitNumber" value="Invia dati inseriti" data-inline="true" />
+			</li>
+		</ul>
+	</form>
+</div><!-- /content -->
+
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+
+    <button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+    <p>Ciao <%= user.id %></p>
+
+    <a data-role="button" id="setData" data-icon="user">Gestione account</a>
+
+    <a data-role="button" id="logout" data-icon="power">Logout</a>
+
+</div><!-- panel -->

@@ -21,14 +21,10 @@ import com.sirius.sequenziatore.server.service.SignUpService;
 @RequestMapping(value="/signup")
 public class SignUpController {// classe che gestisce la registrazione di un nuovo utente
 	@Autowired
-	SignUpService signUpService;
+	private SignUpService signUpService;
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public void registerUser(@RequestBody User toBeRegistered){
-		//imposto il dao con i bean
-		//ApplicationContext applicationContext=new ClassPathXmlApplicationContext("com/sirius/sequenziatore/server/model/daoContext.xml");
-		//UserDao daoUser=applicationContext.getBean("UserDao", UserDao.class);
-		//controllo che non ci sia già un utente con queste credenziali
 		boolean result=signUpService.checkSignUp(toBeRegistered);
 		if(result==false){
 			throw new IllegalStateException("Utente già registrato");

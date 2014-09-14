@@ -5,15 +5,15 @@ define([
  'backbone',
  'presenter/BasePresenter',
   'model/UserDataModel',
- 'text!view/user/Register.html'
+ 'text!view/user/registerTemplate.html'
 ], function( $, _, Backbone, BasePresenter, UserData, RegisterTemplate ){
 
 
-    var model=new UserData();
-    var template= _.template(RegisterTemplate);
+
 
 	var Register = BasePresenter.extend({
-
+        model:new UserData(),
+        template: _.template(RegisterTemplate),
         id: '#register',
 
         el: $('body'),
@@ -21,13 +21,12 @@ define([
         //metodi
 
 		initialize: function () {
-			this.constructor.__super__.createPage.call(this, "register");
-			_.extend(this.events, BasePresenter.prototype.events);
-			this.render();
+            BasePresenter.prototype.initialize.apply(this, options);
+            BasePresenter.prototype.createPage.call(this, "register");
 		},
 
 		render: function() {
-			$(this.id).html(template()).enhanceWithin();
+			$(this.id).html(this.template()).enhanceWithin();
 		},
 
 		events: {

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -20,7 +21,7 @@ import com.sirius.sequenziatore.server.model.UserStep.StepStates;
 public class StepDao implements IDataAcessObject 
 {
 	private JdbcTemplate jdbcTemplate;
-
+	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
 	{
 		this.jdbcTemplate=jdbcTemplate;
@@ -286,6 +287,7 @@ public class StepDao implements IDataAcessObject
 						value=geographicValue;
 					break;
 				}
+				value.setDataId((int)row.get("associatedDataId"));
 				values.add(value);
 			}
 			data.setValues(values);
@@ -391,6 +393,7 @@ public class StepDao implements IDataAcessObject
 				params.put("userName", username);
 				params.put("stepId", stepId);
 				params.put("type", dataType);
+				params.put("associatedDataId", dataValue.getDataId());
 				switch(dataType)
 				{
 					case NUMERIC:

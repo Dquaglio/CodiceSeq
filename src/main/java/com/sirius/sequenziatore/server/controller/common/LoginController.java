@@ -1,5 +1,13 @@
+/*!
+* \File: LoginController.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: LoginController
+* \Package: com.sirius.sequenziatore.server.controller.common
+* \Brief: Gestione della login con il client
+*/
 package com.sirius.sequenziatore.server.controller.common;
-
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +29,10 @@ import com.sirius.sequenziatore.server.service.LoginService;
 @RequestMapping(value="/login")
 public class LoginController {
 	@Autowired
-	LoginService loginService;
+	private LoginService loginService;
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
-	public String receiveRequest(@RequestBody User toBeLogged){
+	public String receiveLoginRequest(@RequestBody User toBeLogged){
 		int result=loginService.checkLogin(toBeLogged);
 		if(result==0)
 			throw new IllegalStateException("Credenziali non corrette");
@@ -36,7 +44,7 @@ public class LoginController {
 	}
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY,   reason = "Errore credenziali non corrette")
-	public void handleException3(IllegalStateException ex, HttpServletResponse response) throws IOException{
+	public void handleException(IllegalStateException ex, HttpServletResponse response) throws IOException{
 		//invia al client un errore 422
 	}
 }

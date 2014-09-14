@@ -8,8 +8,8 @@
 * \Brief: Gestione dei dati riguardanti la collezione di processi accessibili all'utente process owner
 */
 define([
-'backbone',
-'model/processowner/ProcessModel'
+ 'backbone',
+ 'model/processowner/ProcessModel'
 ], function( Backbone, ProcessModel ){
 
 	var ProcessCollection = Backbone.Collection.extend({
