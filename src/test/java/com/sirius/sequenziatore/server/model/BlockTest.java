@@ -2,6 +2,7 @@ package com.sirius.sequenziatore.server.model;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.sirius.sequenziatore.server.model.Block;
@@ -10,14 +11,17 @@ public class BlockTest {
 
 	private Block test;
 	
-	public void setUp() throws Exception {
+	@Before
+	public void setUp(){
+		test = new Block();
 		test.setId(2);
 	}
+
 	@Test
 	public final void testGetId() {
-		//fail("Not yet implemented");
-		assertEquals("test errore", 2 , test.getId());
-		
+		// fail("Not yet implemented");
+		assertEquals("test errore", 2, test.getId());
+
 	}
 
 	@Test

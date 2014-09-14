@@ -10,7 +10,7 @@ import com.sirius.sequenziatore.server.model.NumericData;
 
 public class ImageDataTest {
 	private ImageData classprova;
-	
+
 	@Before
 	public void setup() throws Exception {
 		classprova = new ImageData();
@@ -19,7 +19,7 @@ public class ImageDataTest {
 
 	@Test
 	public final void testGetDescription() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 		assertEquals("testok", "prova", classprova.getDescription());
 	}
 
