@@ -9,10 +9,10 @@
 */
 define([
  'jquery',
- 'backbone',
  'underscore',
+ 'backbone',
  'model/processowner/ProcessDataModel'
-], function( $, Backbone, _, ProcessDataModel ){
+], function( $, _, Backbone, ProcessDataModel ){
 
 	var ProcessDataCollection = Backbone.Collection.extend({
 

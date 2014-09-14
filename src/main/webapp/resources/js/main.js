@@ -10,12 +10,8 @@ require.config({
 		underscore: 'libs/underscore-min',
 		backbone: 'libs/backbone-min',
 		text: 'libs/text',
-
-		// template folder
-		templates: '../templates',
 		
 		model: 'model',
-		collection: 'model/collection',
 		view: 'view',
 		presenter: 'presenter'
 

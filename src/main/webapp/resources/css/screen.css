@@ -14,6 +14,16 @@ label {
 .spacedList {
 	margin: 1em 0 1em 0;
 }
+
+#addStepForm {
+	margin-top: 16px;
+}
+.top-spaced-item input {
+	width: auto;
+}
+.spaced-item {
+	margin-top: 10px;
+}
 #panel {
 	background-color: #f0f0f0;
 	background-image: url("images/S_greylogo_300.png");
@@ -64,16 +74,17 @@ label {
 	font-size: 0.75em;
 	font-weight: 400;
 }
-#descriptionTab input, #descriptionTab textarea {
+#descriptionTab input, #descriptionTab textarea, #addStepForm input, #addStepForm textarea {
 	min-height: 0 !important;
 	background: #ffffff !important;
 	box-shadow: none !important;
 }
-#descriptionTab ul {
+#descriptionTab ul, #addStepForm ul {
 	margin-top: 8px;
 	margin-bottom: 12px;
 }
-#descriptionTab label, #descriptionTab input, #descriptionTab textarea {
+#descriptionTab label, #descriptionTab input, #descriptionTab textarea,
+#addStepForm label, #addStepForm input, #addStepForm textarea {
 	font-size: 0.85em;
 	font-weight: 400;
 }
@@ -277,3 +288,79 @@ label {
 .sequential-block * .uparrow:hover, .sequential-block * .downarrow:hover, .sequential-block * .add-item:hover {
 	background-color: #d47904;
 }
+/* add step */
+#addStepForm .label {
+	font-size: 0.85em;
+	font-weight: 400;
+	padding-top: 0.8em !important;
+	padding-bottom: 0.2em !important;
+}
+.add-data {
+	padding: 0.4em !important;
+}
+.add-data button {
+	float: left;
+	margin: 0;
+	padding-bottom: 0.5em !important;
+	padding-top: 0.5em !important;
+}
+.add-data button:after {
+	background-color: #5cb811;
+}
+#geographicData li[data-role="list-divider"] {
+	padding: 0.3em !important;
+	margin: 0 !important;
+}
+#geographicData li[data-role="list-divider"] label {
+	display: inline;
+	padding: 0.5em 1em 0.5em 2.8em !important;
+	font-size: 12.5px;
+	text-align: center;
+	font-weight: 700;
+}
+#geographicData li[data-role="list-divider"] input {
+	display: none;
+}
+.delete-data {
+	float: right;
+	margin: 4px !important;
+	height: 22px;
+	width: 22px;
+	border: none;
+	vertical-align: middle;
+	box-shadow: none;
+}
+.data-item {
+	padding: 0 !important; /* 0.7em 1em */
+}
+.textualData, .imageData, .numericData {
+	padding: 0.7em 1em 0.4em 1em !important; /* 0.7em 1em */
+}
+#geographicData li {
+	overflow: visible;
+}
+#radiusBox, #longitudeBox {
+	border-top: none;
+	padding-top: 0;
+}
+#addDataControlgroup {
+	margin-bottom: 0.8em;
+}
+#addDataControlgroup button {
+	float: none;
+}
+#addTextualData:after, #addNumericData:after, #addImageData:after {
+	background-color: #5cb811;
+}
+#showTextualData:after, #showNumericData:after, #showImageData:after {
+	background-color: #5cb811;
+}
+#showNumericData, #showImageData, #showTextualData {
+	font-size: 12.5px;
+	font-weight: 700; /*400;*/
+	padding-left: 0.6em !important;
+	padding-right: 0.6em !important;
+}/*
+#showTextualData {
+	padding-left: 2.5em !important;
+}*/

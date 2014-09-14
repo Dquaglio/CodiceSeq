@@ -12,7 +12,7 @@ define([
  'jquery',
  'underscore',
  'presenter/BaseDispatcher',
- 'collection/processowner/ProcessDataCollection'
+ 'model/processowner/collection/ProcessDataCollection'
 ], function( $, _, BaseDispatcher, ProcessDataCollection ) {
 
 	// invoca il metodo notify se la collezione contiene dei nuovi passi che richiedono approvazione 

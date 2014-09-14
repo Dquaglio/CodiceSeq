@@ -12,9 +12,9 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'collection/processowner/ProcessDataCollection',
- 'collection/processowner/ProcessCollection',
- 'collection/processowner/StepCollection',
+ 'model/processowner/collection/ProcessDataCollection',
+ 'model/processowner/collection/ProcessCollection',
+ 'model/processowner/collection/StepCollection',
  'text!view/processowner/checkStepTemplate.html',
  'text!view/processowner/approveDataTemplate.html',
  'jquerymobile'

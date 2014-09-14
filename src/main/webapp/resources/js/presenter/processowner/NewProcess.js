@@ -4,10 +4,21 @@ define([
  'backbone',
  'presenter/BasePresenter',
  'model/processowner/ProcessModel',
+ 'presenter/processowner/AddStep',
  'text!view/processowner/newProcessTemplate.html',
  'jquerymobile',
  'jquerytouch'
-], function( $, _, Backbone, BasePresenter, ProcessModel, newProcessTemplate ) {
+], function( $, _, Backbone, BasePresenter, ProcessModel, AddStep, newProcessTemplate ) {
+
+	// PRIVATE
+
+	// ritorna il paramentro get con nome "param" se presente nella url, altrimenti ritorna false
+	var getParam = function( param ) {
+		var hash = window.location.hash;
+		var expression = new RegExp("#newprocess\\?(\\w+=\\w+&)*("+param+"=(\\d{1,11}))|("+param+"=(\\w{1,20}))");
+		var result = expression.exec(hash);
+		return result ? ( Number(result[3]) || result[5]  ) : false;
+	};
 
 	// apre un popup con titolo "title" e contenuto "content"
 	var printMessage = function( title, content ) {
@@ -75,10 +86,41 @@ define([
 		$("#blocksHelp").popup("open");
 	};
 
+	var showInput = function(event) {
+		var hideDiv = $(event.target).parent().next('.hide');
+		hideDiv.toggle();
+		if(hideDiv.is(':visible')) {
+			hideDiv.find('input').prop('disabled',false);
+			hideDiv.find('input:not([type="time"])').prop('required',true);
+		}
+		else {
+			hideDiv.find('input').prop('required',false);
+			hideDiv.find('input').prop('disabled',true);
+		}
+	};
+
+	var enableInput = function( event ) {
+		var div = $(event.target).parent().next(".requiredStep");
+		var disabled = div.attr("disabled");
+		div.attr("disabled", !disabled );
+	};
+	
+	// getione dell'evento di cambio tab
+	var changeTab = function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+		var target =  $(event.target).attr("href");
+		this.currentTab = target.substring(1);
+		$(".tab, .mainTab").hide();
+		$(target).show();
+		$(".tabButton.ui-btn-active").removeClass("ui-btn-active");
+		$(event.target).addClass("ui-btn-active");
+	};
+
 	var NewProcess = BasePresenter.extend({
 
 		process: new ProcessModel({ id: 1 }),
-
+		addStepLogic: null,
 		blocks: [],
 
 		// constructor
@@ -87,6 +129,13 @@ define([
 			BasePresenter.prototype.createPage.call(this, "newprocess");
 			_.extend(this.events, BasePresenter.prototype.events);
 			this.session = options.session;
+			
+			this.addStepLogic = new AddStep({ session: options.session, blocks: this.blocks });
+			// rilancia l'evento "updated" della sub-view "addStepLogic"
+			var self = this;
+			this.listenTo( this.addStepLogic, "updated", function() {
+				self.trigger("updated");
+			});
 		},
 
 		template: _.template(newProcessTemplate),
@@ -96,15 +145,14 @@ define([
 		el: $('body'),
 
 		events: {
-			'click .tabButton': 'changeTab',
+			'click .tabButton': changeTab,
 			'click .uparrow': 'ascendBlock',
 			'click .downarrow': 'descendBlock',
 			'click #addUnorderedBlock': 'addUnorderedBlock',
 			'click #addSequentialBlock': 'addSequentialBlock',
 			'click .delete-block': 'deleteBlock',
-			'change #blocksTab .checkButton': 'enableInput',
-			'change #descriptionTab .checkButton': 'showInput',
-			'click .add-item': 'addStep',
+			'change #blocksTab .checkButton': enableInput,
+			'change #descriptionTab .checkButton': showInput,
 			'click .delete-item': 'removeStep',
 			'update .sortable': 'sortBlock',
 			'submit #descriptionForm': 'saveDescription',
@@ -132,16 +180,14 @@ define([
 				$(".tabButton[href=#"+this.currentTab+"]").click();
 		},
 
-		// getione dell'evento di cambio tab
-		changeTab: function( event ) {
-			event.preventDefault();
-			event.stopPropagation();
-			var target =  $(event.target).attr("href");
-			this.currentTab = target.substring(1);
-			$(".tab, .mainTab").hide();
-			$(target).show();
-			$(".tabButton.ui-btn-active").removeClass("ui-btn-active");
-			$(event.target).addClass("ui-btn-active");
+		update: function() {
+			if( getParam("block") ) {
+				this.addStepLogic.update( getParam("block"), getParam("step") );
+			}
+			else {
+				this.render();
+				this.trigger("updated");
+			}
 		},
 
 		ascendBlock: function( event ) {
@@ -150,31 +196,12 @@ define([
 			var target =  $(event.target).closest(".sequential-block, .unordered-block");
 			var sibiling = target.prev(".sequential-block, .unordered-block");
 			if( sibiling.length != 0 ) {
-				var blockId = target.prevAll(".sequential-block, .unordered-block").length;
-				var block = this.blocks[blockId];
-				this.blocks[blockId] = this.blocks[blockId-1];
-				this.blocks[blockId-1] = block;
+				var blockNumber = target.prevAll(".sequential-block, .unordered-block").length;
+				var block = this.blocks[blockNumber];
+				this.blocks[blockNumber] = this.blocks[blockNumber-1];
+				this.blocks[blockNumber-1] = block;
 				target.after( sibiling );
 			}
-		},
-
-		showInput: function(event) {
-			var hideDiv = $(event.target).parent().next('.hide');
-			hideDiv.toggle();
-			if(hideDiv.is(':visible')) {
-				hideDiv.find('input').prop('disabled',false);
-				hideDiv.find('input:not([type="time"])').prop('required',true);
-			}
-			else {
-				hideDiv.find('input').prop('required',false);
-				hideDiv.find('input').prop('disabled',true);
-			}
-		},
-
-		enableInput: function( event ) {
-			var div = $(event.target).parent().next(".requiredStep");
-			var disabled = div.attr("disabled");
-			div.attr("disabled", !disabled );
 		},
 
 		descendBlock: function( event ) {
@@ -183,21 +210,33 @@ define([
 			var target =  $(event.target).closest(".sequential-block, .unordered-block");
 			var sibiling = target.next(".sequential-block, .unordered-block");
 			if( sibiling.length != 0 ) {
-				var blockId = target.prevAll(".sequential-block, .unordered-block").length;
-				var block = this.blocks[blockId];
-				this.blocks[blockId] = this.blocks[blockId+1];
-				this.blocks[blockId+1] = block;
+				var blockNumber = target.prevAll(".sequential-block, .unordered-block").length;
+				var block = this.blocks[blockNumber];
+				this.blocks[blockNumber] = this.blocks[blockNumber+1];
+				this.blocks[blockNumber+1] = block;
 				sibiling.after( target );
 			}
 		},
 
 		addUnorderedBlock: function( event ) {
-			this.blocks.push({ type: "unordered", steps: [] });
+			var maxBlockId = 0;
+			for(var i=0; i<this.blocks.length; i++) {
+				if( this.blocks[i].id > maxBlockId )
+					maxBlockId = this.blocks[i].id;
+			}
+			var blockId = maxBlockId+1;
+			this.blocks.push({ id: blockId, type: "unordered", steps: [] });
 			this.render();
 		},
 
 		addSequentialBlock: function( event ) {
-			this.blocks.push({ type: "sequential", steps: [] });
+			var maxBlockId = 0;
+			for(var i=0; i<this.blocks.length; i++) {
+				if( this.blocks[i].id > maxBlockId )
+					maxBlockId = this.blocks[i].id;
+			}
+			var blockId = maxBlockId+1;
+			this.blocks.push({ id: blockId, type: "sequential", steps: [] });
 			this.render();
 		},
 
@@ -205,55 +244,37 @@ define([
 			event.preventDefault();
 			event.stopPropagation();
 			var target =  $(event.target).closest(".sequential-block, .unordered-block");
-			var blockId = target.prevAll(".sequential-block, .unordered-block").length;
-			this.blocks.splice( blockId, 1 );
+			var blockNumber = target.prevAll(".sequential-block, .unordered-block").length;
+			this.blocks.splice( blockNumber, 1 );
 			/*target.remove();*/
 			this.render();
-		},
-
-		addStep: function( event ) {
-			event.preventDefault();
-			event.stopPropagation();
-			var target =  $(event.target).closest(".sequential-block, .unordered-block");
-			var blockId = target.prevAll(".sequential-block, .unordered-block").length;
-			this.addStepLogic.newStep( this.blocks[blockId].steps );
-			/*
-			var maxStepId = 0;
-			for(var i=0; i<this.blocks[blockId].steps.length; i++) {
-				if( this.blocks[blockId].steps[i].id > maxStepId )
-					maxStepId = this.blocks[blockId].steps[i].id;
-			}
-			var stepId = maxStepId+1;
-			this.blocks[blockId].steps.push({ id: stepId, description: "step "+stepId });
-			this.render();
-			*/
 		},
 
 		removeStep: function( event ) {
 			event.preventDefault();
 			event.stopPropagation();
 			var targetBlock =  $(event.target).closest(".sequential-block, .unordered-block");
-			var blockId = targetBlock.prevAll(".sequential-block, .unordered-block").length;
+			var blockNumber = targetBlock.prevAll(".sequential-block, .unordered-block").length;
 			var targetStep = $(event.target).closest("li");
-			var stepId = targetStep.prevAll("li").length;
-			this.blocks[blockId].steps.splice( stepId, 1 );
+			var stepNumber = targetStep.prevAll("li").length;
+			this.blocks[blockNumber].steps.splice( stepNumber, 1 );
 			this.render();
 		},
 
 		sortBlock: function( event, ui ) {
 			var targetBlock =  $(event.target).closest(".sequential-block, .unordered-block");
-			var blockId = targetBlock.prevAll(".sequential-block, .unordered-block").length;
-			var fromStepId = Number( $(".sortable").attr('data-previndex') );
-			var toStepId = ui.item.index();
-			var step = this.blocks[blockId].steps[fromStepId];
-			if( toStepId > fromStepId ) {
-				for(var i=fromStepId; i<toStepId; i++)
-					this.blocks[blockId].steps[i] = this.blocks[blockId].steps[i+1];
+			var blockNumber = targetBlock.prevAll(".sequential-block, .unordered-block").length;
+			var fromStepNumber = Number( $(".sortable").attr('data-previndex') );
+			var toStepNumber = ui.item.index();
+			var step = this.blocks[blockNumber].steps[fromStepNumber];
+			if( toStepNumber > fromStepNumber ) {
+				for(var i=fromStepNumber; i<toStepNumber; i++)
+					this.blocks[blockNumber].steps[i] = this.blocks[blockNumber].steps[i+1];
 			}
-			else for(var i=fromStepId; i>toStepId; i--) {
-				this.blocks[blockId].steps[i] = this.blocks[blockId].steps[i-1];
+			else for(var i=fromStepNumber; i>toStepNumber; i--) {
+				this.blocks[blockNumber].steps[i] = this.blocks[blockNumber].steps[i-1];
 			}
-			this.blocks[blockId].steps[toStepId] = step;
+			this.blocks[blockNumber].steps[toStepNumber] = step;
 		},
 
 		saveDescription: function(event) {

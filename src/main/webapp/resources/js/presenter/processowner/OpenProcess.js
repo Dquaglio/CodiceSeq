@@ -12,7 +12,7 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'collection/processowner/ProcessCollection',
+ 'model/processowner/collection/ProcessCollection',
  'text!view/processowner/openProcessTemplate.html',
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, Processes, openProcessTemplate ) {
@@ -42,7 +42,7 @@ define([
 			$(this.id).html(this.template({
 				processes: this.collection.toJSON(),
 				username: this.session.getUsername(),
-				error: "mona"
+				error: error
 			})).enhanceWithin();
 		},
 
@@ -50,7 +50,7 @@ define([
 		update: function() {
 			var self = this;
 			this.collection.fetch().done( function() {
-				self.render({});
+				self.render();
 			}).fail( function(error) {
 				if(error.status == 0) self.render({ text: "Errore di connessione" });
 				else self.render({ text: error.status+" "+error.statusText });

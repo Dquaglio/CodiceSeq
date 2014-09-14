@@ -84,7 +84,7 @@
 					<div class="unordered-block">
 						<div class="block-header">
 							<a href="" class="uparrow"></a>
-							<a href="" class="add-item"></a>
+							<a href="#newprocess?block=<%= blocks[i].id %>" class="add-item"></a>
 							<p>Aggiungi passo</p>
 							<a href="" class="delete-block" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
@@ -92,7 +92,7 @@
 							<% for(var j=0; j<blocks[i].steps.length; j++) { %>
 								<li>
 									<a href="" class="delete-item" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-									<a href="" class="block-item"><%= blocks[i].steps[j].description %></a>
+									<a href="#newprocess?block=<%= blocks[i].id %>&step=<% blocks[i].steps[j].id %>" class="block-item"><%= blocks[i].steps[j].description %></a>
 								</li>
 							<% } if( blocks[i].steps.length == 0 ) { %>
 								<p class="description">Nessun passo presente.</p>
@@ -113,16 +113,16 @@
 					<div class="sequential-block">
 						<div class="block-header">
 							<a href="" class="uparrow"></a>
-							<a href="" class="add-item"></a>
+							<a href="#newprocess?block=<%= blocks[i].id %>" class="add-item"></a>
 							<p>Aggiungi passo</p>
 							<a href="" class="delete-block" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<ul class="sortable">
-							<% for(var k=0; k<blocks[i].steps.length; k++) { %>
+							<% for(var j=0; j<blocks[i].steps.length; j++) { %>
 								<li>
 									<img class="block-icon" src="resources/css/images/carat-ud-black.png"></img>
 									<a href="" class="delete-item" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-									<a href="" class="block-item"><%= blocks[i].steps[k].description %></a>
+									<a href="#newprocess?block=<%= blocks[i].id %>&step=<% blocks[i].steps[j].id %>" class="block-item"><%= blocks[i].steps[j].description %></a>
 								</li>
 							<% } if( blocks[i].steps.length == 0 ) { %>
 								<p class="description">Nessun passo presente.</p>
@@ -164,7 +164,7 @@
 
 </div><!-- panel -->
 
-<div data-role="popup" class="alertPanel" data-overlay-theme="b" data-history="false" data-corners="false">
+<div data-role="popup" class="alertPanel" data-overlay-theme="a" data-history="false" data-corners="false">
 	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
 	<div data-role="header">
 		<h3></h3>
