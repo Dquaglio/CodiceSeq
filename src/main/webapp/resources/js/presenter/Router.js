@@ -102,15 +102,16 @@ define([
 
 		home: function() {
 			if(typeof this.presenters["#home"] == 'undefined') {
-				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home");
+				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home",true);
 				else load.call(this,'presenter/processowner/MainProcessOwner',"#home",true);
 			}
+			else if( this.userData.isUser() ) changePage("#home");
 			else this.presenters["#home"].update();
 		},
 
 		newProcess: function() {
 			if(typeof this.presenters["#newprocess"] == 'undefined') {
-				if( this.userData.isUser() ) window.location.replace( "#home" );
+				if( this.userData.isUser() ) window.location.assign("#home");
 				else load.call(this,'presenter/processowner/NewProcess',"#newprocess");
 			}
 			else changePage("#newprocess");
@@ -118,7 +119,7 @@ define([
 
 		processes: function() {
 			if(typeof this.presenters["#processes"] == 'undefined') {
-				if( this.userData.isUser() ) {}
+				if( this.userData.isUser() ) window.location.assign("#home");
 				else load.call(this,'presenter/processowner/OpenProcess',"#processes",true);
 			}
 			else this.presenters["#processes"].update();
@@ -126,7 +127,7 @@ define([
 
 		checkStep: function() {
 			if(typeof this.presenters["#checkstep"] == 'undefined') {
-				if( this.userData.isUser() ) window.location.replace("#home");
+				if( this.userData.isUser() ) window.location.assign("#home");
 				else load.call(this,'presenter/processowner/CheckStep',"#checkstep",true);
 			}
 			else this.presenters["#checkstep"].update();

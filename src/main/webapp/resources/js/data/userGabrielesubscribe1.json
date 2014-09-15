@@ -1,7 +1,12 @@
 [
 	{
+		"stepId": 2,
+		"username": "Gabriele",
+		"state": ""
+	},
+	{
 		"stepId": 1,
 		"username": "Gabriele",
-		"state": "ONGOING"
+		"state": "APPROVED"
 	}
 ]

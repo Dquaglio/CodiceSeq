@@ -11,7 +11,7 @@ define([
  'jquery',
  'backbone',
  'model/user/StepModel'
-], function( $, Backbone, StepModel ){
+], function( $, Backbone, StepModel, ProcessCollection ){
 
 	var StepCollection = Backbone.Collection.extend({
 
@@ -49,6 +49,15 @@ define([
 				deferreds.push( this.models[i].fetch() );
 			}
 			return deferreds;
+		},
+
+		fetchApproved: function() {
+			var url = "";
+			return $.ajax({	
+				type: "GET",
+				url: url,
+				dataType: "json"
+			});
 		}
 
 	});

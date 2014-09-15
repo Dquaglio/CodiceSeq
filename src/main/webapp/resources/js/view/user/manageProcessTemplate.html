@@ -1,0 +1,125 @@
+<%
+/*!
+* \File: manageProcessTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-13
+* \Class: manageProcessTemplate
+* \Package: com.sirius.sequenziatore.client.view.user
+* \Brief: template della pagina di gestione di un processo
+*/
+%>
+<div data-role="header">
+	<h1>
+		<% if( !error ) { %> 
+			<%= process.name %>
+		<% } else { %>
+			Gestione processo
+		<% } %>
+	</h1>
+	<div class="ui-btn-left">
+		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+	</div>
+</div><!-- /header -->
+
+<% if( !error ) { %>
+
+	<% var missingSteps = _.filter( steps, function(step) { return step.state!='APPROVED' }).length; %>
+
+	<div id="content">
+
+		<ul data-role="listview" data-inset="true">
+			<li data-role="fieldcontain">
+				<p class="description"><%= process.description %></p>
+			</li>
+			<li data-role="fieldcontain">
+				<% if( !missingSteps && subscribed ) { %>
+					<p>Processo completato con successo!</p>
+					<button id="eliminateProcess" data-inline="true">Elimina processo</button>
+				<% } if(process.terminated) { %>
+					<p>stato processo: <span class="error"><strong>terminato</strong></span></p>
+					<button id="eliminateProcess" data-inline="true">Elimina processo</button>
+				<% } else if(subscribed) { %>
+					<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
+					<button id="unsubscribe" data-inline="true">Disiscriviti</button>
+				<% } else { %>
+					<button id="subscribe" data-inline="true">Iscriviti</button>
+				<% } %>
+			</li>	
+		</ul>
+
+		<% if( steps.length && !process.terminated ) { %>
+			<ul data-role="listview" data-inset="true" class="spacedList">
+				<li data-role="list-divider">
+					<h3 class="description">Passi correnti</h3>
+				</li>
+				<% _.each(steps, function(step) {
+					if(step.state == "APPROVED") {
+						
+					} else if(step.state == "EXPENTANT") { %>
+						<li data-role="fieldcontain">
+							<p><%= step.description %></p>
+							<p><strong>in attesa di approvazione</strong></p>
+						</li>
+					<% } else { %>
+						<li>
+							<a class="link" href="#process?id=<%= process.id %>&step=<%= step.id %>">
+								<p><%= step.description %></p>
+								<% if(step.state == "REJECTED") { %>
+									<p><strong class="error">respinto</strong></p>
+								<% } %>
+							</a>
+						</li>
+					<% } 
+				}); %>
+			</ul>
+		<% } %>
+
+	</div><!-- /content -->
+
+<% } else { %>
+
+	<div id="content">
+		<ul data-role="listview" data-inset="true">
+			<% if( error.status == 0) { %>
+				<li data-role="list-divider">
+					<h3><%= error.text %></h3>
+				</li>
+				<li data-role="fieldcontain">
+					<button id="reloadPage" data-inline="true">Ricarica</button>
+				</li>
+			<% } else { %>
+				<li data-role="list-divider">
+					<h3>Errore</h3>
+				</li>
+				<li data-role="fieldcontain">
+					<p class="description">
+						<%= error.text %>. Torna alla <a href="#processes">Gestione dei processi</a>.
+					</p>
+				</li>
+			<% } %>
+		</ul>
+	</div><!-- /content error -->
+
+<% } %>
+
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+	
+	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+	<p>Ciao <%= username %>!</p>
+	
+	<a data-role="button" id="logout" data-icon="power">Logout</a>
+
+</div><!-- panel -->
+
+<div data-role="popup" class="alertPanel" data-overlay-theme="b" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h3></h3>
+	</div>
+	<div role="main" class="ui-content">
+		<p></p>
+	</div>
+</div><!-- /alert -->

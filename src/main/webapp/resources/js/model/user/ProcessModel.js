@@ -27,14 +27,22 @@ define([
 		},
 
 		fetch: function() {
-			return $.when(
-				this.steps.fetch(),
-				this.constructor.__super__.fetch.apply(this)
-			);
+			var self = this;
+			var deferred = $.Deferred();
+			this.constructor.__super__.fetch.apply(this).done( function() {
+				self.steps.fetch().done( function() {
+					deferred.resolve({ subscribed: true });
+				}).fail( function(error) {
+					var status = new String(error.status);
+					if( status.match(/^5\d\d$/) ) deferred.resolve({ subscribed: false });
+					else deferred.reject(error);
+				});
+			}).fail( function( error ) { deferred.reject(error); });
+			return deferred.promise();
 		},
 
-		subscribe: function( username ) {
-			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
+		subscribe: function( options ) {
+			var url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+this.id;
 			var data = { subscription: true };
 			return $.ajax({
 				type: "POST",
@@ -43,8 +51,8 @@ define([
 			});
 		},
 
-		unsubscribe: function() {
-			var url = "http://localhost:8080/sequenziatore/user/"+username+"/subscribe/"+this.id;
+		unsubscribe: function( options ) {
+			var url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+this.id;
 			var data = { subscription: false };
 			return $.ajax({
 				type: "POST",

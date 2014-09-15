@@ -1,0 +1,11 @@
+[
+	{
+		"id":3,
+		"name":"Indagine di mercato",
+		"description":"invia il miglior prezzo per i libri richiesti",
+		"imageUrl":"Default",
+		"stepsId": [1,2],
+		"terminated": false,
+		"eliminated": false
+	}
+]

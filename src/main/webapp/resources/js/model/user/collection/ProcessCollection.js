@@ -15,7 +15,7 @@ define([
 
 	var ProcessCollection = Backbone.Collection.extend({
 
-		initialize: function( options ) {
+		initialize: function( models, options ) {
 			this.baseUrl = "resources/js/data/user"+options.username+"processlist";
 			//this.baseUrl = "http://localhost:8080/sequenziatore/user/"+options.username+"/processlist";
 		},
@@ -24,6 +24,7 @@ define([
 
 		fetch: function( options ) {
 			this.url = this.baseUrl+options.running+".json";
+			console.log( this.url );
 			// this.url = this.baseUrl+"/"+options.runnign;
 			return this.constructor.__super__.fetch.apply(this);
 		}

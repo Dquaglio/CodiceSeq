@@ -47,7 +47,7 @@ define([
 		// gestione della notifica dell'evento: un passo richiede approvazione
 		notifyWaitingData: function( collection ) {
 			if( collection.length != this.waitingDataNumber ) {
-				collection.length = this.waitingDataNumber;
+				this.waitingDataNumber = collection.length;
 				this.render();
 			}
 		},
