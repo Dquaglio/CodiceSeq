@@ -3,6 +3,7 @@
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+		<a href="" class="back" data-role="button" data-iconpos="notext" data-icon="back">Back</a>
 	</div>
 </div><!-- /header -->
 
@@ -10,187 +11,145 @@
 
 	<form id="addStepForm" accept-charset="utf-8" data-block="<%= blockId %>" data-step="<%= step.id %>">
 
-		<ul data-role="listview" data-inset="true">
+		<ul data-role="listview" data-inset="true" name="description">
 			<li data-role="fieldcontain">
 				<label for="stepDescription">Descrizione passo:</label>
-				<input type="text" pattern="(\w| )*\w+(\w| )*" id="processName" maxlength="25" value="<%= step.description ? step.description : null %>" required />
+				<textarea id="processDescription" maxlength="300" required><%= step._description ? step._description : step.description %></textarea>
 			</li>
 			<li data-role="fieldcontain">
 				<label for="requiresApproval">Richiede approvazione</label>
-				<input type="checkbox" id="requiresApproval" <%= step.requiresApproval ? "checked" : null %>/>
+				<input type="checkbox" id="requiresApproval" <%= step._requiresApproval || step.requiresApproval ? "checked" : null %>/>
 				<label for="optional">Passo opzionale</label>
-				<input type="checkbox" id="optional" <%= step.optional ? "checked" : null %>/>
+				<input type="checkbox" id="optional" <%= step._optional || step.optional ? "checked" : null %>/>
 				<p class="label">Aggiungi dato:</p>
-				<% if( step ) {
-					var textualData = step.textualData;
-					var _textualData = step._textualData;
-					var imageData = step.imageData;
-					var _imageData = step._imageData;
-					var numericData = step.numericData;
-					var _numericData = step._numericData;
-				} if(!((textualData||_textualData)&&(imageData||_imageData)&&(numericData||_numericData))) { %>
-					<div data-role="controlgroup" data-type="horizontal" id="buttonsArea" data-corners="false">
-						<% if( !textualData && !_textualData ) { %>
-							<button data-mini="true" data-inline="false" id="showTextualData">Testuale</button>
-						<% } if( !imageData && !_imageData ) { %>
-							<button data-mini="true" data-inline="false" id="showImageData">Immagine</button>
-						<% } if( !numericData && !_numericData ) { %>
-							<button data-mini="true" data-inline="false" id="showNumericData">Numerico</button>
+				<div data-role="controlgroup" data-type="horizontal" id="buttonsArea" data-corners="false">
+					<% if( step ) {
+						var textualData = step._textualData ? step._textualData : step.textualData;
+						var imageData = step._imageData ? step._imageData : step.imageData;
+						var numericData = step._numericData ? step._numericData : step.numericData;
+					} if(!( textualData && imageData && numericData )) { %>
+						<% if( !textualData ) { %>
+							<button data-mini="true" data-inline="false" id="addTextualData">Testuale</button>
+						<% } if( !imageData ) { %>
+							<button data-mini="true" data-inline="false" id="addImageData">Immagine</button>
+						<% } if( !numericData ) { %>
+							<button data-mini="true" data-inline="false" id="addNumericData">Numerico</button>
 						<% } %>
-						<button data-role="button" data-icon="info" data-mini="true" class="helpButton"></button>
-					</div>
-				<% } %>
+					<% } %>
+					<button data-role="button" data-icon="info" data-mini="true" class="helpButton">Help</button>
+				</div>
 		
 			</li>
 		</ul>
 
-		<div class="hide<%= textualData || _textualData ? " visible" : null %>">
+		<div class="hide<%= textualData ? " visible" : null %>">
 			<ul data-role="listview" data-inset="true" id="textualDataList">
 				<li data-role="list-divider" class="add-data">
 					<button data-icon="plus" data-mini="true" data-inline="true" id="addTextualData">Dato testuale</button>
 				</li>
-				<% if(_textualData) { _.each( _textualData, function( data ) { %>
+				<% if(textualData) { _.each( textualData, function( data ) { %>
 					<li data-role="fieldcontain" class="data-item">
 						<div>
 							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<div class="textualData">
 							<label>Etichetta dato:</label>
-							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= data.description %>"/>
+							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= data.description %>" required />
 						</div>
 					</li>
-				<% }); } else { _.each( textualData, function( data ) { %>
+				<% }); } if( !textualData || !textualData.length ) { %>
 					<li data-role="fieldcontain" class="data-item">
 						<div>
 							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<div class="textualData">
 							<label>Etichetta dato:</label>
-							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= data.description %>"/>
+							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" <%= textualData ? "required" : null %> />
 						</div>
 					</li>
-				<% }); } %>
-				<li data-role="fieldcontain" class="data-item">
-					<div>
-						<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-					</div>
-					<div class="textualData">
-						<label>Etichetta dato:</label>
-						<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25"/>
-					</div>
-				</li>
+				<% } %>
 			</ul>
 		</div>
 
-		<div class="hide<%= imageData || _imageData ? " visible" : null %>">
+		<div class="hide<%= imageData ? " visible" : null %>">
 			<ul data-role="listview" data-inset="true" id="imageDataList">
 				<li data-role="list-divider" class="add-data">
 					<button data-icon="plus" data-mini="true" data-inline="true" id="addImageData">Immagine</button>
 				</li>
-				<% if(_imageData) { _.each( _imageData, function( data ) { %>
+				<% if(imageData) { _.each( imageData, function( data ) { %>
 					<li data-role="fieldcontain" class="data-item">
 						<div>
 							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<div class="imageData">
 							<label>Etichetta immagine:</label>
-							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= data.description %>"/>
+							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= data.description %>" required />
 						</div>
 					</li>
-				<% }); } else { _.each( imageData, function( data ) { %>
+				<% }); } if(!imageData || !imageData.length) { %>
 					<li data-role="fieldcontain" class="data-item">
 						<div>
 							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<div class="imageData">
-							<label for="stepDescription">Etichetta immagine:</label>
-							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= data.description %>"/>
+							<label>Etichetta immagine:</label>
+							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" <%= imageData ? "required" : null %> />
 						</div>
 					</li>
-				<% }); } %>
-				<li data-role="fieldcontain" class="data-item">
-					<div>
-						<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-					</div>
-					<div class="imageData">
-						<label>Etichetta immagine:</label>
-						<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25"/>
-					</div>
-				</li>
+				<% } %>
 			</ul>
 		</div>
 
-		<div class="hide<%= numericData || _numericData ? " visible" : null %>">
+		<div class="hide<%= numericData ? " visible" : null %>">
 			<ul data-role="listview" data-inset="true" id="numericDataList">
 				<li data-role="list-divider" class="add-data">
 					<button data-icon="plus" data-mini="true" data-inline="true" id="addNumericData">Dato numerico</button>
 				</li>
-				<% if(_numericData) { for(var i=0; i<_numericData.length; i++) { %>
+				<% if(numericData) { for(var i=0; i<numericData.length; i++) { %>
 					<li data-role="fieldcontain" class="data-item">
 						<div>
 							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<div class="numericData">
 							<label>Etichetta dato:</label>
-							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= _numericData[i].description %>"/>
-							<label for="isDecimal<%= i %>">Cifre decimali permesse</label>
-							<input type="checkbox" id="isDecimal<%= i %>" <%= _numericData[i].isDecimal ? "checked" : null %>/>
-							<input type="checkbox" id="minValueCheck<%= i %>" class="checkButton" <%= _numericData[i].minValue ? "checked" : null %>/>
-							<label for="minValueCheck<%= i %>">Valore minimo</label>
-							<div class="hide<%= _numericData[i].minValue ? " visible" : null %>">
-								<input type="number" id="minValue-<%= i %>" min="-999999999" max="999999999" value="<%= _numericData[i].minValue %>"/>
-							</div>
-							<input type="checkbox" id="maxValueCheck<%= i %>" class="checkButton" <%= _numericData[i].maxValue ? "checked" : null %>/>
-							<label for="maxValueCheck<%= i %>">Valore massimo</label>
-							<div class="hide<%= _numericData[i].maxValue ? " visible" : null %>">
-								<input type="number" id="maxValue-<%= i %>" min="-999999999" max="999999999" value="<%= _numericData[i].maxValue %>"/>
-							</div>
-						</div>
-					</li>
-				<% }} else if(numericData) { for(var i=0; i<numericData.length; i++) { %>
-					<li data-role="fieldcontain" class="data-item">
-						<div>
-							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-						</div>
-						<div class="numericData">
-							<label>Etichetta dato:</label>
-							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= numericData[i].description %>"/>
+							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= numericData[i].description %>" required />
 							<label for="isDecimal<%= i %>">Cifre decimali permesse</label>
 							<input type="checkbox" id="isDecimal<%= i %>" <%= numericData[i].isDecimal ? "checked" : null %>/>
 							<input type="checkbox" id="minValueCheck<%= i %>" class="checkButton" <%= numericData[i].minValue ? "checked" : null %>/>
 							<label for="minValueCheck<%= i %>">Valore minimo</label>
 							<div class="hide<%= numericData[i].minValue ? " visible" : null %>">
-								<input type="number" id="minValue-<%= i %>" min="-999999999" max="999999999" value="<%= numericData[i].minValue %>"/>
+								<input type="number" id="minValue-<%= i %>" min="-999999999" max="999999999" value="<%= numericData[i].minValue %>" <%= numericData[i].minValue ? "required" : null %> />
 							</div>
 							<input type="checkbox" id="maxValueCheck<%= i %>" class="checkButton" <%= numericData[i].maxValue ? "checked" : null %>/>
 							<label for="maxValueCheck<%= i %>">Valore massimo</label>
 							<div class="hide<%= numericData[i].maxValue ? " visible" : null %>">
-								<input type="number" id="maxValue-<%= i %>" min="-999999999" max="999999999" value="<%= numericData[i].maxValue %>"/>
+								<input type="number" id="maxValue-<%= i %>" min="-999999999" max="999999999" value="<%= numericData[i].maxValue %>" <%= numericData[i].maxValue ? "required" : null %> />
 							</div>
 						</div>
 					</li>
-				<% }} %>
-				<li data-role="fieldcontain" class="data-item">
-					<div>
-						<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-					</div>
-					<div class="numericData">
-						<label for="stepDescription">Etichetta dato:</label>
-						<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25"/>
-						<label for="isDecimal">Cifre decimali permesse</label>
-						<input type="checkbox" id="isDecimal"/>
-						<input type="checkbox" id="minValueCheck" class="checkButton"/>
-						<label for="minValueCheck">Valore minimo</label>
-						<div class="hide">
-							<input type="number" id="minValue" min="-999999999" max="999999999"/>
+				<% } } if(!numericData || !numericData.length) { %>
+					<li data-role="fieldcontain" class="data-item">
+						<div>
+							<a href="" class="delete-data" title="elimina dato" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
-						<input type="checkbox" id="maxValueCheck" class="checkButton"/>
-						<label for="maxValueCheck">Valore massimo</label>
-						<div class="hide">
-							<input type="number" id="maxValue" min="-999999999" max="999999999"/>
+						<div class="numericData">
+							<label for="stepDescription">Etichetta dato:</label>
+							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" <%= numericData ? "required" : null %> />
+							<label for="isDecimal">Cifre decimali permesse</label>
+							<input type="checkbox" id="isDecimal"/>
+							<input type="checkbox" id="minValueCheck" class="checkButton"/>
+							<label for="minValueCheck">Valore minimo</label>
+							<div class="hide">
+								<input type="number" id="minValue" min="-999999999" max="999999999"/>
+							</div>
+							<input type="checkbox" id="maxValueCheck" class="checkButton"/>
+							<label for="maxValueCheck">Valore massimo</label>
+							<div class="hide">
+								<input type="number" id="maxValue" min="-999999999" max="999999999"/>
+							</div>
 						</div>
-					</div>
-				</li>
+					</li>
+				<% } %>
 			</ul>
 		</div>
 
@@ -204,21 +163,21 @@
 			</li>
 			<li data-role="fieldcontain">
 				<label for="latitude">Latitudine:</label>
-				<input id="latitude" type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= geographicData ? geographicData.latitude : null %>"/>
+				<input id="latitude" type="text" pattern="(\+|-)?\d+(.\d+)?" maxlength="25" value="<%= geographicData ? geographicData.latitude : null %>" <%= geographicData ? "required" : null %> />
 			</li>
 			<li data-role="fieldcontain" id="longitudeBox">
 				<label for="longitude">Longitudine:</label>
-				<input id="longitude" type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= geographicData ? geographicData.longitude : null %>"/>
+				<input id="longitude" type="text" pattern="(\+|-)?\d+(.\d+)?" maxlength="25" value="<%= geographicData ? geographicData.longitude : null %>" <%= geographicData ? "required" : null %> />
 			</li>
 			<li data-role="fieldcontain" id="radiusBox">
-				<label for="radius">Raggio:</label>
-				<input id="radius" type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= geographicData ? geographicData.radius : null %>"/>
+				<label for="radius">Raggio (metri):</label>
+				<input id="radius" type="text" pattern="\+?\d+(.\d+)?" maxlength="25" value="<%= geographicData ? geographicData.radius : null %>"/>
 			</li>
 		</ul>
 
 		<div data-role="controlgroup" data-type="horizontal">
-			<button type="submit" data-icon="check" data-inline="true" data-mini="true" id="saveDescription">Salva descrizione</button>
-			<button data-icon="forbidden" data-inline="true" data-mini="true" id="cancelDescription">Annulla</button>
+			<button type="submit" data-icon="check" data-inline="true" data-mini="true" id="saveStep">Salva passo</button>
+			<button data-icon="forbidden" data-inline="true" data-mini="true" id="cancelStep">Annulla</button>
 		</div>
 	
 	</form>
@@ -248,12 +207,15 @@
 <div data-role="popup" id="blocksHelp" data-overlay-theme="a" data-history="false" data-corners="false">
 	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
 	<div data-role="header">
-		<h3>Blocchi</h3>
+		<h3>Nuovo dato</h3>
 	</div>
 	<div role="main" class="ui-content">
-		<p><strong>Sequenziale:</strong></p>
-		<p>blocco che consente di stabilire l'ordine con cui dovranno essere eseguiti i passi.</p>
-		<p><strong>Non ordinato:</strong></p>
-		<p>blocco i cui passi possono essere eseguiti con ordine a piacere.</p>
+		<p>Per superare il passo, è possibile richiedere dei dati scelti tra le seguenti tipologie.</p>
+		<p><strong>Testuale:</strong></p>
+		<p>L'utente dovrà inserire del testo non nullo.</p>
+		<p><strong>Immagine:</strong></p>
+		<p>L'utente dovrà caricare un'immagine o scattare una foto.</p>
+		<p><strong>Numerico:</strong></p>
+		<p>L'utente dovrà inserire un numero che rispetti i vincoli stabiliti.</p>
 	</div>
 </div><!-- /blocksHelp -->

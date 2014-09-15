@@ -53,7 +53,7 @@ define([
 				require([resource], function( EventDispatcher ) {
 					self.eventDispatcher = new EventDispatcher();
 					self.eventDispatcher.addObserver( presenter );
-					self.eventDispatcher.startListen();
+					//self.eventDispatcher.startListen();
 				});
 			}
 		}
@@ -111,9 +111,9 @@ define([
 		newProcess: function() {
 			if(typeof this.presenters["#newprocess"] == 'undefined') {
 				if( this.userData.isUser() ) window.location.replace( "#home" );
-				else load.call(this,'presenter/processowner/NewProcess',"#newprocess",true);
+				else load.call(this,'presenter/processowner/NewProcess',"#newprocess");
 			}
-			else this.presenters["#newprocess"].update();
+			else changePage("#newprocess");
 		},
 
 		processes: function() {

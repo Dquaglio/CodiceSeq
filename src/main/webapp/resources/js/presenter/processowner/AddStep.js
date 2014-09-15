@@ -1,3 +1,12 @@
+/*!
+* \File: AddStep.js
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-08-31
+* \Class: AddStep
+* \Package: com.sirius.sequenziatore.client.presenter.processowner
+* \Brief: Gestione della creazione di un passo
+*/
 define([
  'jquery',
  'underscore',
@@ -7,6 +16,16 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, addStepTemplate ) {
 
+	// PRIVATE
+
+	// apre un popup con titolo "title" e contenuto "content"
+	var printMessage = function( title, content ) {
+		$("#newprocess .alertPanel h3").text( title );
+		$("#newprocess .alertPanel p").text( content );
+		$("#newprocess .alertPanel").popup("open");
+	};
+
+	// mostra e rende obbligatori i campi dati selezionati
 	var showInput = function( event ) {
 		var hideDiv = $(event.target).parent().next('.hide');
 		hideDiv.toggle();
@@ -20,96 +39,62 @@ define([
 		}
 	};
 
-	var addTextualData = function( event, empty ) {
+	// cambia il vincolo di obbligatorietà dei dati geografici
+	var changeConstraints = function( event ) {
+		if( $(event.target).is(":checked") )
+			$('#latitude, #longitude').prop('required',true);
+		else $('#latitude, #longitude').prop('required',false);
+	};
+
+	// controlla la validità della descrizione description
+	var validateDescription = function( description ) {
+		if( description.length > 0 ) return null;
+		else return "compilare il campo descrizione";
+	};
+
+	// aggiorna la lista dei dati testuali
+	var updateTextualData = function( event, empty ) {
 		event.preventDefault();
 		event.stopPropagation();
-		var empty = typeof empty !== "undefined" ? empty : false;
-		var self = this;
-		var blockId = Number( $('#addStepForm').attr('data-block') );
-		var stepId = Number( $('#addStepForm').attr('data-step') );
-		var block = _.findWhere( self.blocks, { id: blockId } );
-		if( !block ) {} // block error;
-		else {
-			var step = _.findWhere( block.steps, { id: stepId } );
-			if ( !step ) {} // step error;
-			else {
-				var data = [];
-				$("#textualDataList .textualData").each(function( index, element ) {
-					var description = $(element).find('input').val().trim();
-					if( description ) data.push({ id: index, description: description });
-				});
-				if( empty ) step["_textualData"] = data.length ? data : null;
-				else step["_textualData"] = data;
-				this.render({ blockId: blockId, step: step });
-			}
+		var options = getData.call(this);
+		if( options ) {	
+			if( typeof empty == "undefined" ) options.step._textualData.push({});
+			else if( empty && !options.step._textualData.length ) options.step._textualData = null;
+			if( !$('#imageDataList').parent().is(':visible') ) options.step._imageData = null;
+			if( !$('#numericDataList').parent().is(':visible') ) options.step._numericData = null;
+			this.render( options );
 		}
 	};
 
-	var addImageData = function( event, empty ) {
+	// aggiorna la lista dei dati di tipo immagine
+	var updateImageData = function( event, empty ) {
 		event.preventDefault();
 		event.stopPropagation();
-		var empty = typeof empty !== "undefined" ? empty : false;
-		var self = this;
-		var blockId = Number( $('#addStepForm').attr('data-block') );
-		var stepId = Number( $('#addStepForm').attr('data-step') );
-		var block = _.findWhere( self.blocks, { id: blockId } );
-		if( !block ) {} // block error;
-		else {
-			var step = _.findWhere( block.steps, { id: stepId } );
-			if ( !step ) {} // step error;
-			else {
-				var data = [];
-				$("#imageDataList .imageData").each(function( index, element ) {
-					var description = $(element).find('input').val().trim();
-					if( description ) data.push({ id: index, description: description });
-				});
-				if( empty ) step["_imageData"] = data.length ? data : null;
-				else step["_imageData"] = data;
-				this.render({ blockId: blockId, step: step });
-			}
+		var options = getData.call(this);
+		if( options ) {
+			if( typeof empty == "undefined" ) options.step._imageData.push({});
+			else if( empty && !options.step._imageData.length ) options.step._imageData = null;
+			if( !$('#textualDataList').parent().is(':visible') ) options.step._textualData = null;
+			if( !$('#numericDataList').parent().is(':visible') ) options.step._numericData = null;
+			this.render( options );
 		}
 	};
 
-	var addNumericData = function( event, empty ) {
+	// aggiorna la lista dei dati numerici
+	var updateNumericData = function( event, empty ) {
 		event.preventDefault();
 		event.stopPropagation();
-		var empty = typeof empty !== "undefined" ? empty : false;
-		var self = this;
-		var blockId = Number( $('#addStepForm').attr('data-block') );
-		var stepId = Number( $('#addStepForm').attr('data-step') );
-		var block = _.findWhere( self.blocks, { id: blockId } );
-		if( !block ) {} // block error;
-		else {
-			var step = _.findWhere( block.steps, { id: stepId } );
-			if ( !step ) {} // step error;
-			else {
-				var data = [];
-				$("#numericDataList .numericData").each(function( index, element ) {
-					var options = { id: index };
-					options.description = $(element).find('input').first().val().trim();
-					options.isDecimal = false;
-					options.minValue = null;
-					options.maxValue = null;
-					if( options.description ) {
-						if( $(element).find('[id^="isDecimal"]').is(":checked") ) options.isDecimal = true;
-						if( $(element).find('[id^="minValueCheck"]').is(":checked") ) {
-							var minValue = $(element).find('[id|="minValue"]').val().trim();
-							if( minValue.match(/^(\+|-)?\d{1,9}$/) ) options.minValue = Number(minValue);
-						}
-						if( $(element).find('[id^="maxValueCheck"]').is(":checked") ) {
-							var maxValue = $(element).find('[id|="maxValue"]').val().trim();
-							if( maxValue.match(/^(\+|-)?\d{1,9}$/) ) options.maxValue = Number(maxValue);
-						}
-						data.push( options );
-					}
-				});
-				if( empty ) step["_numericData"] = data.length ? data : null;
-				else step["_numericData"] = data;
-				this.render({ blockId: blockId, step: step });
-			}
+		var options = getData.call(this);
+		if( options ) {
+			if( typeof empty == "undefined" ) options.step._numericData.push({});
+			else if( empty && !options.step._numericData.length ) options.step._numericData = null;
+			if( !$('#textualDataList').parent().is(':visible') ) options.step._textualData = null;
+			if( !$('#imageDataList').parent().is(':visible') ) options.step._imageData = null;
+			this.render( options );
 		}
 	};
 
+	// rimuove il dato selezionato
 	var deleteData = function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -118,32 +103,157 @@ define([
 		var textual = Boolean( $(target).find('.textualData').length );
 		var numeric = Boolean( $(target).find('.numericData').length );
 		var image = Boolean( $(target).find('.imageData').length );
-		$(target).remove();
-		if( textual ) addTextualData.call( this, event, !hasSiblings );
-		else if( numeric ) addNumericData.call( this, event, !hasSiblings );
-		else if( image ) addImageData.call( this, event, !hasSiblings );
+		$(target).find('input').first().val("");
+		if( textual ) updateTextualData.call( this, event, !hasSiblings );
+		else if( numeric ) updateNumericData.call( this, event, !hasSiblings );
+		else if( image ) updateImageData.call( this, event, !hasSiblings );
 	};
 
-	var showTextualData = function( event ) {
-		event.preventDefault();
-		event.stopPropagation();
-		$(event.target).hide();
-		$('#textualDataList').parent().show();
+	// restituisce i dati e i vincoli inseriti dall'utente relativi al passo in creazione
+	var getData = function() {
+		var blockId = Number( $('#addStepForm').attr('data-block') );
+		var stepId = Number( $('#addStepForm').attr('data-step') );
+		var block = _.findWhere( this.blocks, { id: blockId } );;
+		var step = _.findWhere( block.steps, { id: stepId } );
+		step._description = $("#processDescription").val().trim();
+		step._requiresApproval = $("#requiresApproval").is(":checked");
+		step._optional = $("#optional").is(":checked");
+		step._geographicData = getGeographicData();
+		var index = 1;
+		step._textualData = getTextualData( index );
+		index += step._textualData.length;
+		step._imageData = getImageData( index );
+		index += step._imageData.length;
+		step._numericData = getNumericData( index );
+		var options = { blockId: blockId, step: step };
+		return options;
 	};
 
-	var showNumericData = function( event ) {
-		event.preventDefault();
-		event.stopPropagation();
-		$(event.target).hide();
-		$('#numericDataList').parent().show();
+	// restituisce vincoli geografici inseriti dall'utente
+	var getGeographicData = function() {
+		var geographicData = null;
+		if( $('#geographicDataCheck').is(":checked") ) {
+			var latitude = $("#latitude").val().trim();
+			latitude = latitude.match(/^(\+|-)?\d+(.\d+)?$/) ? latitude : null;
+			var longitude = $("#longitude").val().trim();
+			longitude = longitude.match(/^(\+|-)?\d+(.\d+)?$/) ? longitude : null;
+			var radius = $("#radius").val().trim();
+			radius = radius.match(/^(\+|-)?\d+(.\d+)?$/) ? radius : null;
+			if( latitude && longitude )
+				geographicData = { latitude: latitude, longitude: longitude, radius: radius, altitude: 0 };
+		}
+		return geographicData;
 	};
 
-	var showImageData = function( event ) {
+	// restituisce la lista dei dati testuali inseriti dall'utente
+	var getTextualData = function( index ) {
+		var textualData = [];
+		$("#textualDataList .textualData").each(function( i, element ) {
+			var description = $(element).find('input').val().trim();
+			if( description ) textualData.push({ id: index+i, description: description });
+		});
+		return textualData;
+	};
+
+	// restituisce la lista dei dati di tipo immagine inseriti dall'utente
+	var getImageData = function( index ) {
+		var imageData = [];
+		$("#imageDataList .imageData").each(function( i, element ) {
+			var description = $(element).find('input').val().trim();
+			if( description ) imageData.push({ id: index+i, description: description });
+		});
+		return imageData;
+	};
+
+	// restituisce la lista dei dati numerici inseriti dall'utente
+	var getNumericData = function( index ) {
+		var numericData = [];
+		$("#numericDataList .numericData").each(function( i, element ) {
+			var options = { id: index+i };
+			options.description = $(element).find('input').first().val().trim();
+			if( options.description ) {
+				options.isDecimal = $(element).find('[id^="isDecimal"]').is(":checked");
+				options.minValue = null;
+				if( $(element).find('[id^="minValueCheck"]').is(":checked") ) {
+					var minValue = $(element).find('[id|="minValue"]').val().trim();
+					if( minValue.match(/^(\+|-)?\d{1,9}$/) ) options.minValue = Number(minValue);
+				}
+				options.maxValue = null;
+				if( $(element).find('[id^="maxValueCheck"]').is(":checked") ) {
+					var maxValue = $(element).find('[id|="maxValue"]').val().trim();
+					if( maxValue.match(/^(\+|-)?\d{1,9}$/) ) options.maxValue = Number(maxValue);
+				}
+				numericData.push( options );
+			}
+		});
+		return numericData;
+	};
+
+	// annulla la modifica/creazione del passo
+	var cancelStep = function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
-		$(event.target).hide();
-		$('#imageDataList').parent().show();
+		var blockId = Number( $('#addStepForm').attr('data-block') );
+		var stepId = Number( $('#addStepForm').attr('data-step') );
+		var block = _.findWhere( this.blocks, { id: blockId } );
+		if( block ) {
+			var step = _.findWhere( block.steps, { id: stepId } );
+			if ( step ) {
+				delete step["_textualData"];
+				delete step["_imageData"];
+				delete step["_numericData"];
+			}
+		}
+		this.trigger("updated");
 	};
+
+	// salva il passo se i dati inseriti dall'utente rispettano i vincoli
+	var saveStep = function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+		var options = getData.call(this);
+		if( options ) {
+			var block = _.findWhere( this.blocks, { id: options.blockId } );
+			var step = options.step;
+			var error = null;
+			if( !step._geographicData && !step._textualData.length && !step._imageData.length && !step._numericData.length ) {
+				error = "Il passo deve contenere almeno un dato o un vincolo geografico.";
+			}
+			if(!error) error = validateDescription( step._description );
+			if( !error ) {
+				step.description = step._description;
+				step._description = null;
+				step.requiresApproval = step._requiresApproval;
+				step._requiresApproval = null;
+				step.optional = step._optional;
+				step._optional = null;
+				step.geographicData = step._geographicData;
+				step._geographicData = null;
+				step.textualData = step._textualData;
+				step._textualData = null;
+				step.imageData = step._imageData;
+				step._imageData = null;
+				step.numericData = step._numericData;
+				step._numericData = null;
+				step.processId = 1;
+				if( step.id == 0 ) {
+					var newStep = _.clone(step);
+					block.steps.splice( block.steps.indexOf( step ), 1 );
+					var maxStepId = 0;
+					for(var i=0; i<block.steps.length; i++) {
+						if( block.steps[i].id > maxStepId )
+							maxStepId = block.steps[i].id;
+					}
+					newStep.id = maxStepId+1;
+					block.steps.push( newStep );
+				}
+				this.trigger("updated");
+			}
+			else printMessage("Errore",error);
+		}
+	};
+
+	// PUBLIC
 
 	var AddStep = BasePresenter.extend({
 
@@ -158,20 +268,21 @@ define([
 		},
 
 		template: _.template(addStepTemplate),
-		
+
 		id: '#newprocess',
 
 		el: $('body'),
 
 		events: {
+			'click .back': cancelStep,
 			'change #addStepForm .checkButton': showInput,
-			'click #showTextualData': showTextualData,
-			'click #showNumericData': showNumericData,
-			'click #showImageData': showImageData,
-			'click .add-data #addTextualData': addTextualData,
-			'click .add-data #addNumericData': addNumericData,
-			'click .add-data #addImageData': addImageData,
-			'click #addStepForm .delete-data': deleteData
+			'change #geographicDataCheck': changeConstraints,
+			'click #addTextualData': updateTextualData,
+			'click #addNumericData': updateNumericData,
+			'click #addImageData': updateImageData,
+			'click #addStepForm .delete-data': deleteData,
+			'click #cancelStep ': cancelStep,
+			'submit #addStepForm': saveStep,
 		},
 
 		render: function( options ) {
@@ -183,13 +294,14 @@ define([
 			})).enhanceWithin();
 		},
 
-		update: function( blockId, stepId ) {
+		// gestisce la richiesta di creazione/modifica di un passo
+		update: function( blockId, stepId ) {	
 			var options = { blockId: blockId };
 			var block = _.findWhere( this.blocks, { id: blockId } );
 			if( block ) {
 				if( stepId ) {
 					var step = _.findWhere( block.steps, { id: stepId } );
-					if( !step ) {} // step error;
+					if( !step ) this.trigger("updated");
 				}
 				else {
 					var step = _.findWhere( block.steps, { id: 0 } );
@@ -201,8 +313,7 @@ define([
 				options["step"] = step ? step : null;
 				this.render( options );
 			}
-			else {} // block error
-			this.trigger("updated");
+			else this.trigger("updated");
 		}
 
 	});

@@ -89,9 +89,12 @@ label {
 	font-weight: 400;
 }
 .helpButton {
-	height: 1.3em; /*12.5px;*/
+	/*height: 1.3em;*/
 	width: 0 !important;
 	padding-right: 0;
+	text-indent: -100px !important;
+	white-space: nowrap !important;
+	overflow: hidden !important;
 }
 .helpButton:after {
 	background-color: #3cb0fd !important;
@@ -144,8 +147,6 @@ label {
 	border: none !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	float: left;
-	
 }
 .block-footer label {
 	margin: 0 4px !important;
@@ -154,24 +155,19 @@ label {
 	font-weight: 400;
 	vertical-align: middle !important;
 	line-height: 22px !important;
+	overflow: hidden;
 }
-.block-footer input {
-	vertical-align: middle !important;
-	overflow: auto;
+.block-footer .ui-checkbox {
+	overflow: hidden;
 }
 .requiredStep {
-	margin: 0;
-	padding: 0 4px;
-	border: none;
-	display: inline;
-	width: 3em;
-	font-size: 0.9em !important;
-	vertical-align: middle !important;
-	line-height: 22px !important;
-	border: solid #5cb811 1px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
+	min-height: 0 !important;
+	background: #ffffff !important;
+	box-shadow: none !important;
+	font-size: 0.75em;
+	font-weight: 400;
+	padding: 4px !important;
+	overflow: hidden;
 }
 .block-footer .ui-checkbox input {
 	display: none !important;
@@ -288,12 +284,16 @@ label {
 .sequential-block * .uparrow:hover, .sequential-block * .downarrow:hover, .sequential-block * .add-item:hover {
 	background-color: #d47904;
 }
+#addStepForm .uparrow {
+	float: right;
+}
 /* add step */
 #addStepForm .label {
 	font-size: 0.85em;
 	font-weight: 400;
-	padding-top: 0.8em !important;
-	padding-bottom: 0.2em !important;
+	margin: 0 !important;
+	padding-top: 0.4em !important;
+	padding-bottom: 0.4em !important;
 }
 .add-data {
 	padding: 0.4em !important;
@@ -360,7 +360,8 @@ label {
 	font-weight: 700; /*400;*/
 	padding-left: 0.6em !important;
 	padding-right: 0.6em !important;
-}/*
-#showTextualData {
-	padding-left: 2.5em !important;
-}*/
+}
+#buttonsArea button {
+	margin-bottom: 0.5em !important;
+}
+}

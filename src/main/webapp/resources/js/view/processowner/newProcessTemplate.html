@@ -74,8 +74,10 @@
 			<div data-role="controlgroup" data-type="horizontal">
 				<button data-icon="plus" data-mini="true" id="addUnorderedBlock">Non ordinato</button>
 				<button data-icon="plus" data-mini="true" id="addSequentialBlock">Sequenziale</button>
-				<button data-role="button" data-icon="info" data-mini="true" class="helpButton"></button>
+				<button data-role="button" data-icon="info" data-mini="true" class="helpButton">Help</button>
 			</div>
+
+			<form id="blocksForm" accept-charset="utf-8">
 
 			<% for(var i=0; i<blocks.length; i++) { %>
 
@@ -84,26 +86,29 @@
 					<div class="unordered-block">
 						<div class="block-header">
 							<a href="" class="uparrow"></a>
-							<a href="#newprocess?block=<%= blocks[i].id %>" class="add-item"></a>
+							<a href="" class="add-item"></a>
 							<p>Aggiungi passo</p>
 							<a href="" class="delete-block" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<ul>
-							<% for(var j=0; j<blocks[i].steps.length; j++) { %>
+							<% var steps = _.filter(blocks[i].steps, function(step){ return step.id != 0; });
+								for(var j=0; j<steps.length; j++) { %>
 								<li>
 									<a href="" class="delete-item" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 									<a href="#newprocess?block=<%= blocks[i].id %>&step=<% blocks[i].steps[j].id %>" class="block-item"><%= blocks[i].steps[j].description %></a>
 								</li>
-							<% } if( blocks[i].steps.length == 0 ) { %>
+							<% } if( steps.length == 0 ) { %>
 								<p class="description">Nessun passo presente.</p>
 							<% } %>
 						</ul>
 						<div class="block-footer">
 							<a href="" class="downarrow" data-role="none" ></a>
-							<% if( blocks[i].steps.length > 0 ) { %>
-								<input type="checkbox" id="requiredStepCheck<%= i %>" class="requiredStepCheck checkButton"/>
+							<% if( steps.length > 0 ) { %>
 								<label for="requiredStepCheck<%= i %>">Limita passi richiesti:</label>
-								<input type="number" size="3" maxlength="3" min="1" max="<%= blocks[i].steps.length %>" data-role="none" class="requiredStep" disabled/>
+								<input type="checkbox" id="requiredStepCheck<%= i %>" class="checkButton requiredStepCheck" <%= blocks[i].requiredStep ? "checked" : null %> />
+								<div class="hide <%= blocks[i].requiredStep ? "visible" : null %>">
+									<input type="number" size="3" maxlength="3" min="1" max="<%= blocks[i].steps.length %>" class="requiredStep" value="<%= blocks[i].requiredStep %>" />
+								</div>
 							<% } %>
 						</div>
 					</div>
@@ -113,18 +118,19 @@
 					<div class="sequential-block">
 						<div class="block-header">
 							<a href="" class="uparrow"></a>
-							<a href="#newprocess?block=<%= blocks[i].id %>" class="add-item"></a>
+							<a href="" class="add-item"></a>
 							<p>Aggiungi passo</p>
 							<a href="" class="delete-block" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 						</div>
 						<ul class="sortable">
-							<% for(var j=0; j<blocks[i].steps.length; j++) { %>
+							<% var steps = _.filter(blocks[i].steps, function(step){ return step.id != 0; });
+								for(var j=0; j<steps.length; j++) { %>
 								<li>
 									<img class="block-icon" src="resources/css/images/carat-ud-black.png"></img>
 									<a href="" class="delete-item" data-role="button" data-iconpos="notext" data-icon="delete"></a>
 									<a href="#newprocess?block=<%= blocks[i].id %>&step=<% blocks[i].steps[j].id %>" class="block-item"><%= blocks[i].steps[j].description %></a>
 								</li>
-							<% } if( blocks[i].steps.length == 0 ) { %>
+							<% } if( steps.length == 0 ) { %>
 								<p class="description">Nessun passo presente.</p>
 							<% } %>
 						</ul>
@@ -137,6 +143,7 @@
 
 			<% } %>
 
+
 			<% if( blocks.length == 0 ) { %>
 				<p class="description">
 					Nessun blocco presente.
@@ -144,9 +151,11 @@
 			<% } %>
 			
 			<div data-role="controlgroup" data-type="horizontal">
-				<button data-icon="check" data-inline="true" data-mini="true" id="save">Salva processo</button>
-				<button data-icon="forbidden" data-inline="true" data-mini="true" id="cancel">Annulla</button>
+				<button type="submit" data-icon="check" data-inline="true" data-mini="true" id="saveProcess">Salva processo</button>
+				<button data-icon="forbidden" data-inline="true" data-mini="true" id="cancelProcess">Annulla</button>
 			</div>
+			
+			</form>
 
 		</div><!-- /blocksTab -->
 
