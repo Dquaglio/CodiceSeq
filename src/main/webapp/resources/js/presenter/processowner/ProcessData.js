@@ -11,7 +11,7 @@ define([
  'jquery',
  'underscore',
  'backbone',
- 'collection/processowner/ProcessDataCollection',
+ 'model/processowner/collection/ProcessDataCollection',
  'text!view/processowner/processDataTemplate.html',
  'jquerymobile'
 ], function( $, _, Backbone, ProcessDataCollection, processDataTemplate ){

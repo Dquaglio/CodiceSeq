@@ -10,7 +10,7 @@
 define([
  'jquery',
  'backbone',
- 'model/ProcessDataModel'
+ 'model/user/ProcessDataModel'
 ], function( $, Backbone, ProcessDataModel ){
 
 	var ProcessDataCollection = Backbone.Collection.extend({

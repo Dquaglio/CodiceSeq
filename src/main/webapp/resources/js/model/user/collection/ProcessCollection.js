@@ -10,7 +10,7 @@
 define([
  'jquery',
  'backbone',
- 'model/ProcessModel'
+ 'model/user/ProcessModel'
 ], function( $, Backbone, ProcessModel ){
 
 	var ProcessCollection = Backbone.Collection.extend({
@@ -43,6 +43,6 @@ define([
  * // running==true : fetch processi a cui sei iscritto
  * // running==false : fetch processi a cui puoi iscriverti
  * collection.fetch({ running: true }).done( function() {
- *		console.log(collection.toJSON());
+ *		collection.toJSON();
  *	});
  */

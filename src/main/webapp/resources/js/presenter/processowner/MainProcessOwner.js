@@ -12,7 +12,7 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- 'collection/processowner/ProcessDataCollection',
+ 'model/processowner/collection/ProcessDataCollection',
  'text!view/processowner/mainProcessOwnerTemplate.html',
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, ProcessDataCollection, mainProcessOwnerTemplate ) {

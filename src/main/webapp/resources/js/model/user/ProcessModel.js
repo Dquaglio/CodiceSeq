@@ -10,7 +10,7 @@
 define([
  'jquery',
  'backbone',
- 'collection/StepCollection'
+ 'model/user/collection/StepCollection'
 ], function( $, Backbone, StepCollection ) {
 
 	var ProcessModel = Backbone.Model.extend({
