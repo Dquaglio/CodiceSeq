@@ -222,19 +222,19 @@ define([
 			if(!error) error = validateDescription( step._description );
 			if( !error ) {
 				step.description = step._description;
-				step._description = null;
+				delete step._description;
 				step.requiresApproval = step._requiresApproval;
-				step._requiresApproval = null;
+				delete step._requiresApproval;
 				step.optional = step._optional;
-				step._optional = null;
+				delete step._optional;
 				step.geographicData = step._geographicData;
-				step._geographicData = null;
+				delete step._geographicData;
 				step.textualData = step._textualData;
-				step._textualData = null;
+				delete step._textualData;
 				step.imageData = step._imageData;
-				step._imageData = null;
+				delete step._imageData;
 				step.numericData = step._numericData;
-				step._numericData = null;
+				delete step._numericData;
 				step.processId = 1;
 				if( step.id == 0 ) {
 					var newStep = _.clone(step);
@@ -302,6 +302,11 @@ define([
 				if( stepId ) {
 					var step = _.findWhere( block.steps, { id: stepId } );
 					if( !step ) this.trigger("updated");
+					else {
+						if( !step.textualData.length ) step.textualData = null;
+						if( !step.imageData.length ) step.imageData = null;
+						if( !step.numericData.length ) step.numericData = null;
+					}
 				}
 				else {
 					var step = _.findWhere( block.steps, { id: 0 } );

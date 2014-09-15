@@ -25,16 +25,19 @@ define([
 		save: function( attributes, options ) {
 			var self = this;
 			var deferred = $.Deferred();
-			$.ajax({
+			$.ajax({ 
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
-				data: JSON.stringify( this.toJSON() ),
+				data: JSON.stringify({ process: this.toJSON(), blocks: options.blocks }),
 				dataType: "json",
 				contentType: "application/json;charset=utf-8",
 				success: function( data ) {
-					self.saveImage( options.image, data ).done( function() {
-						deferred.resolve();
-					}).fail( function( error ) { deferred.reject(error); });
+					if( options.image ) {
+						self.saveImage( options.image, data ).done( function() {
+							deferred.resolve();
+						}).fail( function( error ) { deferred.reject(error); });
+					}
+					else deferred.resolve();
 				},
 				error: function( error ) { deferred.reject(error); }
 			});

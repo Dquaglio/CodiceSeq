@@ -53,7 +53,7 @@ define([
 				require([resource], function( EventDispatcher ) {
 					self.eventDispatcher = new EventDispatcher();
 					self.eventDispatcher.addObserver( presenter );
-					//self.eventDispatcher.startListen();
+					self.eventDispatcher.startListen();
 				});
 			}
 		}

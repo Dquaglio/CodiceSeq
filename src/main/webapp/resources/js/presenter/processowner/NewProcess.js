@@ -1,3 +1,12 @@
+/*!
+* \File: NewProcess.js
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-08-31
+* \Class: NewProcess
+* \Package: com.sirius.sequenziatore.client.presenter.processowner
+* \Brief: Gestione della creazione di un processo
+*/
 define([
  'jquery',
  'underscore',
@@ -27,6 +36,7 @@ define([
 		$("#newprocess .alertPanel").popup("open");
 	};
 
+	// controlla la data e ritorna true o un eventuale stringa di descrizione dell'errore
 	var validateDate = function( dateInput, resultDate ) {
 		var date = null;
 		var matches = /^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/.exec( dateInput );
@@ -55,6 +65,7 @@ define([
 		else return "Inserire la data nel formato gg/mm/aaaa o aaaa-mm-gg";
 	};
 
+	// controlla l'ora e ritorna true o un eventuale stringa di descrizione dell'errore
 	var validateTime = function( timeInput, date ) {
 		var error = null;
 		if( timeInput.length > 0 ) {
@@ -70,6 +81,7 @@ define([
 		return error;
 	};
 
+	// controlla il testo in input e ritorna true o un eventuale stringa di descrizione dell'errore
 	var validateDescription = function( description ) {
 		if( description.length > 0 ) return null;
 		else return "compilare il campo descrizione";
@@ -113,17 +125,6 @@ define([
 			hideDiv.find('input').prop('disabled',true);
 		}
 	};
-
-	// abilita/disabilita l'elemento selezionato
-	var enableInput = function( event ) {
-		var div = $(event.target).closest(".block-footer").find(".requiredStep");
-		/*var disabled = $(div).is(":disabled");
-		$(div).prop('disabled', !disabled);*/
-		var isDisabled = $(div).textinput( "option", "disabled" );
-		if( isDisabled ) $(div).textinput( "enable" );
-		else $(div).textinput( "disable" );
-		showInput(event);
-	};
 	
 	// getione dell'evento di cambio tab
 	var changeTab = function( event ) {
@@ -148,8 +149,22 @@ define([
 		var blockId = this.blocks[blockNumber].id;
 		this.addStepLogic.update( blockId );
 	};
+	
+	// delega la gestione della modifica di un passo alla classe AddStep
+	var editStep = function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+		saveOptions.call(this);
+		var targetBlock =  $(event.target).closest(".sequential-block, .unordered-block");
+		var blockNumber = targetBlock.prevAll(".sequential-block, .unordered-block").length;
+		var blockId = this.blocks[blockNumber].id;
+		var targetStep = $(event.target).closest("li");
+		var stepNumber = targetStep.prevAll("li").length;
+		var stepId = this.blocks[blockNumber].steps[stepNumber].id;
+		this.addStepLogic.update( blockId, stepId );
+	};
 
-	// gestisce lo spostamento di un blocco
+	// gestisce lo spostamento di un blocco ad un livello superiore
 	var ascendBlock = function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -164,7 +179,7 @@ define([
 		}
 	};
 
-	// gestisce lo spostamento di un blocco
+	// gestisce lo spostamento di un blocco ad un livello inferiore
 	var descendBlock = function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -271,6 +286,11 @@ define([
 		}
 		else if( this.process.imageFile ) var imageFile = this.process.imageFile;
 		else var imageFile = null;
+		
+		if( imageFile ) {
+			var imageUrl = imageFile.name;
+			var fileName = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
+		}
 
 		if( error ) printMessage("Errore",error );
 		else {
@@ -281,7 +301,7 @@ define([
 				dateOfTermination: date,
 				terminated: false,
 				eliminated: false,
-				imageUrl: imageFile ? imageFile.name : null,
+				imageUrl: imageFile ? fileName : null,
 				imageFile: imageFile
 			});
 			this.currentTab = "blocksTab";
@@ -298,14 +318,20 @@ define([
 		this.render();
 	};
 
+	// rimuove i dati temporanei del blocco e imposta i valori di default
 	var parseBlock = function( block ) {
 		var _step = _.findWhere( block.steps, { id: 0 } );
 		if( _step ) block.steps.splice( block.steps.indexOf( _step ), 1 );
 		block.requiredStep = block.requiredStep ? block.requiredStep : block.steps.length;
 		for(var i=0; i<block.steps.length; i++) {
 			var step = block.steps[i];
-			var radius = block.steps[i].geographicData.radius;
-			block.steps[i].geographicData.radius = radius ? radius : 0;
+			if( block.steps[i].geographicData ) {
+				var radius = block.steps[i].geographicData.radius;
+				block.steps[i].geographicData.radius = radius ? radius : 0;
+			}
+			delete step["_description"];
+			delete step["_requiresApproval"];
+			delete step["_optional"];
 			delete step["_geographicData"];
 			delete step["_textualData"];
 			delete step["_numericData"];
@@ -317,6 +343,7 @@ define([
 		}
 	};
 
+	// salva il processo creato
 	var saveProcess = function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -338,20 +365,26 @@ define([
 					this.blocks[i].nextBlockId = typeof this.blocks[i+1] !== "undefined" ? this.blocks[i+1].id : 0;
 				var file = _.clone( this.process.get("imageFile") );
 				this.process.unset("imageFile", { silent: true });
+				var options = { blocks: processBlocks, image: null };
 				if( file ) {
 					var formData = new FormData();
 					formData.append("image", file);
+					options.image = formData;
 				}
-				//process.save(null, { image: formData });
+				this.process.save(null, options);
 			}
 		}
 		else printMessage("Errore","La descrizione del processo non è stata ancora compilata.");
 	};
 
+	
 	var cancelProcess = function( event ) {
 		event.preventDefault();
 		event.stopPropagation();
-		
+		this.process.clear({ silent: true });
+		this.blocks = [];
+		this.render();
+		window.location.assign('#home');
 	};
 
 	// PUBLIC
@@ -393,6 +426,7 @@ define([
 			'update .sortable': sortBlock,
 			'click .helpButton': printBlocksHelp,
 			'click .add-item': addStep,
+			'click .block-item': editStep,
 			'submit #descriptionForm': saveDescription,
 			'click #cancelDescription': cancelDescription,
 			'submit #blocksForm': saveProcess,

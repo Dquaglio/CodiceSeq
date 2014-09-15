@@ -1,3 +1,14 @@
+<%
+/*!
+* \File: newProcessTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-13
+* \Class: newProcessTemplate
+* \Package: com.sirius.sequenziatore.client.view.processowner
+* \Brief: template della pagina di creazione di un processo
+*/
+%>
 <div data-role="header" id="header">
 	<h1>Nuovo Processo</h1>
 	<div class="ui-btn-left">
@@ -95,7 +106,7 @@
 								for(var j=0; j<steps.length; j++) { %>
 								<li>
 									<a href="" class="delete-item" data-role="button" data-iconpos="notext" data-icon="delete"></a>
-									<a href="#newprocess?block=<%= blocks[i].id %>&step=<% blocks[i].steps[j].id %>" class="block-item"><%= blocks[i].steps[j].description %></a>
+									<a href="<%= blocks[i].steps[j].id %>" class="block-item"><%= blocks[i].steps[j].description %></a>
 								</li>
 							<% } if( steps.length == 0 ) { %>
 								<p class="description">Nessun passo presente.</p>
