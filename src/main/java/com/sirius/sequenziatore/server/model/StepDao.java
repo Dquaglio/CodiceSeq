@@ -406,6 +406,21 @@ public class StepDao implements IDataAcessObject
 		finally{}
 	}
 	
+	public boolean deleteUserStep(UserStep userStep)
+	{
+		try
+		{
+			String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId=?";
+			jdbcTemplate.update(delQuery, new Object[]{userStep.getUsername(), userStep.getCurrentStepId()});
+			return true;
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		finally{}
+	}
+	
 	public boolean completeStep(String username, DataSent dataSent)
 	{
 		try
