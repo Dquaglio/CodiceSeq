@@ -9,12 +9,6 @@ public class NumericData
 	private boolean decimal;
 	private int dataId;
 	
-	public int getDataId() {
-		return dataId;
-	}
-	public void setDataId(int dataId) {
-		this.dataId = dataId;
-	}
 	//Getter & Setter
 	public String getDescription() {
 		return description;
@@ -39,5 +33,11 @@ public class NumericData
 	}
 	public void setDecimal(boolean decimal) {
 		this.decimal = decimal;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

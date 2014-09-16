@@ -56,8 +56,9 @@ public class StepDao implements IDataAcessObject
 			for (Map<String, Object> row : rows)
 			{
 				NumericData numericData=new NumericData();
-				//Campi tabella step
+				//Campi tabella data
 				numericData.setDescription((String)row.get("description"));
+				numericData.setDataId((int)row.get("relativeId"));
 				int dataId=(int)row.get("id");
 				//Campi tabella bond
 				try
@@ -85,6 +86,7 @@ public class StepDao implements IDataAcessObject
 			{
 				TextualData textualData=new TextualData();
 				textualData.setDescription((String)row.get("description"));
+				textualData.setDataId((int)row.get("relativeId"));
 				textualDataList.add(textualData);
 			}
 			step.setTextualData(textualDataList);
@@ -96,6 +98,7 @@ public class StepDao implements IDataAcessObject
 			{
 				ImageData imageData=new ImageData();
 				imageData.setDescription((String)row.get("description"));
+				imageData.setDataId((int)row.get("relativeId"));
 				imageDataList.add(imageData);
 			}
 			step.setImageData(imageDataList);
@@ -109,6 +112,7 @@ public class StepDao implements IDataAcessObject
 				selQuery="SELECT * FROM data WHERE type=? AND currentStepId=?";
 				Map<String,Object> row=jdbcTemplate.queryForMap(selQuery, new Object[]{IDataValue.DataTypes.GEOGRAPHIC.toString(), id});
 				geographicData.setDescription((String)row.get("description"));
+				geographicData.setDataId((int)row.get("relativeId"));
 				int dataId=(int)row.get("id");
 				//Vincoli geografici
 				try

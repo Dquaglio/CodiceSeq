@@ -10,12 +10,6 @@ public class GeographicData
 	private double radius;
 	private int dataId;
 	
-	public int getDataId() {
-		return dataId;
-	}
-	public void setDataId(int dataId) {
-		this.dataId = dataId;
-	}
 	//Getter & Setter
 	public String getDescription() {
 		return description;
@@ -46,5 +40,11 @@ public class GeographicData
 	}
 	public void setRadius(double radius) {
 		this.radius = radius;
+	}
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
 	}
 }

@@ -170,6 +170,7 @@ public class ProcessDao implements IDataAcessObject
 						{
 							params.clear();
 							params.put("currentStepId", stepId);
+							params.put("relativeId", dataId);
 							params.put("description", numeric.getDescription());
 							params.put("type", "NUMERIC");
 							dataId=datasji.executeAndReturnKey(params).intValue();
@@ -191,6 +192,7 @@ public class ProcessDao implements IDataAcessObject
 						{
 							params.clear();
 							params.put("currentStepId", stepId);
+							params.put("relativeId", dataId);
 							params.put("description", textual.getDescription());
 							params.put("type", "TEXTUAL");
 							datasji.executeAndReturnKey(params);
@@ -203,6 +205,7 @@ public class ProcessDao implements IDataAcessObject
 						{
 							params.clear();
 							params.put("currentStepId", stepId);
+							params.put("relativeId", dataId);
 							params.put("description", image.getDescription());
 							params.put("type", "IMAGE");
 							datasji.executeAndReturnKey(params);
@@ -213,6 +216,7 @@ public class ProcessDao implements IDataAcessObject
 					{
 						params.clear();
 						params.put("currentStepId", stepId);
+						params.put("relativeId", dataId);
 						params.put("description", geographic.getDescription());
 						params.put("type", "GEOGRAPHIC");
 						dataId=datasji.executeAndReturnKey(params).intValue();
