@@ -118,7 +118,7 @@ define([
 		step._description = $("#processDescription").val().trim();
 		step._requiresApproval = $("#requiresApproval").is(":checked");
 		step._optional = $("#optional").is(":checked");
-		step._geographicData = getGeographicData();
+		step._requiredPosition = getGeographicData();
 		var index = 1;
 		step._textualData = getTextualData( index );
 		index += step._textualData.length;
@@ -140,7 +140,7 @@ define([
 			var radius = $("#radius").val().trim();
 			radius = radius.match(/^(\+|-)?\d+(.\d+)?$/) ? radius : null;
 			if( latitude && longitude )
-				geographicData = { latitude: latitude, longitude: longitude, radius: radius, altitude: 0 };
+				geographicData = { dataId: 0, latitude: latitude, longitude: longitude, radius: radius, altitude: 0 };
 		}
 		return geographicData;
 	};
@@ -150,7 +150,7 @@ define([
 		var textualData = [];
 		$("#textualDataList .textualData").each(function( i, element ) {
 			var description = $(element).find('input').val().trim();
-			if( description ) textualData.push({ id: index+i, description: description });
+			if( description ) textualData.push({ dataId: index+i, description: description });
 		});
 		return textualData;
 	};
@@ -160,7 +160,7 @@ define([
 		var imageData = [];
 		$("#imageDataList .imageData").each(function( i, element ) {
 			var description = $(element).find('input').val().trim();
-			if( description ) imageData.push({ id: index+i, description: description });
+			if( description ) imageData.push({ dataId: index+i, description: description });
 		});
 		return imageData;
 	};
@@ -169,7 +169,7 @@ define([
 	var getNumericData = function( index ) {
 		var numericData = [];
 		$("#numericDataList .numericData").each(function( i, element ) {
-			var options = { id: index+i };
+			var options = { dataId: index+i };
 			options.description = $(element).find('input').first().val().trim();
 			if( options.description ) {
 				options.isDecimal = $(element).find('[id^="isDecimal"]').is(":checked");
@@ -202,7 +202,8 @@ define([
 				delete step["_textualData"];
 				delete step["_imageData"];
 				delete step["_numericData"];
-			}
+				delete step["_requiredPosition"];
+				}
 		}
 		this.trigger("updated");
 	};
@@ -216,7 +217,7 @@ define([
 			var block = _.findWhere( this.blocks, { id: options.blockId } );
 			var step = options.step;
 			var error = null;
-			if( !step._geographicData && !step._textualData.length && !step._imageData.length && !step._numericData.length ) {
+			if( !step._requiredPosition && !step._textualData.length && !step._imageData.length && !step._numericData.length ) {
 				error = "Il passo deve contenere almeno un dato o un vincolo geografico.";
 			}
 			if(!error) error = validateDescription( step._description );
@@ -227,8 +228,8 @@ define([
 				delete step._requiresApproval;
 				step.optional = step._optional;
 				delete step._optional;
-				step.geographicData = step._geographicData;
-				delete step._geographicData;
+				step.requiredPosition = step._requiredPosition;
+				delete step._requiredPosition;
 				step.textualData = step._textualData;
 				delete step._textualData;
 				step.imageData = step._imageData;

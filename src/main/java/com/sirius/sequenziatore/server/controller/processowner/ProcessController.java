@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sirius.sequenziatore.server.controller.utilities.ProcessWrapper;
 import com.sirius.sequenziatore.server.model.Process;
+import com.sirius.sequenziatore.server.model.User;
 import com.sirius.sequenziatore.server.service.ProcessService;
 
 @Controller
@@ -46,11 +48,19 @@ public class ProcessController {
 		return processList;
 	}
 	
+	@RequestMapping(method=RequestMethod.GET, produces = "application/json",value="/userlist/{processId}")
+	@ResponseBody
+	public List<User> getUserList(@PathVariable int processId){
+		List<User> userList=new ArrayList<User>();
+		userList=processService.getUserList(processId);
+		if(userList!=null)
+			return userList;
+		throw new IllegalStateException("errore nel recuperare la lista di utenti");
+	}
 	//gestore delle eccezioni
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR,   reason = "impossibile salvare il processo")
 	public void handleException(IllegalStateException ex, HttpServletResponse response) throws IOException{
 		//invia al client un errore 500
 	}
-
 }

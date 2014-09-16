@@ -20,8 +20,8 @@ define([
 		// constructor
 		initialize: function( models, options ) {
 			if( typeof options !== "undefined" && options.processId )
-				this.url = "resources/js/data/allstep"+options.processId+".json";
-				//this.url = "http://localhost:8080/sequenziatore/allstep/"+this.processId;
+				//this.url = "resources/js/data/allstep"+options.processId+".json";
+				this.url = "http://localhost:8080/sequenziatore/stepdata/allstep/"+options.processId;
 		}
 
 	});

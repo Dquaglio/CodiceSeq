@@ -97,10 +97,15 @@ define([
 		var self = this;
 		$(".unordered-block").each( function( i, element ) {
 			if( $(element).find('.requiredStepCheck').is(':checked') ) {	
-				var requiredStep = $(element).find('.requiredStep').val().trim();
+				var requiredSteps = Number( $(element).find('.requiredStep').val().trim() );
 				var blockNumber = $(element).prevAll(".sequential-block, .unordered-block").length;
 				var block = self.blocks[blockNumber];
-				if( block ) block.requiredStep = requiredStep;
+				if( block ) {
+					if( requiredSteps > block.steps.length || requiredSteps < 1 ) {
+						block.requiredSteps = null;
+					}
+					else block.requiredSteps = requiredSteps ? requiredSteps : null;
+				}
 			}
 		});
 	};
@@ -203,7 +208,7 @@ define([
 				maxBlockId = this.blocks[i].id;
 		}
 		var blockId = maxBlockId+1;
-		this.blocks.push({ id: blockId, processId: 1, type: "unordered", steps: [] });
+		this.blocks.push({ id: blockId, type: "UNORDERED", steps: [] });
 		this.render();
 	};
 
@@ -215,7 +220,7 @@ define([
 				maxBlockId = this.blocks[i].id;
 		}
 		var blockId = maxBlockId+1;
-		this.blocks.push({ id: blockId, processId: 1, type: "sequential", steps: [] });
+		this.blocks.push({ id: blockId, processId: 1, type: "SEQUENTIAL", steps: [] });
 		this.render();
 	};
 
@@ -284,7 +289,7 @@ define([
 			var imageFile = $("#image")[0].files[0];
 			error = validateImage( imageFile );
 		}
-		else if( this.process.imageFile ) var imageFile = this.process.imageFile;
+		else if( this.process.get("imageFile") ) var imageFile = this.process.get("imageFile");
 		else var imageFile = null;
 		
 		if( imageFile ) {
@@ -322,17 +327,19 @@ define([
 	var parseBlock = function( block ) {
 		var _step = _.findWhere( block.steps, { id: 0 } );
 		if( _step ) block.steps.splice( block.steps.indexOf( _step ), 1 );
-		block.requiredStep = block.requiredStep ? block.requiredStep : block.steps.length;
+		block.requiredSteps = block.requiredSteps ? block.requiredSteps : block.steps.length;
 		for(var i=0; i<block.steps.length; i++) {
 			var step = block.steps[i];
-			if( block.steps[i].geographicData ) {
-				var radius = block.steps[i].geographicData.radius;
-				block.steps[i].geographicData.radius = radius ? radius : 0;
+			step.first = false;
+			step.nextStepId = typeof block.steps[i+1] !== "undefined" ? block.steps[i+1].id : 0;
+			if( block.steps[i].requiredPosition ) {
+				var radius = block.steps[i].requiredPosition.radius;
+				block.steps[i].requiredPosition.radius = radius ? radius : 0;
 			}
 			delete step["_description"];
 			delete step["_requiresApproval"];
 			delete step["_optional"];
-			delete step["_geographicData"];
+			delete step["_requiredPosition"];
 			delete step["_textualData"];
 			delete step["_numericData"];
 			delete step["_imageData"];
@@ -341,6 +348,7 @@ define([
 				data.minValue = data.minValue ? data.minValue : -999999999;
 			});
 		}
+		block.steps[0].first = true;
 	};
 
 	// salva il processo creato
@@ -361,8 +369,11 @@ define([
 			if( !this.blocks.length ) printMessage("Errore","Il processo deve contenere almeno un blocco.");
 			else if( noSteps ) printMessage("Errore","Il processo deve contenere almeno un passo.");
 			else {
-				for(var i=0; i<this.blocks.length; i++)
-					this.blocks[i].nextBlockId = typeof this.blocks[i+1] !== "undefined" ? this.blocks[i+1].id : 0;
+				for(var i=0; i<processBlocks.length; i++) {
+					processBlocks[i].nextBlockId = typeof processBlocks[i+1] !== "undefined" ? processBlocks[i+1].id : 0;
+					processBlocks[0].first = false;
+				}
+				processBlocks[0].first = true;
 				var file = _.clone( this.process.get("imageFile") );
 				this.process.unset("imageFile", { silent: true });
 				var options = { blocks: processBlocks, image: null };
@@ -372,6 +383,8 @@ define([
 					options.image = formData;
 				}
 				this.process.save(null, options);
+				console.log( this.process.toJSON() );
+				console.log( options );
 			}
 		}
 		else printMessage("Errore","La descrizione del processo non è stata ancora compilata.");

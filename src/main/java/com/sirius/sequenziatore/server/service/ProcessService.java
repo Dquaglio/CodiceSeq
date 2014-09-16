@@ -10,11 +10,15 @@ import com.sirius.sequenziatore.server.controller.utilities.ProcessWrapper;
 import com.sirius.sequenziatore.server.model.Block;
 import com.sirius.sequenziatore.server.model.Process;
 import com.sirius.sequenziatore.server.model.ProcessDao;
+import com.sirius.sequenziatore.server.model.User;
+import com.sirius.sequenziatore.server.model.UserDao;
 
 @Service
 public class ProcessService {
 	@Autowired
 	ProcessDao processDao;
+	@Autowired
+	UserDao userDao;
 	public boolean createProcess(ProcessWrapper processWrapper){
 		Process process;
 		List<Block> blocks;
@@ -27,6 +31,11 @@ public class ProcessService {
 		List<Process> processList=new ArrayList<Process>();
 		processList=processDao.getAllProcess();
 		return processList;
+	}
+	public List<User> getUserList(int processId) {
+		List<User> userList=new ArrayList<User>();
+		userList=userDao.getUserByProcess(processId);
+		return userList;
 	}
 	
 }

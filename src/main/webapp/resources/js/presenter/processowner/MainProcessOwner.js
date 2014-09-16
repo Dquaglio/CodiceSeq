@@ -60,6 +60,7 @@ define([
 					self.waitingDataNumber = self.collection.length;
 					self.render();
 				}
+				self.render();
 			}).fail( function() {
 				self.render();
 			}).always( function() { self.trigger("updated"); });

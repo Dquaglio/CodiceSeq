@@ -113,9 +113,10 @@
 				<li data-role="list-divider">
 					<h3 class="description"><%= step.description %></h3>
 				</li>
+				<% console.log(processData);%>
 				<% _.each(processData, function(data) { %>
 					<li>
-						<p><strong><%= data.username %></strong></p>
+						<p><strong><%= data.userName %></strong></p>
 						
 						<% if( ! _.isEmpty(data.values) ) {
 							_.each( step.numericData, function( numericData ) { %>

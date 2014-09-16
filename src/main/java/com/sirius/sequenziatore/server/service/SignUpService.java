@@ -11,7 +11,7 @@ public class SignUpService {
 	@Autowired
 	private UserDao userDao;
 	public boolean checkSignUp(User toBeChecked){
-		User dummy=userDao.getUser(toBeChecked.getUserName());//cerco se è già presente un utente registrato con lo stesso username
+		User dummy=userDao.getUser(toBeChecked.getUsername());//cerco se è già presente un utente registrato con lo stesso username
 		if(dummy!=null){//se è presente ritorno false
 			return false;
 		}

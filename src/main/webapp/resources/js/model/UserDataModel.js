@@ -45,7 +45,7 @@ define([
 		urlRoot: 'http://localhost:8080/sequenziatore/',
 
 		login: function(username, password) {
-			//
+/*
 			if( username=="Sirius" ) {
 				cookie.setItem("usertype", "processowner");
 				cookie.setItem("username", username);
@@ -54,14 +54,14 @@ define([
 				cookie.setItem("usertype", "user");
 				cookie.setItem("username", username);
 			}
-
+*/
 			var data = { username: username, password: password };
 			return $.ajax({
 				type: "POST",
 				url: this.urlRoot+"login",
 				data: $.param( data ),
 				success: function( data ) {
-					cookie.setItem( "usertype", data.usertype );
+					cookie.setItem( "usertype", data );
 					cookie.setItem( "username", username );
 				}
 			});

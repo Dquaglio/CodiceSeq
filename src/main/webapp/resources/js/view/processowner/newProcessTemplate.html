@@ -51,7 +51,7 @@
 					<label for="dateOfTerminationCheck">Data di terminazione</label>
 					<%
 						if( process.dateOfTermination ) {
-							var date = process.dateOfTermination.toLocaleDateString();
+							var date = process.dateOfTermination.toISOString().substring(0,10);
 							var time = process.dateOfTermination.toTimeString().substring(0,8);
 						}
 					%>
@@ -92,7 +92,7 @@
 
 			<% for(var i=0; i<blocks.length; i++) { %>
 
-				<% if( blocks[i].type == "unordered" ) { %>
+				<% if( blocks[i].type == "UNORDERED" ) { %>
 
 					<div class="unordered-block">
 						<div class="block-header">
@@ -118,7 +118,9 @@
 								<label for="requiredStepCheck<%= i %>">Limita passi richiesti:</label>
 								<input type="checkbox" id="requiredStepCheck<%= i %>" class="checkButton requiredStepCheck" <%= blocks[i].requiredStep ? "checked" : null %> />
 								<div class="hide <%= blocks[i].requiredStep ? "visible" : null %>">
-									<input type="number" size="3" maxlength="3" min="1" max="<%= blocks[i].steps.length %>" class="requiredStep" value="<%= blocks[i].requiredStep %>" />
+									<% var requiredStep = blocks[i].requiredStep ? blocks[i].requiredStep : null; 
+										if( requiredStep && requiredStep>blocks[i].steps.length ) requiredStep = null; %>
+									<input type="number" size="3" maxlength="3" min="1" max="<%= blocks[i].steps.length %>" class="requiredStep" value="<%= requiredStep %>" />
 								</div>
 							<% } %>
 						</div>

@@ -28,7 +28,7 @@ define([
 			$.ajax({ 
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
-				data: JSON.stringify({ process: this.toJSON(), blocks: options.blocks }),
+				data: JSON.stringify({ process: this.toJSON(), blockList: options.blocks }),
 				dataType: "json",
 				contentType: "application/json;charset=utf-8",
 				success: function( data ) {

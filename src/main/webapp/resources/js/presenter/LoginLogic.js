@@ -57,12 +57,10 @@ define([
 			}).fail(function() {
 				$.mobile.loading('hide');
 				// only for test
-				if( self.model.isLogged() ) location.reload();
-				else {
+				//if( self.model.isLogged() ) location.reload();
 					$("#home .alertPanel p").text("Credenziali non corrette");
 					$("#home .alertPanel").popup("open");
 					$("#password").val("");
-				}
 			});
 		}
 

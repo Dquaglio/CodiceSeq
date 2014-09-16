@@ -15,7 +15,7 @@ public class Step implements ITransferObject
 	private List<NumericData> numericData;
 	private List<TextualData> textualData;
 	private List<ImageData> imageData;
-	private GeographicData requiredPosition;
+	private GeographicData geographicData;
 	
 	//Getter & Setter
 	public int getId() {
@@ -73,10 +73,10 @@ public class Step implements ITransferObject
 		this.imageData = imageData;
 	}
 	public GeographicData getRequiredPosition() {
-		return requiredPosition;
+		return geographicData;
 	}
 	public void setRequiredPosition(GeographicData requiredPosition) {
-		this.requiredPosition = requiredPosition;
+		this.geographicData = requiredPosition;
 	}
 	public boolean isFirst() {
 		return first;

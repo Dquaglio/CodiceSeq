@@ -8,7 +8,14 @@ public class GeographicData
 	private double longitude;
 	private double altitude;
 	private double radius;
+	private int dataId;
 	
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
+	}
 	//Getter & Setter
 	public String getDescription() {
 		return description;

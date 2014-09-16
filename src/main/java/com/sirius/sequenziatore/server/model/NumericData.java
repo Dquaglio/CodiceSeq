@@ -7,7 +7,14 @@ public class NumericData
 	private double maxValue;
 	private double minValue;
 	private boolean decimal;
+	private int dataId;
 	
+	public int getDataId() {
+		return dataId;
+	}
+	public void setDataId(int dataId) {
+		this.dataId = dataId;
+	}
 	//Getter & Setter
 	public String getDescription() {
 		return description;

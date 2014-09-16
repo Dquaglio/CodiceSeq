@@ -1,5 +1,6 @@
 package com.sirius.sequenziatore.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ApproveStepService {
 	private StepDao stepDao;
 	//metodo che permette di ottenere la lista dei passi da approvare
 	public List<DataSent> getStepToBeApproved(){
-		List<DataSent> stepToBeApproved;
+		List<DataSent> stepToBeApproved=new ArrayList<DataSent>();
 		stepToBeApproved=stepDao.getWaitingData();
 		return stepToBeApproved;
 	}

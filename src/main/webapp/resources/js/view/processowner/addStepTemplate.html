@@ -165,8 +165,8 @@
 		</div>
 
 		<ul data-role="listview" data-inset="true" id="geographicData">
-			<% if( step.geographicData ) {
-				var geographicData = step.geographicData
+			<% if( step.requiredPosition ) {
+				var geographicData = step.requiredPosition
 			} %>
 			<li data-role="list-divider">
 				<label for="geographicDataCheck">Vincoli geografici</label>
@@ -195,6 +195,7 @@
 
 </div><!-- /content -->
 
+	// restituisce i dati e i vincoli inseriti dall'utente relativi al passo in creazione
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
 	
 	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>

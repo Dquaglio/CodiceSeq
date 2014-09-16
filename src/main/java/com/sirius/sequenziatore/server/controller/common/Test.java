@@ -38,7 +38,7 @@ public class Test implements ServletContextAware{
 	
 	@RequestMapping(value="/test" ,method=RequestMethod.GET,produces = "application/json")
 	@ResponseBody
-	public List<UserStep> prova(){
+	public List<DataSent> prova(){
 		/*if(processOwnerDao==null)
 			System.out.println("è null stepDao cazzooooooo");
 		else
@@ -66,8 +66,8 @@ public class Test implements ServletContextAware{
 			System.out.println("è vuoto pure questo diaodadj a");
 		list=processDao.getAllProcess();
 		return list;*/
-		List<UserStep> userStatus=new ArrayList<UserStep>();
-		userStatus=stepDao.userProcessSteps("teomondo", 52);
+		List<DataSent> userStatus=new ArrayList<DataSent>();
+		userStatus=stepDao.getWaitingData();
 		return userStatus;
 	}
 
