@@ -70,7 +70,7 @@
 						<% var data = _step.processData;
 						if( ! _.isEmpty(data.values) ) {
 							_.each( _step.numericData, function( numericData ) { %>
-								<p><%= numericData.description %>: <%= data.values[numericData.id].value %></p>
+								<p><%= numericData.description %>: <%= data.values[numericData.dataId].value %></p>
 							<% });
 							_.each( _step.textualData, function( textualData ) { %>
 								<p><%= textualData.description %>: <%= data.values[textualData.id].value %></p>
@@ -86,7 +86,7 @@
 									<img src="resources/css/images/<%= data.values[imageData.id].imageUrl %>.png" class="popphoto">
 								</div>
 							<% });
-							if( geographicData = _step.geographicData ) { %>
+							if( geographicData = _step.requiredPosition ) { %>
 								<p>coordinate: 
 									<%= data.values["coordinates"].latitude %>; 
 									<%= data.values["coordinates"].longitude %>
@@ -106,7 +106,7 @@
 		<% } else { %>
 
 			<form>
-				<input id="searchStepData" data-type="search" placeholder="Ricerca dato o utente...">
+				<input 
 			</form>
 
 			<ul data-inset="true" data-role="listview" data-input="#searchStepData" data-filter="true" data-autodividers="false">
@@ -120,26 +120,26 @@
 						
 						<% if( ! _.isEmpty(data.values) ) {
 							_.each( step.numericData, function( numericData ) { %>
-								<p><%= numericData.description %>: <%= data.values[numericData.id].value %></p>
+								<p><%= numericData.description %>: <%= data.values[numericData.dataId].value %></p>
 							<% });
 							_.each( step.textualData, function( textualData ) { %>
-								<p><%= textualData.description %>: <%= data.values[textualData.id].value %></p>
+								<p><%= textualData.description %>: <%= data.values[textualData.dataId].value %></p>
 							<% });
 							_.each( step.imageData, function( imageData ) { %>
 								<p>immagine: 
-									<a href="#pop<%= data.values[imageData.id].imageUrl %>" data-rel="popup">
+									<a href="#pop<%= data.values[imageData.dataId].imageUrl %>" data-rel="popup">
 										<%= imageData.description %>
 									</a>
 								</p>
-								<div data-role="popup" id="pop<%= data.values[imageData.id].imageUrl %>" class="photopopup">
+								<div data-role="popup" id="pop<%= data.values[imageData.dataId].imageUrl %>" class="photopopup">
 									<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-									<img src="resources/css/images/<%= data.values[imageData.id].imageUrl %>.png" class="popphoto">
+									<img src="resources/css/images/<%= data.values[imageData.dataId].imageUrl %>.png" class="popphoto">
 								</div>
 							<% });
-							if( geographicData = step.geographicData ) { %>
+							if( geographicData = step.requiredPosition ) { %>
 								<p>coordinate: 
-									<%= data.values["coordinates"].latitude %>; 
-									<%= data.values["coordinates"].longitude %>
+									<%= data.values[geographicData.dataId].latitude %>; 
+									<%= data.values[geographicData.dataId].longitude %>
 								</p>
 							<% }
 						} else { %>

@@ -10,6 +10,7 @@ import com.sirius.sequenziatore.server.model.ProcessDao;
 import com.sirius.sequenziatore.server.model.StepDao;
 import com.sirius.sequenziatore.server.model.UserStep;
 import com.sirius.sequenziatore.server.model.Process;
+import com.sirius.sequenziatore.server.model.UserStep.StepStates;
 
 @Service
 public class UserProcessService {
@@ -43,4 +44,22 @@ public class UserProcessService {
 		return processList;//ritorno la lista corretta
 		
 	}
+	public List<UserStep> getDataSentList(String username) {
+		List<UserStep> dataSentList=new ArrayList<UserStep>();
+		dataSentList=stepDao.getApprovedOrRejected(username);
+		if(dataSentList!=null)
+			for(int i=0;i<dataSentList.size();i++){
+				UserStep toBeChecked;
+				toBeChecked=dataSentList.get(i);
+				if(toBeChecked.getState().equals(StepStates.APPROVED))
+					//stepDao
+					System.out.println("fof");
+				else{
+					toBeChecked.setState(StepStates.ONGOING);
+					stepDao.updateUserStep(toBeChecked);
+				}
+			}
+		return dataSentList;
+	}
+	
 }

@@ -58,6 +58,15 @@ public class UserProcessController {
 			return processList;
 		throw new IllegalStateException("Impossibile trovare la lista di processi");
 	}
+	
+	@RequestMapping(method=RequestMethod.GET,produces="application/json",value="/datasent")
+	@ResponseBody
+	public List<UserStep> getDataSentList(@PathVariable String username){
+		List<UserStep> dataSentList=new ArrayList<UserStep>();
+		dataSentList=userProcessService.getDataSentList(username);
+		return dataSentList;
+	}
+	
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND,   reason = "Passi in attesa di approvazione non trovati")
 	public void handleException(IllegalStateException ex, HttpServletResponse response) throws IOException{
