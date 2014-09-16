@@ -25,7 +25,7 @@ public class ProcessOwnerDao implements IDataAcessObject
 			ProcessOwner processOwner=new ProcessOwner();
 			String selQuery="SELECT * FROM processowner";
 			Map<String,Object> row=jdbcTemplate.queryForMap(selQuery);
-			processOwner.setUserName((String)row.get("userName"));
+			processOwner.setUsername((String)row.get("userName"));
 			processOwner.setPassword((String)row.get("password"));
 			return processOwner;
 		}

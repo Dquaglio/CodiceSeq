@@ -25,7 +25,7 @@ public class UserDao implements IDataAcessObject
 	}
 	
 	//Ritorna l'utente con il nome utente specificato
-	public User getUser(String userName)
+	public User getUser(String username)
 	{
 		try
 		{
@@ -35,7 +35,7 @@ public class UserDao implements IDataAcessObject
 				public User mapRow(ResultSet rs, int rowNum) throws SQLException
 				{
 					User user=new User();
-					user.setUserName(rs.getString("userName"));
+					user.setUsername(rs.getString("userName"));
 					user.setPassword(rs.getString("password"));
 					user.setName(rs.getString("name"));
 					user.setSurname(rs.getString("surName"));
@@ -44,7 +44,7 @@ public class UserDao implements IDataAcessObject
 					return user;
 				}
 			};
-			User user=jdbcTemplate.queryForObject(selQuery, mapper, new Object[] {userName});
+			User user=jdbcTemplate.queryForObject(selQuery, mapper, new Object[] {username});
 			return user;
 		}
 		catch(Exception ex)
@@ -66,7 +66,7 @@ public class UserDao implements IDataAcessObject
 			for (Map<String, Object> row : rows)
 			{
 				User user=new User();
-				user.setUserName((String)row.get("userName"));
+				user.setUsername((String)row.get("userName"));
 				user.setPassword((String)row.get("password"));
 				user.setName((String)row.get("name"));
 				user.setSurname((String)row.get("surName"));
@@ -101,7 +101,7 @@ public class UserDao implements IDataAcessObject
 		try
 		{
 			String inserQuery="INSERT INTO user (userName, password, name, surName, dateOfBirth, email) VALUES (?, ?, ?, ?, ?, ?);";
-			Object[] params=new Object[] {user.getUserName(),user.getPassword(),user.getName(),user.getSurname(),user.getDateOfBirth(),user.getEmail()};
+			Object[] params=new Object[] {user.getUsername(),user.getPassword(),user.getName(),user.getSurname(),user.getDateOfBirth(),user.getEmail()};
 			jdbcTemplate.update(inserQuery, params);
 			return true;
 		}
@@ -119,7 +119,7 @@ public class UserDao implements IDataAcessObject
 		try
 		{
 			String upQuery="UPDATE user SET password=?, name=?, surName=?, dateOfBirth=?, email=? WHERE userName=?";
-			Object[] params=new Object[] {user.getPassword(),user.getName(),user.getSurname(),user.getDateOfBirth(),user.getEmail(),user.getUserName()};
+			Object[] params=new Object[] {user.getPassword(),user.getName(),user.getSurname(),user.getDateOfBirth(),user.getEmail(),user.getUsername()};
 			jdbcTemplate.update(upQuery, params);
 			return true;
 		}
@@ -141,7 +141,7 @@ public class UserDao implements IDataAcessObject
 			for (Map<String, Object> row : rows)
 			{
 				User user=new User();
-				user.setUserName((String)row.get("userName"));
+				user.setUsername((String)row.get("userName"));
 				user.setPassword((String)row.get("password"));
 				user.setName((String)row.get("name"));
 				user.setSurname((String)row.get("surName"));

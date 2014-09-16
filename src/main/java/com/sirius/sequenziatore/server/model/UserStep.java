@@ -7,7 +7,7 @@ public class UserStep implements ITransferObject
 	
 	//Other fields
 	private int currentStepId;
-	private String userName;
+	private String username;
 	private StepStates state;
 	
 	//Getter & Setter
@@ -23,10 +23,10 @@ public class UserStep implements ITransferObject
 	public void setState(StepStates state) {
 		this.state = state;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser(String userName) {
-		this.userName = userName;
+	public void setUser(String username) {
+		this.username = username;
 	}
 }

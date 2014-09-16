@@ -232,7 +232,7 @@ public class StepDao implements IDataAcessObject
 		try
 		{
 			String upQuery="UPDATE userstep SET state=? WHERE currentStepId=? AND userName=?";
-			jdbcTemplate.update(upQuery, new Object[]{userStep.getState().name(), userStep.getCurrentStepId(), userStep.getUserName()});
+			jdbcTemplate.update(upQuery, new Object[]{userStep.getState().name(), userStep.getCurrentStepId(), userStep.getUsername()});
 			return true;
 		}
 		catch(Exception ex)
