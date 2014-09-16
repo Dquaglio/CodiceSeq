@@ -140,10 +140,7 @@ public class ProcessDao implements IDataAcessObject
 					params.put("requiredStep", block.getRequiredSteps());
 				}
 				params.put("isFirst", block.isFirst());
-				if(blockId!=0)
-				{
-					params.put("nextBlockId", blockId); //Blocco successivo precedentemente inserito
-				}
+				params.put("nextBlockId", blockId); //Blocco successivo precedentemente inserito
 				blockId = sji.executeAndReturnKey(params).intValue();
 				//Passi del blocco
 				List<Step> steps=block.getSteps();
@@ -155,10 +152,7 @@ public class ProcessDao implements IDataAcessObject
 					params.put("idBlock", blockId);
 					params.put("isFirst", step.isFirst());
 					params.put("description", step.getDescription());
-					if((stepId!=0)&&(blockType==Block.BlockTypes.SEQUENTIAL))
-					{
-						params.put("nextStepId", stepId); //Passo successivo precedentemente inserito
-					}
+					params.put("nextStepId", stepId); //Passo successivo precedentemente inserito
 					params.put("requiresApproval", step.requiresApproval());
 					params.put("optional", step.isOptional());
 					params.put("processId", processId);
