@@ -227,6 +227,30 @@ public class StepDao implements IDataAcessObject
 		finally{}
 	}
 	
+	public List<UserStep> getApprovedOrRejected(int processId, String username)
+	{
+		try
+		{
+			List<UserStep> uSteps=new ArrayList<UserStep>();
+			String selQuery="SELECT u.currentStepId, u.state FROM userstep u JOIN step s ON u.currentStepId=s.id WHERE u.userName=? AND s.processId=? AND u.state=?";
+			List<Map<String, Object>> rows = jdbcTemplate.queryForList(selQuery, new Object[]{username, processId, StepStates.APPROVED.toString()});
+			rows.addAll(jdbcTemplate.queryForList(selQuery, new Object[]{username, processId, StepStates.REJECTED.toString()}));
+			for (Map<String, Object> row : rows)
+			{
+				UserStep uStep=new UserStep();
+				uStep.setUser(username);
+				uStep.setCurrentStepId((int)row.get("currentStepId"));
+				uStep.setState(StepStates.valueOf((String)row.get("state")));
+				uSteps.add(uStep);
+			}
+			return uSteps;
+		}
+		catch(Exception ex)
+		{
+			return null;
+		}
+		finally{}
+	}
 	public boolean updateUserStep(UserStep userStep)
 	{
 		try
