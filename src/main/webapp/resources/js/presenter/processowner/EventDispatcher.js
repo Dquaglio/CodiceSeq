@@ -32,16 +32,20 @@ define([
 		});
 	};
 
+	// intervallo di pooling. static
 	var INTERVALMS = 60000;
 
 	// eredita il prototipo della classe BaseDispatcher
-	EventDispatcher.prototype = new BaseDispatcher(); // EventDispatcher.prototype = _.extend( Backbone.Events, new BaseDispatcher()  );
+	// da non mettere in ddp/st
+	EventDispatcher.prototype = new BaseDispatcher();
 	EventDispatcher.prototype.constructor = EventDispatcher;
 
+	// constructor
 	function EventDispatcher() {
 		this.intervalId = null;
 	}
 
+	// inizia a montorare eventuali variazioni nella collezione di passi che richiedono approvazione
 	EventDispatcher.prototype.startListen = function() {
 		var collection = new ProcessDataCollection();
 		intervalFunction.call( this, collection );
