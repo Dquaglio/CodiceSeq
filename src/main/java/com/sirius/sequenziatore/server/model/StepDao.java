@@ -528,6 +528,10 @@ public class StepDao implements IDataAcessObject
 	{
 		try
 		{
+			//Elimina tutti gli userstep del blocco corrente (blocco completo anche se non ordinato)
+			String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
+			jdbcTemplate.update(delQuery, new Object[]{username, actualBlockId});
+			//Seleziona prossimo blocco
 			String selQuery="SELECT nextBlockId FROM block WHERE id=?";
 			int nextBlockId=jdbcTemplate.queryForInt(selQuery, actualBlockId);
 			if(nextBlockId!=0)
