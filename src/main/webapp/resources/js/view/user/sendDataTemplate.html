@@ -1,42 +1,129 @@
-<div id="sendData">
-    <% if(notInner==true){%>
-    <ul data-role="listview" data-inset="true">
-        <% if(text) { %>
-            <li>
-                <a href="#process?id=<%= id% >&step=<%= stepId>&insert=text">
-                    Inserisci valori testuali
-                </a>
-            </li>
-        <%}%>
-        <%if(number){ %>
-            <li>
-                <a href="#process?id=<%= id% >&step=<%= stepId>&insert=number">
-                    Inserisci valori numerici
-                </a>
-            </li>
-        <% } %>
-        <% if(position) { %>
-        <li>
-            <a href="#process?id=<%= id% >&step=<%= stepId>&insert=position">
-                Inserisci posizione richiesta
-            </a>
-        </li>
-        <% } %>
+<%
+/*!
+* \File: sendDataTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-21
+* \Class: sendDataTemplate
+* \Package: com.sirius.sequenziatore.client.view.user
+* \Brief: template della pagina di esecuzione di un passo un processo
+*/
+%>
+<div data-role="header">
+	<h1>Esecuzione passo</h1>
+	<div class="ui-btn-left">
+		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+		<% if( process ) { %>
+			<a data-role="button" data-iconpos="notext" data-icon="back" href="#process?id=<%= process.id %>">Back</a>
+		<% } %>
+	</div>
+</div><!-- /header -->
 
-        <% if(image) { %>
-        <li>
-            <a href="#process?id=<%= id% >&step=<%= stepId>&insert=image">
-                Inserisci immagini
-            </a>
-        </li>
-        <% }
-        else{%>
-            <div id="inner" />
-        <%}%>
-    </ul>
-    <form id="sendForm">
-        <input type="submit" id="send" value="Invia"/>
-    </form>
-    </div>
-    <%}>
-</div>
+<% if( error ) { %>
+
+	<div id="content">
+
+		<ul data-role="listview" data-inset="true">
+			<% if( error.status == 0) { %>
+				<li data-role="list-divider">
+					<h3><%= error.text %></h3>
+				</li>
+				<li data-role="fieldcontain">
+					<button id="reloadPage" data-inline="true">Ricarica</button>
+				</li>
+			<% } else { %>
+				<li data-role="list-divider">
+					<h3>Errore</h3>
+				</li>
+				<li data-role="fieldcontain">
+					<p class="description">
+						<% if( process ) { %>
+							<%= error.text %>. Torna alla gestione del processo 
+							<a href="#process?id=<%= process.id %>"><%= process.name %></a>.
+						<% } else { %>
+							<%= error.text %>. Torna alla <a href="#home">pagina principale</a>.
+						<% } %>
+					</p>
+				</li>
+			<% } %>
+		</ul>
+
+	</div><!-- /content error -->
+
+<% } else { %>
+
+	<div id="content">
+
+		<form id="sendDataForm" accept-charset="utf-8" processId="<%= process.id %>" stepId="<%= step.id %>">
+			<ul data-inset="true" data-role="listview">
+				<li data-role="list-divider">
+					<h3 class="description"><%= process.name %></h3>
+					<p class="description"><%= step.description %></p>
+				</li>
+				<% _.each( step.textualData, function( textualData ) { %>
+					<li data-role="fieldcontain">
+						<label><%= textualData.description %></label>
+						<textarea dataId="<%= textualData.dataId %>" class="textualData" maxlength="300" required></textarea>
+					</li>
+				<% });
+				_.each( step.numericData, function( numericData ) { %>
+					<li data-role="fieldcontain">
+						<label><%= numericData.description %></label>
+						<% var minValue = numericData.minValue;
+							if( minValue < -999999999 ) minValue = -999999999;
+							var maxValue = numericData.maxValue;
+							if( minValue < -999999999 ) minValue = -999999999; 
+						if( numericData.decimal ) { %>
+							<input type="number" dataId="<%= numericData.dataId %>" class="numericData" min="minValue" max="maxValue" step="0.01" required />
+						<% } else { %>
+							<input type="number" class="numericData" dataId="<%= numericData.dataId %>" class="numericData" min="minValue" max="maxValue" required />
+						<% } %>
+					</li>
+				<% });
+				_.each( step.imageData, function( imageData ) { %>
+					<li data-role="fieldcontain">
+						<label for="image"><%= imageData.description %></label>
+						<input type="file" dataId="<%= imageData.dataId %>" accept="image/*" class="imageData" required />
+					</li>
+				<% }); 
+				if( geographicData = step.requiredPosition ) { %>
+					<li data-role="fieldcontain" id="geographicData" dataId="<%= geographicData.dataId %>">
+						<p class="description">latitudine: <span id="latitude"><%= geographicData.latitude %></span>; <span id="userLatitude"></span></p>
+						<p class="description">longitude: <span id="longitude"><%= geographicData.longitude %></span>; <span id="userLongitude"></span></p>
+						<p class="description">raggio d'accettazione: <span id="radius"><%= geographicData.radius %></span> metri; <span id="userRadius"></span></p>
+						<p class="description" id="coordinatesResult"></p>
+						<button id="checkCoordinates" data-inline="true" data-mini="true" data-icon="location">Verifica coordinate</button>
+					</li>
+				<% } %>
+			</ul>
+			
+			<div data-role="controlgroup" data-type="horizontal">
+				<button type="submit" data-icon="check" data-inline="true" data-mini="true">Salva passo</button>
+				<button href="#process?id=<%= process.id %>" data-icon="forbidden" data-inline="true" data-mini="true" id="cancelData">Annulla</button>
+			</div>
+		</form>
+
+	</div><!-- /content -->
+
+<% } %>
+
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+	
+	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+
+	<p>Ciao <%= username %>!</p>
+	
+	<a data-role="button" id="logout" data-icon="power">Logout</a>
+
+</div><!-- panel -->
+
+<div data-role="popup" class="alertPanel" data-overlay-theme="b" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h3></h3>
+	</div>
+	<div role="main" class="ui-content">
+		<p></p>
+	</div>
+</div><!-- /alert -->

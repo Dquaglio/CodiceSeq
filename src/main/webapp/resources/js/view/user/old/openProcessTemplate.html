@@ -1,0 +1,77 @@
+<%
+/*!
+* \File: openProcessTemplate.html
+* \Author: Marcomin Gabriele <gabriele.marcomin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-09-09
+* \Class: OpenProcess
+* \Package: com.sirius.sequenziatore.client.view.user
+* \Brief: template della pagina di scelta e ricerca di un processo iscritto o da iscrivere
+*/
+%>
+<div data-role="header">
+    <!--Variabile che contiene il tipo di processo, iscrivibile o già iscritto-->
+    <h1>Apri processi <%= tipo %> </h1>
+    <div class="ui-btn-left">
+        <a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
+        <a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
+    </div>
+
+</div><!-- /header -->
+
+<% if( error == "mona" ) { %>
+
+<div id="content" class="searchList">
+
+    <% if(processes.length) { %>
+
+        <form>
+            <input id="searchProcess" data-type="search" placeholder="Ricerca processo...">
+        </form>
+
+        <ul data-role="listview" data-inset="true" data-input="#searchProcess" data-filter="true" data-autodividers="false">
+            <% _.each(processes, function(process) {
+                if(!process.eliminated) { %>
+                    <li>
+                        <a href="#process?id=<%= process.id %>" class="ui-content">
+                            <img src="resources/css/images/<%= process.imageUrl %>.png" />
+                            <h3><%= process.name %></h3>
+                            <p><%= process.description %></p>
+                            <% if(process.terminated) { %>
+                                <p class="error ui-li-aside"><strong>terminato</strong></p>
+                            <% } %>
+                        </a>
+                    </li>
+            <% }
+            }); %>
+        </ul>
+    <% } else { %>
+    <ul data-role="listview" data-inset="true" class="spacedList">
+        <li data-role="fieldcontain">
+            <h3>Nessun processo disponibile</h3>
+        </li>
+    </ul>
+    <% } %>
+</div><!-- /content -->
+
+<% } else { %>
+
+<div id="content">
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">
+            <h3><%= error.text %></h3>
+        </li>
+        <li data-role="fieldcontain">
+            <button id="reloadPage" data-inline="true">Ricarica</button>
+        </li>
+    </ul>
+</div><!-- /content error -->
+
+<% } %>
+
+<!-- panel -->
+<div data-role="panel" id="panel" data-position="left" data-display="overlay">
+    <button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>
+    <p>Ciao <%= username %>!</p>
+    <a data-role="button" id="logout" data-icon="power">Logout</a>
+</div>

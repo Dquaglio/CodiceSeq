@@ -13,16 +13,34 @@ define([
 
 	var ProcessData = Backbone.Model.extend({
 
-		baseUrl: "http://localhost:8080/stepdata/",
+		baseUrl: "http://localhost:8080/sequenziatore/stepdata",
 
 		save: function() {
-			var url = this.baseUrl+this.get("stepId")+"/user"+this.get("username");
-			return $.ajax({
+			var self = this;	
+			var url = this.baseUrl+"/user/"+this.get("username");
+			var deferred = $.Deferred();
+			$.ajax({ 
 				type: "POST",
 				url: url,
 				data: JSON.stringify( this.toJSON() ),
 				dataType: "json",
-				contentType: "application/json;charset=utf-8"
+				contentType: "application/json;charset=utf-8",
+				success: function() { deferred.resolve(); },
+				error: function( error ) { deferred.reject(error); }
+			});
+			return deferred.promise();
+		},
+		
+		// salvataggio di un immagine
+		// image deve essere un oggetto di tipo "FormData"
+		saveImage: function( image ) {
+			return $.ajax({
+				type: 'POST',
+				url: "http://localhost:8080/sequenziatore/user/saveimage",
+				data: image,
+				cache: false,
+				contentType: false,
+				processData: false
 			});
 		}
 

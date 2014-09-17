@@ -20,12 +20,12 @@ import com.sirius.sequenziatore.server.model.Process;
 import com.sirius.sequenziatore.server.service.ProcessInfoService;
 
 @Controller
-@RequestMapping(value="/process/{idprocess}")
+@RequestMapping(value="/process")
 public class ProcessInfoController  { //classe addetta a ritornare le informazioni riguardanti i processi
 	@Autowired
 	private ProcessInfoService processInfoService;
 	//metodo che ritorna la struttura di un processo
-	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
+	@RequestMapping(method=RequestMethod.GET, produces = "application/json",value="/{idprocess}")
 	@ResponseBody
 	public Process getProcessInformation(@PathVariable int idprocess){
 		Process toBeReturned=processInfoService.getProcess(idprocess);//ottengo il processo da ritornare
@@ -38,10 +38,11 @@ public class ProcessInfoController  { //classe addetta a ritornare le informazio
 	//metodo per salvare le immagini
 	@RequestMapping(value="/saveimage", method=RequestMethod.POST)
 	@ResponseBody
-	public void uploadImage(@RequestParam(value="image")MultipartFile image){
+	public boolean uploadImage(@RequestParam(value="image")MultipartFile image){
 		boolean result=processInfoService.saveImage(image);
 		if(result==false)
 			throw new IllegalStateException("impossibile salvare l' immagine");
+		return result;
 	}
 	
 	@ExceptionHandler(IllegalStateException.class)

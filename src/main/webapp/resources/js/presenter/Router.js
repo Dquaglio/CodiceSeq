@@ -13,9 +13,10 @@ define([
  'backbone',
  'model/UserDataModel',
  'presenter/LoginLogic',
+ 'presenter/user/Register',
  'require',
  'jquerymobile'
-], function( $, Backbone, UserDataModel, LoginLogic, require ) {
+], function( $, Backbone, UserDataModel, LoginLogic, Register, require ) {
 
 	// Carica un presenter associadolo alla pagina "pageId"
 	var load = function( resource, pageId, async ) {
@@ -84,9 +85,9 @@ define([
 
 		// Backbone.Router.execute() override
 		execute: function(callback, args) {
-			if(callback) {
+			if( callback ) {
 				// Controllo sessione
-				if( this.userData.isLogged() ) callback.apply(this, args);
+				if( this.userData.isLogged() || callback==this.register ) callback.apply(this, args);
 				else {
 					// gestione autenticazione
 					if( typeof this.presenters["#login"] === "undefined" ) {
@@ -105,7 +106,6 @@ define([
 				if( this.userData.isUser() ) load.call(this,'presenter/user/MainUser',"#home",true);
 				else load.call(this,'presenter/processowner/MainProcessOwner',"#home",true);
 			}
-			else if( this.userData.isUser() ) changePage("#home");
 			else this.presenters["#home"].update();
 		},
 
@@ -139,6 +139,17 @@ define([
 				else load.call(this,'presenter/processowner/ManageProcess',"#process",true);
 			}
 			else this.presenters["#process"].update();
+		},
+
+		register: function() {
+			if( !this.userData.isLogged() ) {
+				if( typeof this.presenters["#register"] === "undefined" ) {
+					this.presenters["#register"] = new Register({ model: this.userData });
+					this.presenters["#register"].render();
+				}
+				changePage("#register");
+			}
+			else window.location.assign("#home");
 		}
 
 	});

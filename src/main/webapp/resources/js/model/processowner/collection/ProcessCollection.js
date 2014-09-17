@@ -17,7 +17,7 @@ define([
 		model: ProcessModel,
 		
 		//url: "resources/js/data/processprocessowner.json",
-		url: "http://localhost:8080/sequenziatore/process/processowner",
+		url: "http://localhost:8080/sequenziatore/process/processowner"
 
 	});
 

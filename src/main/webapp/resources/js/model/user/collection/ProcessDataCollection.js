@@ -16,8 +16,8 @@ define([
 	var ProcessDataCollection = Backbone.Collection.extend({
 
 		initialize: function( models, options ) {
-			this.url = "resources/js/data/report"+options.username+options.processId+".json";
-			// this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
+			//this.url = "resources/js/data/report"+options.username+options.processId+".json";
+			this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
 		},
 
 		model: ProcessDataModel

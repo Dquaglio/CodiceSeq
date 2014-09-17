@@ -23,15 +23,20 @@ import com.sirius.sequenziatore.server.service.UserStepService;
 public class UserStepController {
 	@Autowired
 	private UserStepService userStepService;
-	@RequestMapping(method=RequestMethod.POST,value="/{username}")
+	@RequestMapping(method=RequestMethod.POST,value="/{username}", produces = "application/json")
 	@ResponseBody
-	public void saveStepData(@RequestBody DataSent step,@PathVariable String username){
-		
+	public boolean saveStepData(@RequestBody DataSent step,@PathVariable String username){
+		boolean result=userStepService.saveDataSent(username,step);
+		if(result==false){
+			System.out.println("ECCEZZIONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+			throw new IllegalStateException("impossibile salvare il passo");
+		}
+		return true;
 	}
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND,   reason = "Passi in attesa di approvazione non trovati")
 	public void handleException(IllegalStateException ex, HttpServletResponse response) throws IOException{
-		//invia al client un errore 422
+		//invia al client un errore 404
 	}
 	
 

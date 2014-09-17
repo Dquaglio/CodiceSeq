@@ -127,7 +127,6 @@ define([
 				username: getParam("username"),
 				stepId: getParam("step")
 			}).done( function( data ) {
-				console.log(self.collection);
 				$.when.apply(null, updateStepData.apply(self)).then( function() {
 					return $.when.apply(null, updateProcessData.apply(self));
 				}).done( function() {
@@ -140,7 +139,6 @@ define([
 				});
 			}).fail( function( error ) {
 				// gestione errori
-				console.log(error);
 				if(error.status == 0) self.render( {}, { text: "Errore di connessione", status: 0 });
 				else self.render( {}, { text: "Il passo selezionato non richiede approvazione", status: error.status });
 				self.trigger("updated");

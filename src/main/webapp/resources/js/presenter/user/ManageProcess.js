@@ -12,11 +12,11 @@ define([
  'underscore',
  'backbone',
  'presenter/BasePresenter',
- /*'presenter/user/SendData',*/
+ 'presenter/user/SendData',
  'text!view/user/manageProcessTemplate.html',
  'model/user/ProcessModel',
  'jquerymobile'
-], function( $, _, Backbone, BasePresenter, /*SendData, */manageProcessTemplate, ProcessModel ) {
+], function( $, _, Backbone, BasePresenter, SendData, manageProcessTemplate, ProcessModel ) {
 
 	// PRIVATE
 
@@ -35,6 +35,7 @@ define([
 		return result ? ( Number(result[3]) || result[5]  ) : false;
 	};
 
+	// gestisce l'iscrizione al processo gestito
 	var subscribe = function( event ) {
 		console.log("unsubscribe");
 		$.mobile.loading('show');
@@ -49,6 +50,7 @@ define([
 		});
 	};
 
+	// gestisce la disiscrizione dal processo gestito
 	var unsubscribe = function( event ) {
 		console.log("unsubscribe");
 		$.mobile.loading('show');
@@ -56,7 +58,7 @@ define([
 			$.mobile.loading('hide');
 			printMessage("Azione eseguita", "Disiscrizione avvenuta con successo.");
 			$("#process .alertPanel").on( "popupafterclose", function() {
-				window.location.assign("#processes");
+				window.location.assign("#home");
 			});
 		}).fail( function( error ) {
 			$.mobile.loading('hide');
@@ -64,7 +66,8 @@ define([
 			else printMessage("Errore", error.status+" "+error.statusText);
 		});
 	};
-	
+
+	// gestisce l'eliminazione del processo gestito dalla lista dei processi dell'utente
 	var eliminateProcess = function( event ) {
 		$.mobile.loading('show');
 		this.process.unsubscribe({ username: this.session.getUsername() }).done( function() {
@@ -94,6 +97,12 @@ define([
 			BasePresenter.prototype.createPage.call(this, "process");
 			_.extend(this.events, BasePresenter.prototype.events);
 			this.session = options.session;
+			this.sendData = new SendData({ session: options.session });
+			var self = this;
+			// rilancia l'evento "updated" della sub-view sendData
+			this.listenTo( this.sendData, "updated", function() {
+				self.trigger("updated");
+			});
 		},
 
 		template: _.template(manageProcessTemplate),
@@ -129,14 +138,15 @@ define([
 				var self = this;
 				// recupero dal server dei dati del processo "process"
 				this.process.fetch().done( function( data ) {
+					console.log(data);
 					var options = {
 						process: self.process.toJSON(),
 						subscribed: data.subscribed,
 						steps: self.process.steps.toJSON()
 					};
 					// (a): gestione dell'esecuzione del passo con id "stepId"
-					if(stepId = getParam("step")) {
-						//self.sedData.update( { stepId: stepId }, options );
+					if( stepId = getParam("step") ) {
+						self.sendData.update( { stepId: stepId }, options );
 					}
 					// (b): gestione del processo "process"
 					else {	

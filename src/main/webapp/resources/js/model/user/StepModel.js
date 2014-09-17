@@ -14,8 +14,8 @@ define([
 	var StepModel = Backbone.Model.extend({
 
 		url: function() {
-			return "resources/js/data/step"+this.id+".json";
-			//return "http://localhost:8080/sequenziatore/step"+this.id;
+			//return "resources/js/data/step"+this.id+".json";
+			return "http://localhost:8080/sequenziatore/step/"+this.id;
 		}
 
 	});

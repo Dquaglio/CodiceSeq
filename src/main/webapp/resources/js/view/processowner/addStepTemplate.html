@@ -38,6 +38,7 @@
 						var textualData = step._textualData ? step._textualData : step.textualData;
 						var imageData = step._imageData ? step._imageData : step.imageData;
 						var numericData = step._numericData ? step._numericData : step.numericData;
+						var geographicData = step._requiredPosition ? step._requiredPosition : step.requiredPosition;
 					} if(!( textualData && imageData && numericData )) { %>
 						<% if( !textualData ) { %>
 							<button data-mini="true" data-inline="false" id="addTextualData">Testuale</button>
@@ -125,7 +126,7 @@
 							<label>Etichetta dato:</label>
 							<input type="text" pattern="(\w| )*\w+(\w| )*" maxlength="25" value="<%= numericData[i].description %>" required />
 							<label for="isDecimal<%= i %>">Cifre decimali permesse</label>
-							<input type="checkbox" id="isDecimal<%= i %>" <%= numericData[i].isDecimal ? "checked" : null %>/>
+							<input type="checkbox" id="isDecimal<%= i %>" <%= numericData[i].decimal ? "checked" : null %>/>
 							<input type="checkbox" id="minValueCheck<%= i %>" class="checkButton" <%= numericData[i].minValue ? "checked" : null %>/>
 							<label for="minValueCheck<%= i %>">Valore minimo</label>
 							<div class="hide<%= numericData[i].minValue ? " visible" : null %>">
@@ -165,9 +166,6 @@
 		</div>
 
 		<ul data-role="listview" data-inset="true" id="geographicData">
-			<% if( step.requiredPosition ) {
-				var geographicData = step.requiredPosition
-			} %>
 			<li data-role="list-divider">
 				<label for="geographicDataCheck">Vincoli geografici</label>
 				<input type="checkbox" id="geographicDataCheck" <%= geographicData ? "checked" : null %>/>
@@ -195,7 +193,6 @@
 
 </div><!-- /content -->
 
-	// restituisce i dati e i vincoli inseriti dall'utente relativi al passo in creazione
 <div data-role="panel" id="panel" data-position="left" data-display="overlay">
 	
 	<button data-rel="close" data-icon="delete" data-mini="true">Chiudi pannello</button>

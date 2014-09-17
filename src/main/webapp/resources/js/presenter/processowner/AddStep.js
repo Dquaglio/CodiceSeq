@@ -48,7 +48,7 @@ define([
 
 	// controlla la validità della descrizione description
 	var validateDescription = function( description ) {
-		if( description.length > 0 ) return null;
+		if( description && description.length > 0 ) return null;
 		else return "compilare il campo descrizione";
 	};
 
@@ -139,8 +139,9 @@ define([
 			longitude = longitude.match(/^(\+|-)?\d+(.\d+)?$/) ? longitude : null;
 			var radius = $("#radius").val().trim();
 			radius = radius.match(/^(\+|-)?\d+(.\d+)?$/) ? radius : null;
-			if( latitude && longitude )
-				geographicData = { dataId: 0, latitude: latitude, longitude: longitude, radius: radius, altitude: 0 };
+			if( latitude && longitude ) {
+				geographicData = { dataId: 0, description: "coordinate", latitude: latitude, longitude: longitude, radius: radius, altitude: 0 };
+			}
 		}
 		return geographicData;
 	};
@@ -172,7 +173,7 @@ define([
 			var options = { dataId: index+i };
 			options.description = $(element).find('input').first().val().trim();
 			if( options.description ) {
-				options.isDecimal = $(element).find('[id^="isDecimal"]').is(":checked");
+				options.decimal = $(element).find('[id^="isDecimal"]').is(":checked");
 				options.minValue = null;
 				if( $(element).find('[id^="minValueCheck"]').is(":checked") ) {
 					var minValue = $(element).find('[id|="minValue"]').val().trim();
@@ -182,6 +183,12 @@ define([
 				if( $(element).find('[id^="maxValueCheck"]').is(":checked") ) {
 					var maxValue = $(element).find('[id|="maxValue"]').val().trim();
 					if( maxValue.match(/^(\+|-)?\d{1,9}$/) ) options.maxValue = Number(maxValue);
+				}
+				if( options.maxValue && options.minValue ) {
+					if(options.maxValue<options.minValue) {
+						options.maxValue = null;
+						options.minValue = null;
+					}
 				}
 				numericData.push( options );
 			}
@@ -283,7 +290,7 @@ define([
 			'click #addImageData': updateImageData,
 			'click #addStepForm .delete-data': deleteData,
 			'click #cancelStep ': cancelStep,
-			'submit #addStepForm': saveStep,
+			'submit #addStepForm': saveStep
 		},
 
 		render: function( options ) {

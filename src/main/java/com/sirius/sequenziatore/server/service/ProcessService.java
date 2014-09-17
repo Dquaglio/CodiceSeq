@@ -37,5 +37,19 @@ public class ProcessService {
 		userList=userDao.getUserByProcess(processId);
 		return userList;
 	}
+	public boolean terminateProcess(int processId) {
+		Process process;
+		process=processDao.getProcess(processId);
+		process.setTerminated(true);
+		boolean result=processDao.updateProcess(process);
+		return result;
+	}
+	public boolean deleteProcess(int processId) {
+		Process process;
+		process=processDao.getProcess(processId);
+		process.setEliminated(true);
+		boolean result=processDao.updateProcess(process);
+		return result;
+	}
 	
 }

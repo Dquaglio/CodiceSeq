@@ -10,9 +10,9 @@
 		{ "id": 1, "description": "Nome benzinaio" }
 	],
 	"numericData": [
-		{ "id": 2, "description": "prezzo benzina(€)" },
-		{ "id": 3, "description": "prezzo gasolio(€)" },
-		{ "id": 4, "description": "prezzo idrogeno(€)" }
+		{ "id": 2, "description": "prezzo benzina(€)", decimal: true },
+		{ "id": 3, "description": "prezzo gasolio(€)", decimal: true },
+		{ "id": 4, "description": "prezzo idrogeno(€)", decimal: true }
 	],
 	"imageData": null,
 	"geographicData": null

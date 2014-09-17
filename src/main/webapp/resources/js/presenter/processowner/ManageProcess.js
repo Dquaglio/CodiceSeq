@@ -114,7 +114,6 @@ define([
 					this.process.fetch(),
 					this.process.steps.fetch()
 				).done( function() {
-				
 					options = {
 						process: self.process.toJSON(),
 						steps: self.process.steps.toJSON()

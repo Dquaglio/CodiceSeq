@@ -1,35 +1,67 @@
+<%
+/*!
+* \File: registerTemplate.html
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-10
+* \Class: registerTemplate
+* \Package: com.sirius.sequenziatore.client.user.view
+* \Brief: template della pagina di registrazione
+*/
+%>
 <div data-role="header">
 	<h1>Registrazione</h1>
 </div><!-- /header -->
 
 <div id="content">
 
-	<form id="registerForm">
-
-    <label for="name">Nome</label>
-    <input type="text" id="name" required />
-
-    <label for="surname">Cognome</label>
-    <input type="text" id="surname" required />
-
-    <label for="username">Username</label>
-    <input type="text" id="username" required />
-
-		<label for="email">Email</label>
-		<input type="text" id="email" required />
-
-    <label for="borndate">Data di nascita</label>
-    <input type="date" id="borndate" required />
-
-		<label for="password">Password</label>
-		<input type="password" id="password" required />
-
-    <label for="repassword">Ripeti password</label>
-    <input type="password" id="repassword" required />
-
-		<input type="submit" id="submit" value="Registrati" />
-    <input type="reset" id="reset" value="Annulla" />
+	<form id="registerForm"  accept-charset="utf-8">
+	
+		<ul data-role="listview" data-inset="true">
+			<li data-role="fieldcontain">
+				<label for="name">Nome</label>
+				<input type="text" pattern="(\w| )*\w+(\w| )*" id="name" maxlength="25" required />
+			</li>
+			<li data-role="fieldcontain">
+				<label for="surname">Cognome</label>
+				<input type="text" pattern="(\w| )*\w+(\w| )*" id="surname" maxlength="25" required />
+			</li>
+			<li data-role="fieldcontain">
+				<label for="username">Username</label>
+				<input type="text" pattern="\w+" id="username" maxlength="25" required />
+			</li>
+			<li data-role="fieldcontain">
+				<label for="email">Email</label>
+				<input type="email" id="email" maxlength="25" required />
+			</li>
+			<li data-role="fieldcontain">
+				<label for="borndate">Data di nascita</label>
+				<input type="date" id="borndate" maxlength="25" required />
+			</li>
+			<li data-role="fieldcontain">
+				<label for="password">Password</label>
+				<input type="password" id="password" maxlength="25" required />
+			</li>
+			<li data-role="fieldcontain">
+				<label for="repassword">Conferma password</label>
+				<input type="password" id="repassword" maxlength="25" required />
+			</li>
+		</ul>
+		<div data-role="controlgroup" data-type="vertical">
+			<button type="submit" data-icon="check" id="submitRegister">Registrati</button>
+			<button data-icon="forbidden" id="cancelRegister">Annulla</button>
+		</div>
 
 	</form>
 
 </div><!-- /content -->
+
+<div data-role="popup" class="alertPanel" data-overlay-theme="b" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h2>Errore</h2>
+	</div>
+	<div class="ui-content">
+		<p></p>
+	</div>
+</div><!-- /alert -->

@@ -29,7 +29,7 @@ define([
 			// (b): recupera i dati inviati da un utente relativi ad un processo
 			else if(options.processId && options.username) {
 				//this.url = "resources/js/data/report"+options.username+options.processId+".json";
-				this.url = "http://localhost:8080/report/"+options.username+"/"+options.processId;
+				this.url = "http://localhost:8080/sequenziatore/process/"+options.processId+"/"+options.username;
 			}
 			return this.constructor.__super__.fetch.apply(this);
 		},
@@ -43,8 +43,7 @@ define([
 			var deferred = $.Deferred();
 			this.constructor.__super__.fetch.apply(this).then( function() {
 				if( options.username && options.stepId ) {
-					console.log(self);
-					var data = self.findWhere({ userName: options.username, stepId: options.stepId });
+					var data = self.findWhere({ username: options.username, stepId: options.stepId });
 					if(!data) deferred.reject({ status: 400 });
 					else deferred.resolve( data );
 				}
@@ -60,10 +59,6 @@ define([
 			// Cambia gli indici dell'array "values", ordinandoli per id del dato del passo corrispondente
 			_.each(response, function( data ) {
 				data.values = _.indexBy(data.values, 'dataId');
-				if(data.values.hasOwnProperty("undefined")) {
-					data.values["coordinates"] = data.values["undefined"];
-					delete data.values["undefined"];
-				}
 			});
 			return response;
 		}

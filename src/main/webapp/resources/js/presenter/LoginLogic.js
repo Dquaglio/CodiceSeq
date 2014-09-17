@@ -56,11 +56,12 @@ define([
 				if( self.model.isLogged() ) location.reload();
 			}).fail(function() {
 				$.mobile.loading('hide');
-				// only for test
-				//if( self.model.isLogged() ) location.reload();
+				if( self.model.isLogged() ) location.reload();
+				else {
 					$("#home .alertPanel p").text("Credenziali non corrette");
 					$("#home .alertPanel").popup("open");
 					$("#password").val("");
+				}
 			});
 		}
 

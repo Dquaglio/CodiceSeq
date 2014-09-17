@@ -1,40 +1,68 @@
-
+/*!
+* \File: Register.js
+* \Author: Vanni Giachin <vanni.giachin@gmail.com>
+* \Date: 2014-05-26
+* \LastModified: 2014-07-28
+* \Class: Register
+* \Package: com.sirius.sequenziatore.client.presenter.user
+* \Brief: Gestione della logica della registrazione
+*/
 define([
  'jquery',
  'underscore',
  'backbone',
- 'presenter/BasePresenter',
-  'model/UserDataModel',
- 'text!view/user/registerTemplate.html'
-], function( $, _, Backbone, BasePresenter, UserData, RegisterTemplate ){
+ 'text!view/user/registerTemplate.html',
+ 'jquerymobile'
+], function( $, _, Backbone, registerTemplate ){
 
-
-
-
-	var Register = BasePresenter.extend({
-        model:new UserData(),
-        template: _.template(RegisterTemplate),
-        id: '#register',
-
-        el: $('body'),
-
-        //metodi
-
+	// PUBLIC
+	var Register = Backbone.View.extend({
+		
+		// constructor
 		initialize: function () {
-            BasePresenter.prototype.initialize.apply(this, options);
-            BasePresenter.prototype.createPage.call(this, "register");
+			// add page to DOM
+			if( $(this.id).length == 0 ) {
+				var first = !$("[data-role=page]").length;
+				var page = '<div data-role="page" data-title="Sequenziatore" id="register"></div>';
+				$('body').append(page).enhanceWithin();
+				// la prima pagina dinamicamente aggiunta deve essere inizializzata
+				if(first) $.mobile.initializePage();
+			}
 		},
+
+		template: _.template(registerTemplate),
+
+		id: "#register",
+
+		el: $('body'),
 
 		render: function() {
+			// template rendering and JQM css enhance
 			$(this.id).html(this.template()).enhanceWithin();
 		},
-
+		
 		events: {
-			"submit #registerForm" : "register"
+			"submit #loginForm" : 'login'
 		},
 
-		register: function(event) {
+		login: function(event) {
+			// prevent page reload on submit
 			event.preventDefault();
+			// management of asynchronous method "login"
+			var self = this;
+			$.mobile.loading('show');
+			this.model.login( $("#username").val(), $("#password").val() ).done( function() {
+				$.mobile.loading('hide');
+				if( self.model.isLogged() ) location.reload();
+			}).fail(function() {
+				$.mobile.loading('hide');
+				if( self.model.isLogged() ) location.reload();
+				else {
+					$("#home .alertPanel p").text("Credenziali non corrette");
+					$("#home .alertPanel").popup("open");
+					$("#password").val("");
+				}
+			});
 		}
 
 	});

@@ -21,7 +21,7 @@ define([
 			var dataState = {
 				username: this.get("username"),
 				stepId: this.get("stepId"),
-				state: approved // approved ? "APPROVED" : "REJECTED";
+				state: approved ? "APPROVED" : "REJECTED"
 			};
 			return $.ajax({
 				type: "POST",

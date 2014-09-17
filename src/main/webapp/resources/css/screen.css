@@ -44,7 +44,7 @@ label {
  * rosso forte       : ab2525
  * rosso brillante   : d8000c
  */
-.description {
+.description, .description span {
 	white-space:normal !important; /* va a capo se la larghezza del testo è maggiore di quella del contenitore */
 }
 .alerts {
@@ -74,7 +74,10 @@ label {
 	font-size: 0.75em;
 	font-weight: 400;
 }
-#descriptionTab input, #descriptionTab textarea, #addStepForm input, #addStepForm textarea {
+#descriptionTab input, #descriptionTab textarea,
+#addStepForm input, #addStepForm textarea,
+#sendDataForm input, #sendDataForm textarea,
+#registerForm input, #registerForm textarea {
 	min-height: 0 !important;
 	background: #ffffff !important;
 	box-shadow: none !important;
@@ -84,7 +87,9 @@ label {
 	margin-bottom: 12px;
 }
 #descriptionTab label, #descriptionTab input, #descriptionTab textarea,
-#addStepForm label, #addStepForm input, #addStepForm textarea {
+#addStepForm label, #addStepForm input, #addStepForm textarea,
+#sendDataForm label, #sendDataForm input, #sendDataForm textarea,
+#registerForm label, #registerForm input, #registerForm textarea {
 	font-size: 0.85em;
 	font-weight: 400;
 }
@@ -364,4 +369,9 @@ label {
 #buttonsArea button {
 	margin-bottom: 0.5em !important;
 }
+/* sendData */
+#checkCoordinates:after {
+	background-color: #FB9E25 !important;
+	/*background-color: #268a16;*/
+	/*background-color: #d47904;*/
 }

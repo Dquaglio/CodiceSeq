@@ -34,14 +34,10 @@ public class LoginController {
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public String receiveLoginRequest(@RequestParam String username,@RequestParam String password){
-		int result=loginService.checkLogin(username,password);
-		if(result==0)
+		String result=loginService.checkLogin(username,password);
+		if(result==null)
 			throw new IllegalStateException("Credenziali non corrette");
-		if(result==1)
-			return "user";
-		if(result==2)
-			return "processowner";
-		return null;
+		return result;
 	}
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR,   reason = "Errore credenziali non corrette")

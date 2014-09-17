@@ -28,7 +28,8 @@ public class ProcessInfoService implements ServletContextAware{
 			return false;
 		}
 		else{
-			File file=new File(servletContext.getRealPath("/")+"/images/"+"sicazzo.jpg");
+			System.out.println(servletContext.getRealPath("/"));
+			File file=new File(servletContext.getRealPath("/")+"/images/"/*+image.getName()*/+"sicazzo.jpg");
 			try {
 				FileUtils.writeByteArrayToFile(file, image.getBytes());
 			} catch (IOException e) {

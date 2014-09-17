@@ -16,8 +16,8 @@ define([
 	var StepCollection = Backbone.Collection.extend({
 
 		initialize: function( models, options ) {
-			//this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
-			this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
+			this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
+			//this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
 		},
 
 		model: StepModel,
@@ -31,7 +31,7 @@ define([
 				dataType: "json",
 				success: function( data ) {
 					for(i=0; i<data.length; i++) {
-						var step = new StepModel({ id: data[i].stepId, state: data[i].state });
+						var step = new StepModel({ id: data[i].currentStepId, state: data[i].state });
 						self.push(step);
 					}
 					$.when.apply(null, self.fetchSteps()).done( function() {

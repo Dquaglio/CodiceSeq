@@ -31,11 +31,12 @@ public class ProcessController {
 	//metodo che gestisce la comunicazione con il client e affida al service il salvataggio di un nuovo processo, in caso di fallimento lancia un errore 500
 	@RequestMapping(method=RequestMethod.POST,consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public void createProcess(@RequestBody ProcessWrapper processToBeCreated){
+	public boolean createProcess(@RequestBody ProcessWrapper processToBeCreated){
 		boolean result;
 		result=processService.createProcess(processToBeCreated);
 		if(result==false)
 			throw new IllegalStateException("errore nella creazione del processo");
+		return result;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, produces = "application/json")
@@ -47,7 +48,20 @@ public class ProcessController {
 			throw new IllegalStateException("errore nella ricerca della lista dei processi");
 		return processList;
 	}
-	
+	@RequestMapping(method=RequestMethod.POST, produces = "application/json",value="/terminate/{processId}")
+	@ResponseBody
+	public void terminateProcess(@PathVariable int processId){
+		boolean result=processService.terminateProcess(processId);
+		if(result==false)
+			throw new IllegalStateException("errore nella terminazione del processo");
+	}
+	@RequestMapping(method=RequestMethod.POST, produces = "application/json",value="/delete/{processId}")
+	@ResponseBody
+	public void deleteProcess(@PathVariable int processId){
+		boolean result=processService.deleteProcess(processId);
+		if(result==false)
+			throw new IllegalStateException("errore nella eliminazione del processo");
+	}
 	@RequestMapping(method=RequestMethod.GET, produces = "application/json",value="/userlist/{processId}")
 	@ResponseBody
 	public List<User> getUserList(@PathVariable int processId){

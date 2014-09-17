@@ -41,12 +41,12 @@
 					<h3 class="description"><%= process.name %></h3>
 					<p class="description"><%= process.description %></p>
 				</li>
-				<% _.each( _.where( steps, { processId: processId } ), function( _step ) {
-					_.each( _.where( waitingData, { stepId: _step.id } ), function( data ) { %>
+				<% _.each( _.where( steps, { processId: processId } ), function( step ) {
+					_.each( _.where( waitingData, { stepId: step.id } ), function( data ) { %>
 						<li>
-							<a class="link" href="#checkstep?step=<%= _step.id %>&username=<%= data.username %>">
+							<a class="link" href="#checkstep?step=<%= step.id %>&username=<%= data.username %>">
 								<p class="description"><strong><%= data.username %></strong></p>
-								<p class="description"><%= _step.description %></p>
+								<p class="description"><%= step.description %></p>
 							</a>
 						</li>
 					<% }); 
@@ -65,8 +65,8 @@
 		<ul data-role="listview" data-inset="true" data-input="#searchProcess" data-filter="true" data-autodividers="false">
 			<% _.each( processes, function(process) {
 				var dataNumber = 0;
-				_.where( steps, { processId: process.id } ).forEach( function( _step ) {
-					dataNumber += _.where(waitingData, { stepId: _step.id }).length;
+				_.where( steps, { processId: process.id } ).forEach( function( step ) {
+					dataNumber += _.where(waitingData, { stepId: step.id }).length;
 				}); %>
 				<li>
 					<a href="#checkstep?id=<%= process.id %>" class="ui-content">
@@ -76,7 +76,13 @@
 						<span class="ui-li-count ui-body-inherit"><%= dataNumber %></span>
 					</a>
 				</li>
-			<% }); %>
+			<% }); if( !waitingData || !waitingData.length ) { %>
+				<li data-role="fieldcontain">
+					<p class="description">
+						Nessun passo richiede approvazione. Torna alla <a href="#home">pagina principale</a>.
+					</p>
+				</li>
+			<% } %>
 		</ul>
 
 	<% } %>

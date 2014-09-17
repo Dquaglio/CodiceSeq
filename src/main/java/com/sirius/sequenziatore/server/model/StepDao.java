@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import com.sirius.sequenziatore.server.model.Block.BlockTypes;
+import com.sirius.sequenziatore.server.model.IDataValue.DataTypes;
 import com.sirius.sequenziatore.server.model.UserStep.StepStates;
 
 @Repository

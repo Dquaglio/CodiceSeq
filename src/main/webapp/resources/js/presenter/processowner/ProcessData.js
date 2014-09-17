@@ -78,7 +78,6 @@ define([
 
 		// template rendering and JQM css enhance
 		render: function( options, error ) {
-			console.log(options);
 			options["username"] = this.session.getUsername();
 			options["error"] = typeof error !== "undefined" ? error : null;
 			$(this.id).html(this.template( options )).enhanceWithin();

@@ -83,7 +83,7 @@ define([
 
 	// controlla il testo in input e ritorna true o un eventuale stringa di descrizione dell'errore
 	var validateDescription = function( description ) {
-		if( description.length > 0 ) return null;
+		if( description && description.length > 0 ) return null;
 		else return "compilare il campo descrizione";
 	};
 
@@ -220,7 +220,7 @@ define([
 				maxBlockId = this.blocks[i].id;
 		}
 		var blockId = maxBlockId+1;
-		this.blocks.push({ id: blockId, processId: 1, type: "SEQUENTIAL", steps: [] });
+		this.blocks.push({ id: blockId, type: "SEQUENTIAL", steps: [] });
 		this.render();
 	};
 
@@ -286,7 +286,7 @@ define([
 		else var completionsMax = 0;
 
 		if( $("#image")[0].files.length > 0 ) {
-			var imageFile = $("#image")[0].files[0];
+			var imageFile = $("#image").get(0).files[0];
 			error = validateImage( imageFile );
 		}
 		else if( this.process.get("imageFile") ) var imageFile = this.process.get("imageFile");
@@ -379,12 +379,17 @@ define([
 				var options = { blocks: processBlocks, image: null };
 				if( file ) {
 					var formData = new FormData();
+					console.log(file);
 					formData.append("image", file);
 					options.image = formData;
 				}
-				this.process.save(null, options);
 				console.log( this.process.toJSON() );
 				console.log( options );
+				this.process.save(null, options).done( function() {
+					printMessage("Azione eseguita","Salvataggio processo avvenuto con successo.");
+				}).fail( function(error) {
+					printMessage("Errore","Errore nella comunicazione con il server.");
+				});
 			}
 		}
 		else printMessage("Errore","La descrizione del processo non è stata ancora compilata.");
@@ -459,7 +464,7 @@ define([
 			var self = this;
 			$( ".sortable" ).sortable({
 				start: function(event, ui) { $(this).attr('data-previndex', ui.item.index()); },
-				update: function(event, ui) { self.sortBlock(event, ui); }
+				update: function(event, ui) { sortBlock.call(self, event, ui); }
 			});
 			$( ".sortable" ).disableSelection();
 

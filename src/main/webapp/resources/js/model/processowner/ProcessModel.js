@@ -9,9 +9,10 @@
 */
 define([
  'jquery',
+ 'underscore',
  'backbone',
  'model/processowner/collection/StepCollection'
-], function( $, Backbone, StepCollection ){
+], function( $, _, Backbone, StepCollection ){
 
 	var ProcessModel = Backbone.Model.extend({
 
@@ -31,9 +32,9 @@ define([
 				data: JSON.stringify({ process: this.toJSON(), blockList: options.blocks }),
 				dataType: "json",
 				contentType: "application/json;charset=utf-8",
-				success: function( data ) {
+				success: function() {
 					if( options.image ) {
-						self.saveImage( options.image, data ).done( function() {
+						self.saveImage( options.image ).done( function() {
 							deferred.resolve();
 						}).fail( function( error ) { deferred.reject(error); });
 					}
@@ -46,13 +47,14 @@ define([
 
 		// salvataggio dell'immagine di un processo
 		// image deve essere un oggetto di tipo "FormData"
-		saveImage: function( image, processId ) {
-			$.ajax({
+		saveImage: function( image ) {
+			return $.ajax({
 				type: 'POST',
-				url: "http://localhost:8080/sequenziatore/process/"+processId+"/saveimage",
-				data: image,
+				url: "http://localhost:8080/sequenziatore/process/saveimage",
+				data:  image,
 				cache: false,
 				contentType: false,
+				//dataType:"json",
 				processData: false
 			});
 		},
@@ -78,14 +80,14 @@ define([
 				url: url,
 				dataType:"json",
 				success: function(data) {
-					self.users = data;
+					self.users = _.pluck( data, "username" );
 				}
 			});
 		},
 
 		// Termina il processo
 		terminate: function() {
-			var url = "http://localhost:8080/sequenziatore/terminateprocess/"+this.id+"/processowner";
+			var url = "http://localhost:8080/sequenziatore/process/processowner/terminate/"+this.id;
 			var self = this;
 			return $.ajax({
 				type: "POST",
@@ -98,7 +100,7 @@ define([
 
 		// Elimina il processo dalla lista dei processi gestibili dall'utente process owner
 		eliminate: function() {
-			var url = "http://localhost:8080/sequenziatore/deleteprocess/"+this.id+"/processowner";
+			var url = "http://localhost:8080/sequenziatore/process/processowner/delete/"+this.id;
 			var self = this;
 			return $.ajax({
 				type: "POST",

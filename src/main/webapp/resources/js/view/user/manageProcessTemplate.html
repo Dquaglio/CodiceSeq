@@ -25,13 +25,13 @@
 
 <% if( !error ) { %>
 
-	<% var missingSteps = _.filter( steps, function(step) { return step.state!='APPROVED' }).length; %>
+	<% var missingSteps = _.filter( steps, function(step) { return step.state!="APPROVED" }).length; %>
 
 	<div id="content">
 
 		<ul data-role="listview" data-inset="true">
 			<li data-role="fieldcontain">
-				<p class="description"><%= process.description %></p>
+				<p class="description"><%= process.description %>.</p>
 			</li>
 			<li data-role="fieldcontain">
 				<% if( !missingSteps && subscribed ) { %>
@@ -95,7 +95,7 @@
 				</li>
 				<li data-role="fieldcontain">
 					<p class="description">
-						<%= error.text %>. Torna alla <a href="#processes">Gestione dei processi</a>.
+						<%= error.text %>. Torna alla <a href="#home">pagina principale</a>.
 					</p>
 				</li>
 			<% } %>

@@ -15,8 +15,8 @@
 		{ "dataId": 2, "description": "Foto della statua" }
 	],
 	"requiredPosition": {
-		"latitude": 45.5455,
-		"longitude": 11.5354,
+		"latitude": 40.689249,
+		"longitude": -74.0445,
 		"altitude": 0,
 		"radius": 100,
 		"dataId": 3

@@ -42,6 +42,14 @@ public class StepController {//classe che gestisce la comunicazione con il clien
 	public List<Step> getAllStep(@PathVariable int processId){
 		List<Step> stepList=new ArrayList<Step>();
 		stepList=stepService.getAllStep(processId);
+		for(int i=0;i<stepList.size();i++){
+			if(stepList.get(i)!=null){
+				stepList.get(i).getDescription();
+			}
+			else{
+				System.out.println("null"+i);
+			}
+		}
 		if(stepList!=null)
 			return stepList;
 		throw new IllegalStateException("impossibile recuperare la lista di passi");

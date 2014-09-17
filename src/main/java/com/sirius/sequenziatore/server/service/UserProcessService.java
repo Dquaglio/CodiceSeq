@@ -52,8 +52,7 @@ public class UserProcessService {
 				UserStep toBeChecked;
 				toBeChecked=dataSentList.get(i);
 				if(toBeChecked.getState().equals(StepStates.APPROVED))
-					//stepDao
-					System.out.println("fof");
+					stepDao.deleteUserStep(toBeChecked);
 				else{
 					toBeChecked.setState(StepStates.ONGOING);
 					stepDao.updateUserStep(toBeChecked);
