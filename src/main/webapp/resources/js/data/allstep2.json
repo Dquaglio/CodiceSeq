@@ -24,7 +24,7 @@
 		"processId": 2,
 		"description": "Inviaci il prezzo dei carburanti e il nome del benzinaio",
 		"first": false,
-		"nextStepId": null,
+		"nextStepId": 0,
 		"requiresApproval": false,
 		"optional": false,
 		"textualData" : [

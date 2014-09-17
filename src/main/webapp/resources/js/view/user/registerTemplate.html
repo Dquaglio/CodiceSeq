@@ -28,7 +28,7 @@
 			</li>
 			<li data-role="fieldcontain">
 				<label for="username">Username</label>
-				<input type="text" pattern="\w+" id="username" maxlength="25" required />
+				<input type="text" pattern="^\w{6}\w*$" id="username" maxlength="25" required />
 			</li>
 			<li data-role="fieldcontain">
 				<label for="email">Email</label>
@@ -40,7 +40,7 @@
 			</li>
 			<li data-role="fieldcontain">
 				<label for="password">Password</label>
-				<input type="password" id="password" maxlength="25" required />
+				<input type="password" id="password" pattern="^\w{8}\w*$" maxlength="25" required />
 			</li>
 			<li data-role="fieldcontain">
 				<label for="repassword">Conferma password</label>

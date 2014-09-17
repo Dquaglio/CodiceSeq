@@ -372,6 +372,7 @@ label {
 /* sendData */
 #checkCoordinates:after {
 	background-color: #FB9E25 !important;
-	/*background-color: #268a16;*/
-	/*background-color: #d47904;*/
+}
+#sendDataForm button[type="submit"]:after {
+	background-color: #5cb811 !important;
 }

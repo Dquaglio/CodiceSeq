@@ -1,6 +1,6 @@
 [
 	{
-		"stepId": 3,
+		"currentStepId": 3,
 		"username": "Gabriele",
 		"state": "ONGOING"
 	}

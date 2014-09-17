@@ -153,6 +153,7 @@ define([
 		data.numericValues = [];
 		$("#sendDataForm .numericData").each( function( i, element ) {
 			var number = Number( $(element).val() );
+			console.log( number +1 );
 			var stringNumber = $(element).val().replace(".",",");
 			if( number && stringNumber.match(/^(\+|-)?\d+(,\d+)?$/) ) data.numericValues.push({
 				value: number,
@@ -184,7 +185,27 @@ define([
 			deferreds.push( model.saveImage( formData ) );
 		}
 		return deferreds;
-	}
+	};
+
+	// gestione di superamento forzato di un passo opzionale
+	var skipStep = function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+		var data = {
+			username: this.session.getUsername(),
+			stepId: $('#sendDataForm').attr("stepId"),
+			sentTime: new Date()
+		};
+		var model = new ProcessDataModel( data );
+		model.save().done( function() {
+			printMessage("Passo superato", "Il passo è stato saltato con successo.");
+			$("#process .alertPanel").on( "popupafterclose", function() {
+				window.location.assign("#process?id="+$('#sendDataForm').attr("processId"));
+			});
+		}).fail( function(error) {
+			printMessage("Errore","Comunicazione con il server fallita.");
+		});
+	};
 
 	// invia i dati inseriti al server se i requisiti sono soddisfatti
 	var sendData = function( event ) {
@@ -195,51 +216,33 @@ define([
 			stepId: $('#sendDataForm').attr("stepId"),
 			sentTime: new Date()
 		};
-		//var values = [];
-		var error = setTextualData( data /*values*/ );
+		var error = setTextualData( data );
 		var imageFiles = [];
-		error = error ? error : setImageData( data /*values*/, imageFiles );
-		error = error ? error : setNumericData( data /*values*/ );
+		error = error ? error : setImageData( data, imageFiles );
+		error = error ? error : setNumericData( data );
 		if( error ) printMessage("Errore",error);
 		else if( $('#geographicData').length ) checkCoordinates().done( function( coordinates ) {
-			setGeographicData( data /*values*/, coordinates );
-			//data.values = values;
-			var model = new ProcessDataModel( data );
-			console.log( model.toJSON() );
-			if(!error) $.when.apply(null, saveImages( model, imageFiles )).done( function() {
-				$.when( model.save() ).done( function() {
-					printMessage("Passo superato", "I dati sono stati inviati e il passo è superato.");
-					$("#process .alertPanel").on( "popupafterclose", function() {
-						window.location.assign("#process?id="+$('#sendDataForm').attr("processId"));
-					});
-				}).fail( function(error) {
-					console.log(error.status);
-					printMessage("Errore","Comunicazione con il server fallita.");
-				});
-			}).fail( function() {
-				printMessage("Errore","Invio delle immagini al server fallito.");
-			});
+			setGeographicData( data, coordinates );
+			completeStep( data, imageFiles );
 		});
-		else {
-			//data.values = values;
-			var model = new ProcessDataModel( data );
-			if(!error) $.when.apply(null, saveImages( model, imageFiles )).done( function() {
-				$.when( model.save() ).done( function() {
-					printMessage("Passo superato", "I dati sono stati inviati e il passo è superato.");
-					$("#process .alertPanel").on( "popupafterclose", function() {
-						window.location.assign("#process?id="+$('#sendDataForm').attr("processId"));
-					});
-				}).fail( function(error) {
-					console.log(error.status);
-					console.log(error);
-					printMessage("Errore","Comunicazione con il server fallita.");
-				});
-			}).fail( function() {
-				printMessage("Errore","Invio delle immagini al server fallito.");
-			});
-		}
+		else completeStep( data, imageFiles );
 	};
 
+	var completeStep = function( data, imageFiles ) {
+		var model = new ProcessDataModel( data );
+		$.when.apply(null, saveImages( model, imageFiles )).done( function() {
+			$.when( model.save() ).done( function() {
+				printMessage("Passo superato", "I dati sono stati inviati e il passo è superato.");
+				$("#process .alertPanel").on( "popupafterclose", function() {
+					window.location.assign("#process?id="+$('#sendDataForm').attr("processId"));
+				});
+			}).fail( function(error) {
+				printMessage("Errore","Comunicazione con il server fallita.");
+			});
+		}).fail( function() {
+			printMessage("Errore","Invio delle immagini al server fallito.");
+		});
+	};
 
 	// PUBLIC
 	var SendData = BasePresenter.extend({
@@ -261,7 +264,8 @@ define([
 		events: {
 			'click #checkCoordinates': checkCoordinates,
 			'submit #sendDataForm': sendData,
-			'click #cancelData': cancelData
+			'click #cancelData': cancelData,
+			'click #skipStep': skipStep
 		},
 
 		// template rendering and JQM css enhance
@@ -274,12 +278,17 @@ define([
 
 		// aggiorna i dati della collezione "collection" recuperandoli dal server
 		update: function( param, options ) {
+			console.log("update");
 			if( !options.subscribed ) {
 				this.render( options, { text:"Non sei iscritto al processo selezionato", status: 400 });
 				this.trigger("updated");
 			}
 			else if( options.process.terminated ) {
 				this.render( options, { text:"Il processo selezionato è terminato", status: 400 });
+				this.trigger("updated");
+			}
+			else if( options.process.eliminated ) {
+				this.render( options, { text:"Passo inesistente o non eseguibile", status: 400 });
 				this.trigger("updated");
 			}
 			else if( step = _.findWhere(options.steps, {id: param.stepId}) ) {

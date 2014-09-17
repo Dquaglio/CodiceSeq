@@ -29,52 +29,52 @@
 
 		<div id="descriptionTab" class="mainTab">
 
-			<form id="descriptionForm" accept-charset="utf-8" enctype="multipart/form-data">
+			<form id="descriptionForm" enctype="multipart/form-data" method="post">
 
-			<ul data-role="listview" data-inset="true">
-				<li data-role="fieldcontain">
-					<label for="processName">Nome processo:</label>
-					<input type="text" pattern="(\w| )*\w+(\w| )*" id="processName" maxlength="25" value="<%= process.name %>" required/>
-				</li>
-				<li data-role="fieldcontain">
-					<label for="processDescription">Descrizione:</label>
-					<textarea id="processDescription" maxlength="300" required><%= process.description %></textarea>
-				</li>
-				<li data-role="fieldcontain">
-					<label for="image">Immagine:<%= process.imageUrl ? 
-						" <strong class='alerts'>"+process.imageUrl+"</strong>" : null %>
-					</label>
-					<input type="file" accept="image/*" id="image"/>
-				</li>
-				<li data-role="fieldcontain">
-					<input type="checkbox" id="dateOfTerminationCheck" class="checkButton" <%= process.dateOfTermination ? "checked" : null %>/>
-					<label for="dateOfTerminationCheck">Data di terminazione</label>
-					<%
-						if( process.dateOfTermination ) {
-							var date = process.dateOfTermination.toISOString().substring(0,10);
-							var time = process.dateOfTermination.toTimeString().substring(0,8);
-						}
-					%>
-					<div class="hide <%= date ? "visible" : null %>">
-						<input type="date" id="dateOfTermination" placeholder="gg/mm/aaaa" value="<%= date %>"/>
-						<input type="time" id="timeOfTermination" placeholder="hh:mm:ss" value="<%= time %>"/>
-					</div>
-					<%
-						var completionsMax = null;
-						if( process.completionsMax && process.completionsMax > 0 ) completionsMax = process.completionsMax;
-					%>
-					<input type="checkbox" id="completionsMaxCheck" class="checkButton" <%= completionsMax ? "checked" : null %>/>
-					<label for="completionsMaxCheck">Massimo numero di completamenti</label>
-					<div class="hide <%= completionsMax ? "visible" : null %>">
-						<input type="number" id="completionsMax" min="1" max="999999999" value="<%= completionsMax %>"/>
-					</div>
-				</li>
-			</ul>
+				<ul data-role="listview" data-inset="true">
+					<li data-role="fieldcontain">
+						<label for="processName">Nome processo:</label>
+						<input type="text" pattern="(\w| )*\w+(\w| )*" id="processName" maxlength="25" value="<%= process.name %>" required/>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="processDescription">Descrizione:</label>
+						<textarea id="processDescription" maxlength="300" required><%= process.description %></textarea>
+					</li>
+					<li data-role="fieldcontain">
+						<label for="image">Immagine:<%= process.imageUrl ? 
+							" <strong class='alerts'>"+process.imageUrl+"</strong>" : null %>
+						</label>
+						<input type="file" accept="image/*" id="image"/>
+					</li>
+					<li data-role="fieldcontain">
+						<input type="checkbox" id="dateOfTerminationCheck" class="checkButton" <%= process.dateOfTermination ? "checked" : null %>/>
+						<label for="dateOfTerminationCheck">Data di terminazione</label>
+						<%
+							if( process.dateOfTermination ) {
+								var date = process.dateOfTermination.toISOString().substring(0,10);
+								var time = process.dateOfTermination.toTimeString().substring(0,8);
+							}
+						%>
+						<div class="hide <%= date ? "visible" : null %>">
+							<input type="date" id="dateOfTermination" placeholder="gg/mm/aaaa" value="<%= date %>"/>
+							<input type="time" id="timeOfTermination" placeholder="hh:mm:ss" value="<%= time %>"/>
+						</div>
+						<%
+							var completionsMax = null;
+							if( process.completionsMax && process.completionsMax > 0 ) completionsMax = process.completionsMax;
+						%>
+						<input type="checkbox" id="completionsMaxCheck" class="checkButton" <%= completionsMax ? "checked" : null %>/>
+						<label for="completionsMaxCheck">Massimo numero di completamenti</label>
+						<div class="hide <%= completionsMax ? "visible" : null %>">
+							<input type="number" id="completionsMax" min="1" max="999999999" value="<%= completionsMax %>"/>
+						</div>
+					</li>
+				</ul>
 
-			<div data-role="controlgroup" data-type="horizontal">
-				<button type="submit" data-icon="check" data-inline="true" data-mini="true" id="saveDescription">Salva descrizione</button>
-				<button data-icon="forbidden" data-inline="true" data-mini="true" id="cancelDescription">Annulla</button>
-			</div>
+				<div data-role="controlgroup" data-type="horizontal">
+					<button type="submit" data-icon="check" data-inline="true" data-mini="true" id="saveDescription">Salva descrizione</button>
+					<button data-icon="forbidden" data-inline="true" data-mini="true" id="cancelDescription">Annulla</button>
+				</div>
 			
 			</form>
 

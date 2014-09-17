@@ -16,8 +16,9 @@ define([
 	var StepCollection = Backbone.Collection.extend({
 
 		initialize: function( models, options ) {
-			this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
-			//this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
+			if( typeof options !== "undefined" && options.processId )
+				//this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
+				this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
 		},
 
 		model: StepModel,
@@ -51,12 +52,21 @@ define([
 			return deferreds;
 		},
 
-		fetchApproved: function() {
-			var url = "";
+		// salva nella collezione i dati approvati o respinti
+		fetchApproved: function( options ) {
+			options = typeof options !== "undefined" ? options : {};
+			var url = "resources/js/data/user"+options.username+"datasent.json";
+			//var url = "http://localhost:8080/sequenziatore/user/"+options.username+"/datasent";
+			var self = this;
 			return $.ajax({	
 				type: "GET",
 				url: url,
-				dataType: "json"
+				dataType: "json",
+				success: function( data ) {
+					for(i=0; i<data.length; i++) {
+						self.push( new StepModel( data[i] ) );
+					}
+				}
 			});
 		}
 

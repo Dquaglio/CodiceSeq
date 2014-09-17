@@ -98,9 +98,12 @@
 				<% } %>
 			</ul>
 			
-			<div data-role="controlgroup" data-type="horizontal">
-				<button type="submit" data-icon="check" data-inline="true" data-mini="true">Salva passo</button>
-				<button href="#process?id=<%= process.id %>" data-icon="forbidden" data-inline="true" data-mini="true" id="cancelData">Annulla</button>
+			<div data-role="controlgroup" data-type="vertical">
+				<button type="submit" data-icon="check" data-inline="false" data-mini="true">Salva passo</button>
+				<% if( step.optional ) { %>
+					<button data-icon="forward" data-inline="false" data-mini="true" id="skipStep">Salta passo</button>
+				<% } %>
+				<button href="#process?id=<%= process.id %>" data-icon="forbidden" data-inline="false" data-mini="true" id="cancelData">Annulla</button>
 			</div>
 		</form>
 

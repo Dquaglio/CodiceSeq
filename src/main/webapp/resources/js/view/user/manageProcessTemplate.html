@@ -35,29 +35,28 @@
 			</li>
 			<li data-role="fieldcontain">
 				<% if( !missingSteps && subscribed ) { %>
-					<p>Processo completato con successo!</p>
+					<p class="alerts">Processo completato con successo!</p>
 					<button id="eliminateProcess" data-inline="true">Elimina processo</button>
 				<% } if(process.terminated) { %>
 					<p>stato processo: <span class="error"><strong>terminato</strong></span></p>
 					<button id="eliminateProcess" data-inline="true">Elimina processo</button>
-				<% } else if(subscribed) { %>
+				<% } else if( missingSteps && subscribed ) { %>
 					<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
 					<button id="unsubscribe" data-inline="true">Disiscriviti</button>
-				<% } else { %>
+				<% } else if( missingSteps && !subscribed ) { %>
 					<button id="subscribe" data-inline="true">Iscriviti</button>
 				<% } %>
 			</li>	
 		</ul>
 
-		<% if( steps.length && !process.terminated ) { %>
+		<% if( missingSteps && !process.terminated ) { %>
 			<ul data-role="listview" data-inset="true" class="spacedList">
 				<li data-role="list-divider">
 					<h3 class="description">Passi correnti</h3>
 				</li>
 				<% _.each(steps, function(step) {
-					if(step.state == "APPROVED") {
-						
-					} else if(step.state == "EXPENTANT") { %>
+					if(step.state == "APPROVED") {} 
+					else if(step.state == "EXPENTANT") { %>
 						<li data-role="fieldcontain">
 							<p><%= step.description %></p>
 							<p><strong>in attesa di approvazione</strong></p>

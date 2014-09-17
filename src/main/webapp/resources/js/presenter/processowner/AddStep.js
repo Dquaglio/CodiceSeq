@@ -134,11 +134,11 @@ define([
 		var geographicData = null;
 		if( $('#geographicDataCheck').is(":checked") ) {
 			var latitude = $("#latitude").val().trim();
-			latitude = latitude.match(/^(\+|-)?\d+(.\d+)?$/) ? latitude : null;
+			latitude = latitude.match(/^(\+|-)?\d+(\.\d+)?$/) ? latitude : null;
 			var longitude = $("#longitude").val().trim();
-			longitude = longitude.match(/^(\+|-)?\d+(.\d+)?$/) ? longitude : null;
+			longitude = longitude.match(/^(\+|-)?\d+(\.\d+)?$/) ? longitude : null;
 			var radius = $("#radius").val().trim();
-			radius = radius.match(/^(\+|-)?\d+(.\d+)?$/) ? radius : null;
+			radius = radius.match(/^(\+|-)?\d+(\.\d+)?$/) ? radius : null;
 			if( latitude && longitude ) {
 				geographicData = { dataId: 0, description: "coordinate", latitude: latitude, longitude: longitude, radius: radius, altitude: 0 };
 			}

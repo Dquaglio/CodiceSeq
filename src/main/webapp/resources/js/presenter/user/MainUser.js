@@ -18,6 +18,15 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, ProcessCollection, mainUserTemplate ) {
 
+	// visualizza il pannello di help relativo all'aggiunta di blocchi
+	var printNotifyPanel = function( approved, rejected ) {
+		var content = "";
+		if( approved ) content += '<p>'+approved+' passi sono stati approvati.</p>';
+		if( rejected ) content += '<p>'+rejected+' passi sono stati respinti.</p>';
+			$("#home .notifyPanel .ui-content").html( content );
+			$("#home .notifyPanel").popup("open");
+	};
+
 	var MainProcessOwner = BasePresenter.extend({
 
 		session: null,
@@ -52,8 +61,7 @@ define([
 				availableProcess: this.availableProcess.toJSON(),
 				runningProcess: this.runningProcess.toJSON(),
 				username: this.session.getUsername(),
-				error: error,
-				pprovedDataNumber: null
+				error: error
 			})).enhanceWithin();
 		},
 
@@ -74,6 +82,13 @@ define([
 				else self.render({ text: error.status+" "+error.statusText });
 				self.trigger("updated");
 			});
+		},
+
+		notifyApprovedData: function( collection ) {
+			var counter = _.countBy( collection, function(data) {
+				return data.state=="REJECTED" ? 'rejected': 'approved';
+			});
+			printNotifyPanel( counter.approved, counter.rejected );
 		}
 
 	});

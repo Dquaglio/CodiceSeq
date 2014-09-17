@@ -41,7 +41,7 @@ define([
 	EventDispatcher.prototype.constructor = EventDispatcher;
 
 	// constructor
-	function EventDispatcher() {
+	function EventDispatcher( options ) {
 		this.intervalId = null;
 	}
 

@@ -348,7 +348,7 @@ define([
 				data.minValue = data.minValue ? data.minValue : -999999999;
 			});
 		}
-		block.steps[0].first = true;
+		if( block.steps.length ) block.steps[0].first = true;
 	};
 
 	// salva il processo creato
@@ -375,20 +375,28 @@ define([
 				}
 				processBlocks[0].first = true;
 				var file = _.clone( this.process.get("imageFile") );
-				this.process.unset("imageFile", { silent: true });
 				var options = { blocks: processBlocks, image: null };
 				if( file ) {
 					var formData = new FormData();
-					console.log(file);
 					formData.append("image", file);
 					options.image = formData;
 				}
-				console.log( this.process.toJSON() );
-				console.log( options );
-				this.process.save(null, options).done( function() {
-					printMessage("Azione eseguita","Salvataggio processo avvenuto con successo.");
-				}).fail( function(error) {
-					printMessage("Errore","Errore nella comunicazione con il server.");
+				var self = this;
+				this.process.saveImage( options ).done( function() {
+					self.process.unset("imageFile", { silent: true });
+					self.process.save(null, options).done( function() {
+						printMessage("Azione eseguita","Salvataggio processo avvenuto con successo.");
+						self.process.clear({ silent: true });
+						self.blocks.splice( 0, self.blocks.length );
+						$("#newprocess .alertPanel").on( "popupafterclose", function() {
+							window.location.assign("#home");
+						});
+					}).fail( function(error) {
+						if( options.image ) self.process.set({ imageFile: options.image });
+						printMessage("Errore","Errore nella comunicazione con il server.");
+					});
+				}).fail( function() {
+					printMessage("Errore","Errore nell'invio dell'imagine del processo.");
 				});
 			}
 		}

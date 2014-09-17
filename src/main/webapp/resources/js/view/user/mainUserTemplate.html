@@ -17,7 +17,7 @@
 
 <% if( !error ) { %>
 
-<div id="content" class="searchList">
+<div id="content" data-role="content" class="searchList">
 
 	<form>
 		<input id="searchProcess" data-type="search" placeholder="Ricerca processo...">
@@ -33,7 +33,7 @@
 			<% _.each(runningProcess, function(process) { %>
 				<li>
 					<a href="#process?id=<%= process.id %>" class="ui-content">
-						<img src="resources/css/images/<%= process.imageUrl %>.png"></img>
+						<img src="resources/css/images/<%= process.imageUrl %>.jpg"></img>
 						<h3><%= process.name %></h3>
 						<p><%= process.description %></p>
 						<% if(process.terminated) { %>
@@ -49,7 +49,7 @@
 			<% _.each(availableProcess, function(process) { %>
 				<li>
 					<a href="#process?id=<%= process.id %>" class="ui-content">
-						<img src="resources/css/images/<%= process.imageUrl %>.png"></img>
+						<img src="resources/css/images/<%= process.imageUrl %>.jpg"></img>
 						<h3><%= process.name %></h3>
 						<p><%= process.description %></p>
 					</a>
@@ -89,6 +89,13 @@
 	<p>Ciao <%= username %>!</p>
 	
 	<a data-role="button" id="logout" data-icon="power">Logout</a>
-	<a data-role="button" id="setData" data-icon="user">Gestione account</a>
 
 </div><!-- panel -->
+
+<div data-role="popup" class="notifyPanel" data-overlay-theme="a" data-history="false" data-corners="false">
+	<a href="#" data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+	<div data-role="header">
+		<h3>Controllo avvenuto</h3>
+	</div>
+	<div role="main" class="ui-content"></div>
+</div><!-- /notifyPanel -->

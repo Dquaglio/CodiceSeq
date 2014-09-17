@@ -138,7 +138,6 @@ define([
 				var self = this;
 				// recupero dal server dei dati del processo "process"
 				this.process.fetch().done( function( data ) {
-					console.log(data);
 					var options = {
 						process: self.process.toJSON(),
 						subscribed: data.subscribed,

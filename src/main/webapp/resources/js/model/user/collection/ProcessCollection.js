@@ -16,16 +16,25 @@ define([
 	var ProcessCollection = Backbone.Collection.extend({
 
 		initialize: function( models, options ) {
-			//this.baseUrl = "resources/js/data/user"+options.username+"processlist";
-			this.baseUrl = "http://localhost:8080/sequenziatore/user/"+options.username+"/processlist";
+			this.baseUrl = "resources/js/data/user"+options.username+"processlist";
+			//this.baseUrl = "http://localhost:8080/sequenziatore/user/"+options.username+"/processlist";
 		},
 
 		model: ProcessModel,
 
 		fetch: function( options ) {
-			//this.url = this.baseUrl+options.running+".json";
-			this.url = this.baseUrl+"/"+options.running;
-			return this.constructor.__super__.fetch.apply(this);
+			this.url = this.baseUrl+options.running+".json";
+			//this.url = this.baseUrl+"/"+options.running;
+			this.reset();
+			var deferred = $.Deferred();
+			var self = this;
+			this.constructor.__super__.fetch.apply(this).done( function() {
+				if( options.running ) self.filter( function( process ) {
+					return !process.get("eliminated") && !process.get("terminated");
+				});
+				deferred.resolve();
+			}).fail( function( error ) { deferred.reject( error ); });
+			return deferred.promise();
 		}
 
 	});

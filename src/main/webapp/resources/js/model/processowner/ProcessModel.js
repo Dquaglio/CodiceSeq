@@ -24,45 +24,33 @@ define([
 
 		//  Backbone.Model.save() overriding
 		save: function( attributes, options ) {
-			var self = this;
-			var deferred = $.Deferred();
-			$.ajax({ 
+			return $.ajax({ 
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/process/processowner",
 				data: JSON.stringify({ process: this.toJSON(), blockList: options.blocks }),
 				dataType: "json",
-				contentType: "application/json;charset=utf-8",
-				success: function() {
-					if( options.image ) {
-						self.saveImage( options.image ).done( function() {
-							deferred.resolve();
-						}).fail( function( error ) { deferred.reject(error); });
-					}
-					else deferred.resolve();
-				},
-				error: function( error ) { deferred.reject(error); }
+				contentType: "application/json;charset=utf-8"
 			});
-			return deferred.promise();
 		},
 
 		// salvataggio dell'immagine di un processo
 		// image deve essere un oggetto di tipo "FormData"
-		saveImage: function( image ) {
-			return $.ajax({
+		saveImage: function( options ) {
+			var options = typeof options !== "undefined" ? options : null;
+			if( options && options.image ) return $.ajax({
 				type: 'POST',
 				url: "http://localhost:8080/sequenziatore/process/saveimage",
-				data:  image,
+				data:  options.image,
 				cache: false,
 				contentType: false,
-				//dataType:"json",
 				processData: false
 			});
 		},
 
 		//  Backbone.Model.fetch overriding
 		fetch: function() {
-			//this.url = "resources/js/data/process"+this.id+".json";
-			this.url = "http://localhost:8080/sequenziatore/process/"+this.id;
+			this.url = "resources/js/data/process"+this.id+".json";
+			//this.url = "http://localhost:8080/sequenziatore/process/"+this.id;
 			return $.when(
 				// esegue il fetch dei dati del processo
 				this.constructor.__super__.fetch.apply(this),
@@ -73,8 +61,8 @@ define([
 		// Aggiunge al processo la lista degli utenti iscritti ad esso
 		getUsernameList: function() {
 			var self = this;
-			var url = "http://localhost:8080/sequenziatore/process/processowner/userlist/"+this.id;
-			//var url = "resources/js/data/userlist"+this.id+".json";
+			//var url = "http://localhost:8080/sequenziatore/process/processowner/userlist/"+this.id;
+			var url = "resources/js/data/userlist"+this.id+".json";
 			return $.ajax({
 				type: "GET",
 				url: url,

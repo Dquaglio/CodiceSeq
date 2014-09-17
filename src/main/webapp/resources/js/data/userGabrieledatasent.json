@@ -1,0 +1,12 @@
+[
+	{
+		"currentStepId": 1,
+		"username": "Gabriele",
+		"state": "APPROVED"
+	},
+	{
+		"currentStepId": 2,
+		"username": "Gabriele",
+		"state": "REJECTED"
+	}
+]

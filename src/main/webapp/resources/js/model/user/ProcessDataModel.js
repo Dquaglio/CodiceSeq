@@ -31,13 +31,14 @@ define([
 			return deferred.promise();
 		},
 		
-		// salvataggio di un immagine
+		// salvataggio dell'immagine di un processo
 		// image deve essere un oggetto di tipo "FormData"
-		saveImage: function( image ) {
-			return $.ajax({
+		saveImage: function( options ) {
+			var options = typeof options !== "undefined" ? options : null;
+			if( options && options.image ) return $.ajax({
 				type: 'POST',
-				url: "http://localhost:8080/sequenziatore/user/saveimage",
-				data: image,
+				url: "http://localhost:8080/sequenziatore/process/saveimage",
+				data:  options.image,
 				cache: false,
 				contentType: false,
 				processData: false

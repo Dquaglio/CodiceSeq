@@ -52,7 +52,7 @@ define([
 				else var resource = "presenter/processowner/EventDispatcher";
 				var self = this;
 				require([resource], function( EventDispatcher ) {
-					self.eventDispatcher = new EventDispatcher();
+					self.eventDispatcher = new EventDispatcher({ session: self.userData });
 					self.eventDispatcher.addObserver( presenter );
 					self.eventDispatcher.startListen();
 				});

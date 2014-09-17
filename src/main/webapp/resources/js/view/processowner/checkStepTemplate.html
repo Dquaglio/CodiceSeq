@@ -70,7 +70,7 @@
 				}); %>
 				<li>
 					<a href="#checkstep?id=<%= process.id %>" class="ui-content">
-						<img src="resources/css/images/<%= process.imageUrl %>.png"></img>
+						<img src="resources/css/images/<%= process.imageUrl %>.jpg"></img>
 						<h3><%= process.name %></h3>
 						<p><%= process.description %></p>
 						<span class="ui-li-count ui-body-inherit"><%= dataNumber %></span>
@@ -93,7 +93,13 @@
 
 	<div id="content">
 		<ul data-role="listview" data-inset="true">
-			<% if( error.status == 0) { %>
+			<% if( !waitingData || !waitingData.length ) { %>
+				<li data-role="fieldcontain">
+					<p class="description">
+						Nessun passo richiede approvazione. Torna alla <a href="#home">pagina principale</a>.
+					</p>
+				</li>
+			<% } else if( error.status == 0) { %>
 				<li data-role="list-divider">
 					<h3><%= error.text %></h3>
 				</li>
