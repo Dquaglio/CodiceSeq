@@ -323,11 +323,15 @@ public class ProcessDao implements IDataAcessObject
 	
 	public List<Process> getSubscribableProcesses(String username)
 	{
-		List<Process> work=getAllProcess();
+		List<Process> halfWork=getAllProcess();
 		List<Process> my=getProcesses(username);
-		if((work!=null)&&(my!=null))
+		List<Process> work=new ArrayList<Process>();
+		for(Process process:halfWork)
 		{
-			work.removeAll(my);
+			if((!process.isEliminated())&&(!process.isTerminated())&&(!my.contains(process)))
+			{
+				work.add(process);
+			}
 		}
 		return work;
 	}
