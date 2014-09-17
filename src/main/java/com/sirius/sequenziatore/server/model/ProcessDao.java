@@ -260,6 +260,33 @@ public class ProcessDao implements IDataAcessObject
 		finally{}
 	}
 	
+	public boolean deleteProcess(Process process)
+	{
+		try
+		{
+			//Setta eliminazione
+			int processId=process.getId();
+			String upQuery="UPDATE process SET name=?, description=?, completionsMax=?, dateOfTermination=?, isTerminated=?, isEliminated=?, imageUrl=? WHERE id=?";
+			Object[] params=new Object[] {process.getName(), process.getDescription(), process.getCompletionsMax(), process.getDateOfTermination(), process.isTerminated(), true, process.getImageUrl(), processId};
+			jdbcTemplate.update(upQuery, params);
+			//Verifica se è possibile cancellarlo fisicamente dal db
+			params=new Object[]{processId};
+			String selQuery="SELECT COUNT(*) FROM userstep WHERE currentStepId IN(SELECT id FROM step WHERE processId=?)";
+			if(jdbcTemplate.queryForInt(selQuery, params)==0)
+			{
+				//Si può anche eliminare, elimino
+				String delQuery="DELETE FROM process WHERE id=?";
+				jdbcTemplate.update(delQuery, params);
+			}
+			return true;
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		finally{}
+	}
+	
 	public List<Process> getNotEliminated()
 	{
 		try
