@@ -2,7 +2,7 @@ package com.sirius.sequenziatore.server.model;
 
 import java.util.Date;
 
-public class Process  implements ITransferObject
+public class Process implements ITransferObject
 {
 	//Fields
 	private String name;
@@ -62,5 +62,19 @@ public class Process  implements ITransferObject
 	}
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Process other = (Process) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }
