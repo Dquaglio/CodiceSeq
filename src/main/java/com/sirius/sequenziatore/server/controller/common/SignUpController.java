@@ -24,11 +24,12 @@ public class SignUpController {// classe che gestisce la registrazione di un nuo
 	private SignUpService signUpService;
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
-	public void registerUser(@RequestBody User toBeRegistered){
+	public boolean registerUser(@RequestBody User toBeRegistered){
 		boolean result=signUpService.checkSignUp(toBeRegistered);
 		if(result==false){
 			throw new IllegalStateException("Utente già registrato");
 		}
+		else return result;
 	}
 	@ExceptionHandler(IllegalStateException.class)
 	@ResponseStatus(value = HttpStatus.CONFLICT,   reason = "Errore username già in uso")

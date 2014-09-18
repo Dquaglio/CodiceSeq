@@ -37,7 +37,6 @@ define([
 
 	// gestisce l'iscrizione al processo gestito
 	var subscribe = function( event ) {
-		console.log("unsubscribe");
 		$.mobile.loading('show');
 		var self = this;
 		this.process.subscribe({ username: this.session.getUsername() }).done( function() {
@@ -52,7 +51,6 @@ define([
 
 	// gestisce la disiscrizione dal processo gestito
 	var unsubscribe = function( event ) {
-		console.log("unsubscribe");
 		$.mobile.loading('show');
 		this.process.unsubscribe({ username: this.session.getUsername() }).done( function() {
 			$.mobile.loading('hide');
@@ -163,6 +161,19 @@ define([
 				this.render({}, { text: "Processo inesistente o eliminato", status: 400 });
 				this.trigger("updated");
 			}
+		},
+
+		// gestione della notifica della presenta di un nuovo passo approvato/respinto
+		notifyApprovedData: function( collection ) {
+			var counter = _.countBy( collection, function(data) {
+				return data.state=="REJECTED" ? 'rejected': 'approved';
+			});
+			var message = "";
+			if( counter.approved == 1 ) message += "Un passo è stato approvato.\n";
+			else if( counter.approved > 1 ) message += counter.approved+" passi sono stati approvati.\n";
+			if( counter.rejected == 1 ) message += "\nUn passo è stato respinto.";
+			else if( counter.rejected > 1 ) message += "\n"+counter.rejected+" passi sono stati respinti.";
+			if( message ) alert( message );
 		}
 
 	});

@@ -153,7 +153,6 @@ define([
 		data.numericValues = [];
 		$("#sendDataForm .numericData").each( function( i, element ) {
 			var number = Number( $(element).val() );
-			console.log( number +1 );
 			var stringNumber = $(element).val().replace(".",",");
 			if( number && stringNumber.match(/^(\+|-)?\d+(,\d+)?$/) ) data.numericValues.push({
 				value: number,
@@ -278,7 +277,6 @@ define([
 
 		// aggiorna i dati della collezione "collection" recuperandoli dal server
 		update: function( param, options ) {
-			console.log("update");
 			if( !options.subscribed ) {
 				this.render( options, { text:"Non sei iscritto al processo selezionato", status: 400 });
 				this.trigger("updated");
@@ -300,6 +298,19 @@ define([
 				this.render( options, { text:"Passo inesistente o non eseguibile", status: 400 });
 				this.trigger("updated");
 			}
+		},
+
+		// gestione della notifica della presenta di un nuovo passo approvato/respinto
+		notifyApprovedData: function( collection ) {
+			var counter = _.countBy( collection, function(data) {
+				return data.state=="REJECTED" ? 'rejected': 'approved';
+			});
+			var message = "";
+			if( counter.approved == 1 ) message += "Un passo è stato approvato.\n";
+			else if( counter.approved > 1 ) message += counter.approved+" passi sono stati approvati.\n";
+			if( counter.rejected == 1 ) message += "\nUn passo è stato respinto.";
+			else if( counter.rejected > 1 ) message += "\n"+counter.rejected+" passi sono stati respinti.";
+			if( message ) alert( message );
 		}
 
 	});

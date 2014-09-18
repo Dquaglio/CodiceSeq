@@ -18,15 +18,6 @@ define([
  'jquerymobile'
 ], function( $, _, Backbone, BasePresenter, ProcessCollection, mainUserTemplate ) {
 
-	// visualizza il pannello di help relativo all'aggiunta di blocchi
-	var printNotifyPanel = function( approved, rejected ) {
-		var content = "";
-		if( approved ) content += '<p>'+approved+' passi sono stati approvati.</p>';
-		if( rejected ) content += '<p>'+rejected+' passi sono stati respinti.</p>';
-			$("#home .notifyPanel .ui-content").html( content );
-			$("#home .notifyPanel").popup("open");
-	};
-
 	var MainProcessOwner = BasePresenter.extend({
 
 		session: null,
@@ -84,11 +75,17 @@ define([
 			});
 		},
 
+		// gestione della notifica della presenta di un nuovo passo approvato/respinto
 		notifyApprovedData: function( collection ) {
 			var counter = _.countBy( collection, function(data) {
 				return data.state=="REJECTED" ? 'rejected': 'approved';
 			});
-			printNotifyPanel( counter.approved, counter.rejected );
+			var message = "";
+			if( counter.approved == 1 ) message += "Un passo è stato approvato.\n";
+			else if( counter.approved > 1 ) message += counter.approved+" passi sono stati approvati.\n";
+			if( counter.rejected == 1 ) message += "\nUn passo è stato respinto.";
+			else if( counter.rejected > 1 ) message += "\n"+counter.rejected+" passi sono stati respinti.";
+			if( message ) alert( message );
 		}
 
 	});

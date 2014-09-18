@@ -31,9 +31,7 @@ define([
             //splito la querystring
             var stringList = query.split('&');
             var firstPart=stringList[0].split('=');
-            if(firstPart[0]=="type")
-                console.log(firstPart[1]);
-                result[unescape(firstPart[0])]=unescape(firstPart[1]);
+            if(firstPart[0]=="type") result[unescape(firstPart[0])]=unescape(firstPart[1]);
         }
         return result;
     }
@@ -51,7 +49,6 @@ define([
             BasePresenter.prototype.initialize.apply(this, options);
             BasePresenter.prototype.createPage.call(this, "processes");
             this.session = options.session;
-            console.log(this.session.getUsername());
             this.collection= new ProcessCollection({ username: this.session.getUsername()});
 
         },
@@ -64,8 +61,8 @@ define([
             $(this.id).html(this.template({
                 processes: this.collection.toJSON(),
                 username: this.session.getUsername(),
-                error: "cojon",
-                tipo:tipo
+                error: error,
+                tipo: tipo
                 })).enhanceWithin();
         },
 
@@ -88,12 +85,11 @@ define([
                 }
 
             self.collection.fetch({running:true}).done( function() {
-                console.log("pollo");
                 self.render({},tipo);
             }).fail( function(error) {
-                console.log("polla");
+ 
                 if(error.status == 0)
-                    self.render({ text: "Errore di connessione" },"ghei");
+                    self.render({ text: "Errore di connessione" });
                 else
                     self.render({ text: error.status+" "+error.statusText },tipo);
             }).always( function() { self.trigger("updated"); });

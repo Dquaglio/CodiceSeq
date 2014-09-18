@@ -83,6 +83,16 @@ define([
 
 		getUsername: function() {
 			return cookie.getItem("username");
+		},
+		
+		register: function( userData ) {
+			return $.ajax({ 
+				type: "POST",
+				url: "http://localhost:8080/sequenziatore/signup",
+				data: JSON.stringify({ toBeRegistered: userData }),
+				dataType: "json",
+				contentType: "application/json;charset=utf-8"
+			});
 		}
 
 	});
