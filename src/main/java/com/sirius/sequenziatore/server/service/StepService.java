@@ -1,3 +1,12 @@
+/*!
+* \File: StepService.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: StepService
+* \Package: com.sirius.sequenziatore.server.service
+* \Brief: gestione dei passi
+* */
 package com.sirius.sequenziatore.server.service;
 
 import java.util.ArrayList;

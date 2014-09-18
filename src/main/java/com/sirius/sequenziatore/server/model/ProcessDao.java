@@ -56,6 +56,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}
@@ -85,6 +86,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}
@@ -162,7 +164,6 @@ public class ProcessDao implements IDataAcessObject
 					List<TextualData> textuals=step.getTextualData();
 					List<ImageData> images=step.getImageData();
 					GeographicData geographic=step.getRequiredPosition();
-					int dataId=0;
 					//Dati Numerici
 					if(numerics!=null)
 					{
@@ -170,13 +171,12 @@ public class ProcessDao implements IDataAcessObject
 						{
 							params.clear();
 							params.put("currentStepId", stepId);
-							params.put("relativeId", dataId);
+							params.put("relativeId", numeric.getDataId());
 							params.put("description", numeric.getDescription());
 							params.put("type", "NUMERIC");
-							dataId=datasji.executeAndReturnKey(params).intValue();
 							//Vincoli dato numerico
 							params.clear();
-							params.put("associatedDataId", dataId);
+							params.put("associatedDataId", numeric.getDataId());//QUI
 							params.put("associatedStepId", stepId);
 							params.put("type", "NUMERIC");
 							params.put("isDecimal", numeric.isDecimal());
@@ -192,7 +192,7 @@ public class ProcessDao implements IDataAcessObject
 						{
 							params.clear();
 							params.put("currentStepId", stepId);
-							params.put("relativeId", dataId);
+							params.put("relativeId", textual.getDataId());
 							params.put("description", textual.getDescription());
 							params.put("type", "TEXTUAL");
 							datasji.executeAndReturnKey(params);
@@ -205,7 +205,7 @@ public class ProcessDao implements IDataAcessObject
 						{
 							params.clear();
 							params.put("currentStepId", stepId);
-							params.put("relativeId", dataId);
+							params.put("relativeId", image.getDataId());
 							params.put("description", image.getDescription());
 							params.put("type", "IMAGE");
 							datasji.executeAndReturnKey(params);
@@ -216,13 +216,12 @@ public class ProcessDao implements IDataAcessObject
 					{
 						params.clear();
 						params.put("currentStepId", stepId);
-						params.put("relativeId", dataId);
+						params.put("relativeId", geographic.getDataId());
 						params.put("description", geographic.getDescription());
 						params.put("type", "GEOGRAPHIC");
-						dataId=datasji.executeAndReturnKey(params).intValue();
 						//Vincoli dato geografico
 						params.clear();
-						params.put("associatedDataId", dataId);
+						params.put("associatedDataId", geographic.getDataId()); //QUI
 						params.put("associatedStepId", stepId);
 						params.put("type", "GEOGRAPHIC");
 						params.put("latitude",geographic.getLatitude());
@@ -255,6 +254,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return false;
 		}
 		finally{}
@@ -269,12 +269,12 @@ public class ProcessDao implements IDataAcessObject
 			String upQuery="UPDATE process SET name=?, description=?, completionsMax=?, dateOfTermination=?, isTerminated=?, isEliminated=?, imageUrl=? WHERE id=?";
 			Object[] params=new Object[] {process.getName(), process.getDescription(), process.getCompletionsMax(), process.getDateOfTermination(), process.isTerminated(), true, process.getImageUrl(), processId};
 			jdbcTemplate.update(upQuery, params);
-			//Verifica se è possibile cancellarlo fisicamente dal db
+			//Verifica se ï¿½ possibile cancellarlo fisicamente dal db
 			params=new Object[]{processId};
 			String selQuery="SELECT COUNT(*) FROM userstep WHERE currentStepId IN(SELECT id FROM step WHERE processId=?)";
 			if(jdbcTemplate.queryForInt(selQuery, params)==0)
 			{
-				//Si può anche eliminare, elimino
+				//Si puï¿½ anche eliminare, elimino
 				String delQuery="DELETE FROM process WHERE id=?";
 				jdbcTemplate.update(delQuery, params);
 			}
@@ -282,6 +282,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return false;
 		}
 		finally{}
@@ -312,6 +313,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}
@@ -343,6 +345,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}
@@ -417,6 +420,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return false;
 		}
 		finally{}
@@ -432,6 +436,7 @@ public class ProcessDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return false;
 		}
 		finally{}

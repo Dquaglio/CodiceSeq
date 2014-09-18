@@ -16,15 +16,15 @@ define([
 	var ProcessCollection = Backbone.Collection.extend({
 
 		initialize: function( models, options ) {
-			this.baseUrl = "resources/js/data/user"+options.username+"processlist";
-			//this.baseUrl = "http://localhost:8080/sequenziatore/user/"+options.username+"/processlist";
+			//this.baseUrl = "resources/js/data/user"+options.username+"processlist";
+			this.baseUrl = "http://localhost:8080/sequenziatore/user/"+options.username+"/processlist";
 		},
 
 		model: ProcessModel,
 
 		fetch: function( options ) {
-			this.url = this.baseUrl+options.running+".json";
-			//this.url = this.baseUrl+"/"+options.running;
+			//this.url = this.baseUrl+options.running+".json";
+			this.url = this.baseUrl+"/"+options.running;
 			this.reset();
 			var deferred = $.Deferred();
 			var self = this;

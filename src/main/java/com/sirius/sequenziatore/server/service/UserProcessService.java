@@ -1,3 +1,12 @@
+/*!
+* \File: UserProcessService.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: UserProcessService
+* \Package: com.sirius.sequenziatore.server.service
+* \Brief: gestione dei processi per utenti
+* */
 package com.sirius.sequenziatore.server.service;
 
 import java.util.ArrayList;
@@ -44,17 +53,18 @@ public class UserProcessService {
 		return processList;//ritorno la lista corretta
 		
 	}
+	//metodo che ritorna ad un utente la lista di passi approvati o non approvati dal PO
 	public List<UserStep> getDataSentList(String username) {
-		List<UserStep> dataSentList=new ArrayList<UserStep>();
-		dataSentList=stepDao.getApprovedOrRejected(username);
+		List<UserStep> dataSentList=new ArrayList<UserStep>();//dichiaro la lista che ritornerò
+		dataSentList=stepDao.getApprovedOrRejected(username);//ottengo la lista di tutti i passi approvati o meno
 		if(dataSentList!=null)
-			for(int i=0;i<dataSentList.size();i++){
+			for(int i=0;i<dataSentList.size();i++){//scorro tutta la lista
 				UserStep toBeChecked;
-				toBeChecked=dataSentList.get(i);
-				if(toBeChecked.getState().equals(StepStates.APPROVED))
-					stepDao.deleteUserStep(toBeChecked);
-				else{
-					toBeChecked.setState(StepStates.ONGOING);
+				toBeChecked=dataSentList.get(i);//semplifico ottenendo un singolo passo
+				if(toBeChecked.getState().equals(StepStates.APPROVED))//se il passo è stato approvato
+					stepDao.deleteUserStep(toBeChecked);//rimuovo il passo in quanto l utente vedrà che è stato approvato
+				else{//altrimenti il passo non è stato approvato
+					toBeChecked.setState(StepStates.ONGOING);//lo rimetto a ONGOING quindi è ancora da eseguire
 					stepDao.updateUserStep(toBeChecked);
 				}
 			}

@@ -1,3 +1,12 @@
+/*!
+* \File: ProcessInfoController.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: ProcessInfoController
+* \Package: com.sirius.sequenziatore.server.controller.common
+* \Brief: Gestione dei dati dei processi
+*/
 package com.sirius.sequenziatore.server.controller.common;
 
 import java.io.IOException;

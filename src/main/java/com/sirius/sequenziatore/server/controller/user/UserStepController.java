@@ -28,7 +28,6 @@ public class UserStepController {
 	public boolean saveStepData(@RequestBody DataSent step,@PathVariable String username){
 		boolean result=userStepService.saveDataSent(username,step);
 		if(result==false){
-			System.out.println("ECCEZZIONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			throw new IllegalStateException("impossibile salvare il passo");
 		}
 		return true;

@@ -118,6 +118,7 @@ define([
 						process: self.process.toJSON(),
 						steps: self.process.steps.toJSON()
 					};
+					console.log( options );
 					// (a): gestione dei dati ricevuti relativi al passo con id "stepId"
 					if(stepId = getParam("step")) {
 						self.currentTab = "stepsTab";
@@ -139,6 +140,7 @@ define([
 					
 				}).fail( function( error ) {
 					// gestione errori
+					console.log("error");
 					if(error.status == 0) self.render({}, { text: "Errore di connessione", status: 0 });
 					else self.render({}, { text: "Processo inesistente o eliminato", status: error.status });
 					self.trigger("updated");

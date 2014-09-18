@@ -1,3 +1,12 @@
+/*!
+* \File: StepinfoService.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: StepInfoService
+* \Package: com.sirius.sequenziatore.server.service
+* \Brief: gestione dei passi
+* */
 package com.sirius.sequenziatore.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;

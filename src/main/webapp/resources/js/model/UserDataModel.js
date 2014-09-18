@@ -45,7 +45,7 @@ define([
 		urlRoot: 'http://localhost:8080/sequenziatore/',
 
 		login: function(username, password) {
-
+/*
 			if( username=="Sirius" ) {
 				cookie.setItem("usertype", "processowner");
 				cookie.setItem("username", username);
@@ -54,7 +54,7 @@ define([
 				cookie.setItem("usertype", "user");
 				cookie.setItem("username", username);
 			}
-
+*/
 			var data = { username: username, password: password };
 			return $.ajax({
 				type: "POST",
@@ -89,7 +89,7 @@ define([
 			return $.ajax({ 
 				type: "POST",
 				url: "http://localhost:8080/sequenziatore/signup",
-				data: JSON.stringify({ toBeRegistered: userData }),
+				data: JSON.stringify( userData ),
 				dataType: "json",
 				contentType: "application/json;charset=utf-8"
 			});

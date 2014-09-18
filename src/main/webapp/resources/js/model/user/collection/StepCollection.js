@@ -17,8 +17,8 @@ define([
 
 		initialize: function( models, options ) {
 			if( typeof options !== "undefined" && options.processId )
-				//this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
-				this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
+				this.url = "http://localhost:8080/sequenziatore/user/"+options.username+"/subscribe/"+options.processId;
+				//this.url = "resources/js/data/user"+options.username+"subscribe"+options.processId+".json";
 		},
 
 		model: StepModel,
@@ -55,8 +55,8 @@ define([
 		// salva nella collezione i dati approvati o respinti
 		fetchApproved: function( options ) {
 			options = typeof options !== "undefined" ? options : {};
-			var url = "resources/js/data/user"+options.username+"datasent.json";
-			//var url = "http://localhost:8080/sequenziatore/user/"+options.username+"/datasent";
+			//var url = "resources/js/data/user"+options.username+"datasent.json";
+			var url = "http://localhost:8080/sequenziatore/user/"+options.username+"/datasent";
 			var self = this;
 			return $.ajax({	
 				type: "GET",

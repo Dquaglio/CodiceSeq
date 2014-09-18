@@ -1,3 +1,12 @@
+/*!
+* \File: ProcessController.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: ProcessController
+* \Package: com.sirius.sequenziatore.server.controller.processowner
+* \Brief: Gestione dell approvazione dei passi
+* */
 package com.sirius.sequenziatore.server.controller.processowner;
 
 import java.io.IOException;
@@ -67,8 +76,9 @@ public class ProcessController {
 	public List<User> getUserList(@PathVariable int processId){
 		List<User> userList=new ArrayList<User>();
 		userList=processService.getUserList(processId);
-		if(userList!=null)
+		if(userList!=null){
 			return userList;
+		}
 		throw new IllegalStateException("errore nel recuperare la lista di utenti");
 	}
 	//gestore delle eccezioni

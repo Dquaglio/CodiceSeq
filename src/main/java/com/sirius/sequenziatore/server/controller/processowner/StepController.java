@@ -1,3 +1,12 @@
+/*!
+* \File: StepController.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: StepController
+* \Package: com.sirius.sequenziatore.server.controller.processowner
+* \Brief: Gestione dei passi
+* */
 package com.sirius.sequenziatore.server.controller.processowner;
 
 import java.io.IOException;
@@ -18,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.sirius.sequenziatore.server.model.DataSent;
 import com.sirius.sequenziatore.server.model.Step;
-import com.sirius.sequenziatore.server.model.User;
 import com.sirius.sequenziatore.server.service.StepService;
 
 @Controller
@@ -42,16 +50,10 @@ public class StepController {//classe che gestisce la comunicazione con il clien
 	public List<Step> getAllStep(@PathVariable int processId){
 		List<Step> stepList=new ArrayList<Step>();
 		stepList=stepService.getAllStep(processId);
-		for(int i=0;i<stepList.size();i++){
-			if(stepList.get(i)!=null){
-				stepList.get(i).getDescription();
-			}
-			else{
-				System.out.println("null"+i);
-			}
-		}
-		if(stepList!=null)
+		System.out.println("Dimensione "+stepList.size());
+		if(stepList!=null){
 			return stepList;
+		}
 		throw new IllegalStateException("impossibile recuperare la lista di passi");
 	}
 	

@@ -1,3 +1,12 @@
+/*!
+* \File: SignUpController.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: SignUpController
+* \Package: com.sirius.sequenziatore.server.controller.common
+* \Brief: Gestione della registrazione
+*/
 package com.sirius.sequenziatore.server.controller.common;
 
 import java.io.IOException;
@@ -22,7 +31,7 @@ import com.sirius.sequenziatore.server.service.SignUpService;
 public class SignUpController {// classe che gestisce la registrazione di un nuovo utente
 	@Autowired
 	private SignUpService signUpService;
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST,consumes = "application/json")
 	@ResponseBody
 	public boolean registerUser(@RequestBody User toBeRegistered){
 		boolean result=signUpService.checkSignUp(toBeRegistered);

@@ -81,7 +81,7 @@ public class StepDao implements IDataAcessObject
 			step.setNumericData(numericDataList);
 			//TextualData
 			List<TextualData> textualDataList=new ArrayList<TextualData>();
-			selQuery="SELECT description FROM data WHERE type=? AND currentStepId=?";
+			selQuery="SELECT * FROM data WHERE type=? AND currentStepId=?";
 			rows = jdbcTemplate.queryForList(selQuery, new Object[]{IDataValue.DataTypes.TEXTUAL.toString(),id});
 			for (Map<String, Object> row : rows)
 			{
@@ -93,7 +93,7 @@ public class StepDao implements IDataAcessObject
 			step.setTextualData(textualDataList);
 			//ImageData
 			List<ImageData> imageDataList=new ArrayList<ImageData>();
-			selQuery="SELECT description FROM data WHERE type=? AND currentStepId=?";
+			selQuery="SELECT * FROM data WHERE type=? AND currentStepId=?";
 			rows = jdbcTemplate.queryForList(selQuery, new Object[]{IDataValue.DataTypes.IMAGE.toString(),id});
 			for (Map<String, Object> row : rows)
 			{
@@ -138,6 +138,7 @@ public class StepDao implements IDataAcessObject
 		}
 		catch(Exception ex)
 		{
+			ex.printStackTrace();
 			return null;
 		}
 		finally{}
@@ -538,7 +539,7 @@ public class StepDao implements IDataAcessObject
 				//Elimina tutti gli userstep del terminato corrente (blocco completo anche se non ordinato)
 				String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
 				jdbcTemplate.update(delQuery, new Object[]{username, actualBlockId});
-				//dopodiché
+				//dopodichï¿½
 				selQuery="SELECT id, type FROM block WHERE id=?";
 				Object[] params=new Object[]{nextBlockId};
 				ParameterizedRowMapper<Block> mapper = new ParameterizedRowMapper<Block>()

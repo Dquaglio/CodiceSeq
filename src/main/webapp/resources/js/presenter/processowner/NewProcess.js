@@ -382,22 +382,23 @@ define([
 					options.image = formData;
 				}
 				var self = this;
-				this.process.saveImage( options ).done( function() {
-					self.process.unset("imageFile", { silent: true });
-					self.process.save(null, options).done( function() {
-						printMessage("Azione eseguita","Salvataggio processo avvenuto con successo.");
-						self.process.clear({ silent: true });
-						self.blocks.splice( 0, self.blocks.length );
-						$("#newprocess .alertPanel").on( "popupafterclose", function() {
-							window.location.assign("#home");
-						});
-					}).fail( function(error) {
-						if( options.image ) self.process.set({ imageFile: options.image });
-						printMessage("Errore","Errore nella comunicazione con il server.");
+				//this.process.saveImage( options ).done( function() {
+				self.process.unset("imageFile", { silent: true });
+				self.process.save(null, options).done( function() {
+					printMessage("Azione eseguita","Salvataggio processo avvenuto con successo.");
+					self.process.clear({ silent: true });
+					self.blocks.splice( 0, self.blocks.length );
+					self.render();
+					$("#newprocess .alertPanel").on( "popupafterclose", function() {
+						window.location.assign("#home");
 					});
-				}).fail( function() {
-					printMessage("Errore","Errore nell'invio dell'imagine del processo.");
+				}).fail( function(error) {
+					if( options.image ) self.process.set({ imageFile: options.image });
+					printMessage("Errore","Errore nella comunicazione con il server.");
 				});
+				//}).fail( function() {
+				//	printMessage("Errore","Errore nell'invio dell'imagine del processo.");
+				//});
 			}
 		}
 		else printMessage("Errore","La descrizione del processo non è stata ancora compilata.");

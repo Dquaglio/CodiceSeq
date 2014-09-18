@@ -23,13 +23,13 @@ define([
 			options = typeof options !== "undefined" ? options : {};
 			// (a): recupera i dati inviati dagli utenti relativi ad un passo
 			if(options.stepId) {
-				this.url = "resources/js/data/stepdata"+options.stepId+"processowner.json";
-				//this.url = "http://localhost:8080/sequenziatore/stepdata/"+options.stepId+"/processowner";
+				//this.url = "resources/js/data/stepdata"+options.stepId+"processowner.json";
+				this.url = "http://localhost:8080/sequenziatore/stepdata/"+options.stepId+"/processowner";
 			}
 			// (b): recupera i dati inviati da un utente relativi ad un processo
 			else if(options.processId && options.username) {
-				this.url = "resources/js/data/report"+options.username+options.processId+".json";
-				//this.url = "http://localhost:8080/sequenziatore/process/"+options.processId+"/"+options.username;
+				//this.url = "resources/js/data/report"+options.username+options.processId+".json";
+				this.url = "http://localhost:8080/sequenziatore/process/"+options.processId+"/"+options.username;
 			}
 			return this.constructor.__super__.fetch.apply(this);
 		},
@@ -37,8 +37,8 @@ define([
 		// salva nella collezione i dati in attesa di approvazione
 		fetchWaiting: function( options ) {
 			options = typeof options !== "undefined" ? options : {};
-			this.url = "resources/js/data/approvedata.json";
-			//this.url = "http://localhost:8080/sequenziatore/approvedata";
+			//this.url = "resources/js/data/approvedata.json";
+			this.url = "http://localhost:8080/sequenziatore/approvedata";
 			var self = this;
 			var deferred = $.Deferred();
 			this.constructor.__super__.fetch.apply(this).then( function() {

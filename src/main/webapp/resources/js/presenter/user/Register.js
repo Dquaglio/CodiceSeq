@@ -55,7 +55,7 @@ define([
 	};
 
 	var validatePassword = function( password, confirmPassword ) {
-		if( password != confirmPassword ) return "la password di conferma è diversa dalla password scelta.";
+		if( password !== confirmPassword ) return "la password di conferma è diversa dalla password scelta.";
 		else return null;
 	};
 

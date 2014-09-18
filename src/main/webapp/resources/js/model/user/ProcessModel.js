@@ -18,8 +18,8 @@ define([
 		steps: null,
 
 		initialize: function( attributes, options ) {
-			this.url = "resources/js/data/process"+this.id+".json";
-			//this.url = "http://localhost:8080/sequenziatore/process/"+this.id;
+			//this.url = "resources/js/data/process"+this.id+".json";
+			this.url = "http://localhost:8080/sequenziatore/process/"+this.id;
 			this.steps = new StepCollection([], {
 				processId: this.id,
 				username: options.username

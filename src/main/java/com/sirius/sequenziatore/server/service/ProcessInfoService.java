@@ -1,3 +1,12 @@
+/*!
+* \File: ProcessInfoService.java 
+* \Author: Quaglio Davide <quaglio.davide@gmail.com> 
+* \Date: 2014-04-22 
+* \LastModified: 2014-09-10
+* \Class: ProcessInfoService
+* \Package: com.sirius.sequenziatore.server.service
+* \Brief: gestione processi
+* */
 package com.sirius.sequenziatore.server.service;
 
 import java.io.File;
@@ -28,8 +37,7 @@ public class ProcessInfoService implements ServletContextAware{
 			return false;
 		}
 		else{
-			System.out.println(servletContext.getRealPath("/"));
-			File file=new File(servletContext.getRealPath("/")+"/images/"/*+image.getName()*/+"sicazzo.jpg");
+			File file=new File(servletContext.getRealPath("/")+image.getName());
 			try {
 				FileUtils.writeByteArrayToFile(file, image.getBytes());
 			} catch (IOException e) {

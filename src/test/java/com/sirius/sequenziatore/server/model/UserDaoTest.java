@@ -25,11 +25,11 @@ public class UserDaoTest {
 		MockitoAnnotations.initMocks(this);
 		//creazione user1 e user2 per test
 		User us1= new User();
-		us1.setUserName("paolo77");
+		us1.setUsername("paolo77");
 		us1.setName("Paolo");
 		us1.setSurname("Rossi");
 		User us2= new User();
-		us2.setUserName("bim77");
+		us2.setUsername("bim77");
 		us2.setName("Mario");
 		us2.setSurname("Bianchi");
 		//lista
