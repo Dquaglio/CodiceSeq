@@ -166,7 +166,7 @@ define([
 		// gestione della notifica della presenta di un nuovo passo approvato/respinto
 		notifyApprovedData: function( collection ) {
 			var counter = _.countBy( collection, function(data) {
-				return data.state=="REJECTED" ? 'rejected': 'approved';
+				return data.state=="ONGOING" ? 'rejected': 'approved';
 			});
 			var message = "";
 			if( counter.approved == 1 ) message += "Un passo è stato approvato.\n";
