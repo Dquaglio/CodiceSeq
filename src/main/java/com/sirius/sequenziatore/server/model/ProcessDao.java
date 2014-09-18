@@ -164,6 +164,7 @@ public class ProcessDao implements IDataAcessObject
 					List<TextualData> textuals=step.getTextualData();
 					List<ImageData> images=step.getImageData();
 					GeographicData geographic=step.getRequiredPosition();
+					int absId=0;
 					//Dati Numerici
 					if(numerics!=null)
 					{
@@ -174,9 +175,10 @@ public class ProcessDao implements IDataAcessObject
 							params.put("relativeId", numeric.getDataId());
 							params.put("description", numeric.getDescription());
 							params.put("type", "NUMERIC");
+							absId=datasji.executeAndReturnKey(params).intValue();
 							//Vincoli dato numerico
 							params.clear();
-							params.put("associatedDataId", numeric.getDataId());//QUI
+							params.put("associatedDataId", absId);
 							params.put("associatedStepId", stepId);
 							params.put("type", "NUMERIC");
 							params.put("isDecimal", numeric.isDecimal());
@@ -219,9 +221,10 @@ public class ProcessDao implements IDataAcessObject
 						params.put("relativeId", geographic.getDataId());
 						params.put("description", geographic.getDescription());
 						params.put("type", "GEOGRAPHIC");
+						absId=datasji.executeAndReturnKey(params).intValue();
 						//Vincoli dato geografico
 						params.clear();
-						params.put("associatedDataId", geographic.getDataId()); //QUI
+						params.put("associatedDataId", absId);
 						params.put("associatedStepId", stepId);
 						params.put("type", "GEOGRAPHIC");
 						params.put("latitude",geographic.getLatitude());
