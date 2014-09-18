@@ -229,8 +229,8 @@ define([
 
 	var completeStep = function( data, imageFiles ) {
 		var model = new ProcessDataModel( data );
-		$.when.apply(null, saveImages( model, imageFiles )).done( function() {
-			$.when( model.save() ).done( function() {
+		//$.when.apply(null, saveImages( model, imageFiles )).done( function() {
+			model.save().done( function() {
 				printMessage("Passo superato", "I dati sono stati inviati e il passo è superato.");
 				$("#process .alertPanel").on( "popupafterclose", function() {
 					window.location.assign("#process?id="+$('#sendDataForm').attr("processId"));
@@ -238,9 +238,9 @@ define([
 			}).fail( function(error) {
 				printMessage("Errore","Comunicazione con il server fallita.");
 			});
-		}).fail( function() {
-			printMessage("Errore","Invio delle immagini al server fallito.");
-		});
+		//}).fail( function() {
+		//	printMessage("Errore","Invio delle immagini al server fallito.");
+		//});
 	};
 
 	// PUBLIC

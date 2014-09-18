@@ -33,6 +33,10 @@
 	<% } %>
 </div><!-- /header -->
 
+<% if( !error && process.eliminated ) {
+	error = "Processo inesistente o eliminato";
+} %>
+
 <% if( !error ) { %>
 
 	<div id="content" class="searchList">

@@ -10,13 +10,7 @@
 */
 %>
 <div data-role="header">
-	<h1>
-		<% if( !error ) { %> 
-			<%= process.name %>
-		<% } else { %>
-			Gestione processo
-		<% } %>
-	</h1>
+	<h1>Gestione processo</h1>
 	<div class="ui-btn-left">
 		<a id="options" data-role="button" data-iconpos="notext" data-icon="bars">Opzioni</a>
 		<a href="#home" data-role="button" data-iconpos="notext" data-icon="home">Home</a>
@@ -30,21 +24,19 @@
 	<div id="content">
 
 		<ul data-role="listview" data-inset="true">
-			<li data-role="fieldcontain">
-				<p class="description"><%= process.description %>.</p>
+			<li data-role="list-divider">
+				<h3><%= process.name %></h3>
 			</li>
 			<li data-role="fieldcontain">
-				<% if( !missingSteps && subscribed ) { %>
+				<P><%= process.description %></P>
+				<% if(process.terminated) { %>
+					<p class="error ui-li-aside"><strong>terminato</strong></p>
+				<% } if( !missingSteps && subscribed ) { %>
 					<p class="alerts">Processo completato con successo!</p>
-					<button id="eliminateProcess" data-inline="true">Elimina processo</button>
 				<% } if(process.terminated) { %>
 					<p>stato processo: <span class="error"><strong>terminato</strong></span></p>
-					<button id="eliminateProcess" data-inline="true">Elimina processo</button>
 				<% } else if( missingSteps && subscribed ) { %>
 					<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
-					<button id="unsubscribe" data-inline="true">Disiscriviti</button>
-				<% } if( !subscribed ) { %>
-					<button id="subscribe" data-inline="true">Iscriviti</button>
 				<% } %>
 			</li>	
 		</ul>
@@ -74,6 +66,16 @@
 				}); %>
 			</ul>
 		<% } %>
+		
+		<div data-role="controlgroup" data-type="vertical">
+			<% if( ( !missingSteps && subscribed ) || process.terminated ) { %>
+				<button data-icon="delete" id="eliminateProcess" data-mini="true">Elimina processo</button>
+			<% } else if( missingSteps && subscribed ) { %>
+				<button data-icon="delete" id="unsubscribe" data-mini="true">Disiscriviti</button>
+			<% } if( !subscribed ) { %>
+				<button data-icon="check" id="subscribe" data-mini="true">Iscriviti</button>
+			<% } %>
+		</div>
 
 	</div><!-- /content -->
 
