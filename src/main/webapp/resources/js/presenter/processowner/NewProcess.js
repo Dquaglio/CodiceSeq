@@ -388,8 +388,8 @@ define([
 					printMessage("Azione eseguita","Salvataggio processo avvenuto con successo.");
 					self.process.clear({ silent: true });
 					self.blocks.splice( 0, self.blocks.length );
-					self.render();
 					$("#newprocess .alertPanel").on( "popupafterclose", function() {
+						self.render();
 						window.location.assign("#home");
 					});
 				}).fail( function(error) {
@@ -462,7 +462,7 @@ define([
 
 		render: function() {
 			// salva le modifiche alle opzioni sui blocchi
-			saveOptions.call(this);
+			if( blocks && blocks.length ) saveOptions.call(this);
 			// template rendering and JQM css enhance
 			$(this.id).html(this.template({
 				username: this.session.getUsername(),

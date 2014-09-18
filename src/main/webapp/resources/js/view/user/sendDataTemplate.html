@@ -55,7 +55,7 @@
 
 	<div id="content">
 
-		<form id="sendDataForm" accept-charset="utf-8" processId="<%= process.id %>" stepId="<%= step.id %>">
+		<form id="sendDataForm" accept-charset="utf-8" processId="<%= process.id %>" stepId="<%= step.id %>" requiresApproval="<%= step.requiresApproval ? "true" : "false" %>">
 			<ul data-inset="true" data-role="listview">
 				<li data-role="list-divider">
 					<h3 class="description"><%= process.name %></h3>

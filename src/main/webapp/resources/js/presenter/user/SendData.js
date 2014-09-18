@@ -231,7 +231,9 @@ define([
 		var model = new ProcessDataModel( data );
 		//$.when.apply(null, saveImages( model, imageFiles )).done( function() {
 			model.save().done( function() {
-				printMessage("Passo superato", "I dati sono stati inviati e il passo è superato.");
+				if( $('#sendDataForm').attr("requiresApproval")==="true" )
+					printMessage("Dati inviati", "I dati sono stati inviati e sono in attesa dei essere approvati.");
+				else printMessage("Passo superato", "I dati sono stati inviati e il passo è superato.");
 				$("#process .alertPanel").on( "popupafterclose", function() {
 					window.location.assign("#process?id="+$('#sendDataForm').attr("processId"));
 				});
