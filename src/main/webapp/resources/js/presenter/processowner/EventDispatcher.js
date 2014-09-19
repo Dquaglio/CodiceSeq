@@ -33,7 +33,7 @@ define([
 	};
 
 	// intervallo di pooling. static
-	var INTERVALMS = 60000;
+	var INTERVALMS = 30000;
 
 	// eredita il prototipo della classe BaseDispatcher
 	// da non mettere in ddp/st

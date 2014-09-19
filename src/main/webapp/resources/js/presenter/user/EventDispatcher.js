@@ -25,7 +25,7 @@ define([
 		});
 	};
 
-	var INTERVALMS = 60000;
+	var INTERVALMS = 10000;
 
 	// eredita il prototipo della classe BaseDispatcher
 	EventDispatcher.prototype = new BaseDispatcher(); // EventDispatcher.prototype = _.extend( Backbone.Events, new BaseDispatcher()  );

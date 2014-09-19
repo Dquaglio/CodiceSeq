@@ -57,17 +57,26 @@ define([
 			options = typeof options !== "undefined" ? options : {};
 			//var url = "resources/js/data/user"+options.username+"datasent.json";
 			var url = "http://localhost:8080/sequenziatore/user/"+options.username+"/datasent";
+			var deferred = $.Deferred();
 			var self = this;
-			return $.ajax({	
+			$.ajax({	
 				type: "GET",
 				url: url,
 				dataType: "json",
 				success: function( data ) {
 					for(i=0; i<data.length; i++) {
-						self.push( new StepModel( data[i] ) );
+						if(data[i]) self.push( new StepModel({
+							id: data[i].currentStepId,
+							state: data[i].state
+						}));
 					}
-				}
+					$.when.apply(null, self.fetchSteps()).done( function() {
+						deferred.resolve();
+					}).fail( function(error) { deferred.resolve(); });
+				},
+				error: function( error ) { deferred.reject(error); }
 			});
+			return deferred.promise();
 		}
 
 	});

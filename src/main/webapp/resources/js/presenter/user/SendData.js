@@ -304,15 +304,16 @@ define([
 
 		// gestione della notifica della presenta di un nuovo passo approvato/respinto
 		notifyApprovedData: function( collection ) {
-			var counter = _.countBy( collection, function(data) {
-				return data.state=="ONGOING" ? 'rejected': 'approved';
-			});
 			var message = "";
-			if( counter.approved == 1 ) message += "Un passo è stato approvato.\n";
-			else if( counter.approved > 1 ) message += counter.approved+" passi sono stati approvati.\n";
-			if( counter.rejected == 1 ) message += "\nUn passo è stato respinto.";
-			else if( counter.rejected > 1 ) message += "\n"+counter.rejected+" passi sono stati respinti.";
-			if( message ) alert( message );
+			for( i=0; i<collection.length; i++ ) {
+				var step = collection[i];
+				if( step ) {
+					if( step.state == "ONGOING" ) message += 'Il passo "'+step.description+'" è stato respinto.\n\n'; 
+					else message += 'Il passo "'+step.description+'" è stato approvato.\n\n'; 
+				}
+				else console.log("errore: passo+userstep vuoto");
+			}
+			if( message.length > 0 ) alert( message );
 		}
 
 	});
