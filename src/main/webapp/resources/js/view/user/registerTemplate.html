@@ -45,10 +45,6 @@
 				<label for="password">Password</label>
 				<input type="password" id="password" pattern="^\w{8}\w*$" maxlength="25" required oninvalid="setCustomValidity('la password deve contenere almeno 8 caratteri alfanumerici')" onchange="try{setCustomValidity('')}catch(e){}"/>
 			</li>
-			<li data-role="fieldcontain">
-				<label for="repassword">Conferma password</label>
-				<input type="password" id="repassword" pattern="^\w{8}\w*$" maxlength="25" required />
-			</li>
 		</ul>
 		<div data-role="controlgroup" data-type="vertical">
 			<button type="submit" data-icon="check" id="submitRegister">Registrati</button>

@@ -38,7 +38,7 @@
 				<% } else if( missingSteps && subscribed ) { %>
 					<p>stato processo: <span class="success"><strong>in esecuzione</strong></span></p>
 				<% } %>
-			</li>	
+			</li>
 		</ul>
 
 		<% if( missingSteps && !process.terminated ) { %>
@@ -48,7 +48,7 @@
 				</li>
 				<% _.each(steps, function(step) {
 					if(step.state == "APPROVED") {} 
-					else if(step.state == "EXPENTANT") { %>
+					else if(step.state == "EXPECTANT") { %>
 						<li data-role="fieldcontain">
 							<p><%= step.description %></p>
 							<p><strong>in attesa di approvazione</strong></p>

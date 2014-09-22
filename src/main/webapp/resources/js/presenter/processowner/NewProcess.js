@@ -462,7 +462,7 @@ define([
 
 		render: function() {
 			// salva le modifiche alle opzioni sui blocchi
-			if( blocks && blocks.length ) saveOptions.call(this);
+			if( this.blocks && this.blocks.length ) saveOptions.call(this);
 			// template rendering and JQM css enhance
 			$(this.id).html(this.template({
 				username: this.session.getUsername(),

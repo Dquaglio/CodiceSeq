@@ -432,14 +432,11 @@ public class StepDao implements IDataAcessObject
 			List<IDataValue> values=dataSent.getValues();
 			if(values.size()==0)
 			{
-				//Verifica se il passo è opzionale
+				//Verifica se il passo ï¿½ opzionale
 				String selQuery="SELECT optional FROM step WHERE id=?";
 				boolean optional=(boolean)jdbcTemplate.queryForObject(selQuery, Boolean.class, new Object[]{stepId});
 				if(optional)
-				{
-					//Avanza
-					String upQuery="UPDATE userstep SET state=? WHERE currentStepId=? AND userName=?";
-					jdbcTemplate.update(upQuery, new Object[]{UserStep.StepStates.APPROVED, stepId, username});
+				{					
 					//Determinazione passo successivo
 					//Determinazione del tipo di blocco
 					selQuery="SELECT b.id, b.type FROM block b JOIN step s ON b.id=s.idBlock WHERE s.id=?";
@@ -464,7 +461,7 @@ public class StepDao implements IDataAcessObject
 						else
 						{
 							//E' l'ultimo passo del blocco, vai al blocco successivo
-							return nextBlock(username, blockId);
+							return nextBlock(username, blockId, stepId);
 						}
 					}
 					else
@@ -477,9 +474,12 @@ public class StepDao implements IDataAcessObject
 						if(requiredStep==stepCompleted)
 						{
 							//Il blocco ha le condizione per passare al blocco succesivo
-							return nextBlock(username, blockId);
+							return nextBlock(username, blockId,stepId);
 						}
 					}
+					//Avanza
+					String delQuery="DELETE FROM userstep WHERE WHERE currentStepId=? AND userName=?";
+					jdbcTemplate.update(delQuery, new Object[]{stepId, username});
 				}
 			}
 			for(IDataValue dataValue:values)
@@ -489,7 +489,7 @@ public class StepDao implements IDataAcessObject
 				Map<String, Object> params = new HashMap<String, Object>();
 				params.put("userName", username);
 				params.put("stepId", stepId);
-				params.put("type", dataType);
+				params.put("type", dataType.toString());
 				params.put("associatedDataId", dataValue.getDataId());
 				switch(dataType)
 				{
@@ -499,6 +499,7 @@ public class StepDao implements IDataAcessObject
 					break;
 					case TEXTUAL:
 						TextualValue textualValue=(TextualValue)dataValue;
+						System.out.println(textualValue.getValue()+" IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
 						params.put("textualValue", textualValue.getValue());
 					break;
 					case IMAGE:
@@ -513,6 +514,7 @@ public class StepDao implements IDataAcessObject
 					break;
 				}
 				sji.execute(params);
+				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
 			//Avanzamento
 			//Verifica se il passo richiede approvazione
@@ -522,12 +524,10 @@ public class StepDao implements IDataAcessObject
 			if(requiresApproval)
 			{
 				//Richiede approvazione
-				jdbcTemplate.update(upQuery, new Object[]{UserStep.StepStates.EXPECTANT, stepId, username});
+				jdbcTemplate.update(upQuery, new Object[]{UserStep.StepStates.EXPECTANT.toString(), stepId, username});
 			}
 			else
-			{
-				//Non richiede approvazione
-				jdbcTemplate.update(upQuery, new Object[]{UserStep.StepStates.APPROVED, stepId, username});
+			{			
 				//Determinazione passo successivo
 				//Determinazione del tipo di blocco
 				selQuery="SELECT b.id, b.type FROM block b JOIN step s ON b.id=s.idBlock WHERE s.id=?";
@@ -542,31 +542,38 @@ public class StepDao implements IDataAcessObject
 					if(nextStepId!=0)
 					{
 						//Non ï¿½ l'ultimo passo del blocco, impostazione passo succesivo
-						SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("datasent");
+						SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("userstep");
 						Map<String, Object> args = new HashMap<String, Object>();
 						args.put("currentStepId", nextStepId);
 						args.put("userName", username);
 						args.put("state",StepStates.ONGOING.toString());
 						sji.execute(args);
+						//Non richiede approvazione
+						String delQuery="DELETE FROM userstep WHERE currentStepId=? AND userName=?";
+						jdbcTemplate.update(delQuery, new Object[]{stepId, username});
 					}
 					else
 					{
 						//E' l'ultimo passo del blocco, vai al blocco successivo
-						return nextBlock(username, blockId);
+						return nextBlock(username, blockId, stepId);
 					}
 				}
 				else
 				{
 					//Il blocco ï¿½ non ordinato
-					selQuery="SELECT requiredStep FROM block WHERE id=?";
-					int requiredStep=jdbcTemplate.queryForInt(selQuery, new Object[]{blockId});
+					//selQuery="SELECT requiredStep FROM block WHERE id=?";
+					//int requiredStep=jdbcTemplate.queryForInt(selQuery, new Object[]{blockId});
 					selQuery="SELECT COUNT(*) FROM userstep WHERE currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
 					int stepCompleted=jdbcTemplate.queryForInt(selQuery, new Object[]{blockId});
-					if(requiredStep==stepCompleted)
+					System.out.println(""+stepCompleted+"IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+					if( stepCompleted==1 )
 					{
 						//Il blocco ha le condizione per passare al blocco succesivo
-						return nextBlock(username, blockId);
+						return nextBlock(username, blockId, stepId);
 					}
+					//Non richiede approvazione
+					String delQuery="DELETE FROM userstep WHERE currentStepId=? AND userName=?";
+					jdbcTemplate.update(delQuery, new Object[]{stepId, username});
 				}	
 			}
 			return true;
@@ -578,7 +585,7 @@ public class StepDao implements IDataAcessObject
 		finally{}
 	}
 	
-	private boolean nextBlock(String username, int actualBlockId)
+	private boolean nextBlock(String username, int actualBlockId, int stepIdX)
 	{
 		try
 		{
@@ -588,9 +595,6 @@ public class StepDao implements IDataAcessObject
 			if(nextBlockId!=0)
 			{
 				//Se non era l'ultimo blocco del processo
-				//Elimina tutti gli userstep del terminato corrente (blocco completo anche se non ordinato)
-				String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
-				jdbcTemplate.update(delQuery, new Object[]{username, actualBlockId});
 				//dopodichï¿½
 				selQuery="SELECT id, type FROM block WHERE id=?";
 				Object[] params=new Object[]{nextBlockId};
@@ -616,8 +620,11 @@ public class StepDao implements IDataAcessObject
 					Map<String, Object> args = new HashMap<String, Object>();
 					args.put("currentStepId", firstStepId);
 					args.put("userName", username);
-					args.put("state", StepStates.ONGOING);
+					args.put("state", StepStates.ONGOING.toString());
 					sji.execute(args);
+					//Elimina tutti gli userstep del terminato corrente (blocco completo anche se non ordinato)
+					String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
+					jdbcTemplate.update(delQuery, new Object[]{username, actualBlockId});
 				}
 				else
 				{
@@ -632,9 +639,12 @@ public class StepDao implements IDataAcessObject
 						args.clear();
 						args.put("currentStepId", stepId);
 						args.put("userName", username);
-						args.put("state",StepStates.ONGOING);
+						args.put("state",StepStates.ONGOING.toString());
 						sji.execute(args);
 					}
+					//Elimina tutti gli userstep del terminato corrente (blocco completo anche se non ordinato)
+					String delQuery="DELETE FROM userstep WHERE userName=? AND currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
+					jdbcTemplate.update(delQuery, new Object[]{username, actualBlockId});
 				}
 			}
 			else
@@ -642,10 +652,16 @@ public class StepDao implements IDataAcessObject
 				/*	Era l'ultimo blocco, fine processo
 					Elimina gli eventuali userstep non superati, quelli superati
 					(ne basterebbe uno, ma gli altri non fanno danni)
-					stanno a segnare che il processo è stato terminato dall'utente
+					stanno a segnare che il processo ï¿½ stato terminato dall'utente
 				*/
 				String delQuery="DELETE FROM userstep WHERE userName=? AND state<>? AND currentStepId IN(SELECT id FROM step WHERE idBlock=?)";
 				jdbcTemplate.update(delQuery, new Object[]{username, StepStates.APPROVED.toString(), actualBlockId});
+				SimpleJdbcInsert sji=new SimpleJdbcInsert(jdbcTemplate).withTableName("userstep");
+				Map<String, Object> args = new HashMap<String, Object>();
+				args.put("currentStepId", stepIdX);
+				args.put("userName", username);
+				args.put("state",StepStates.APPROVED.toString());
+				sji.execute(args);
 			}
 			return true;
 		}

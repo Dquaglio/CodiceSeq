@@ -56,6 +56,7 @@ define([
 
 		//  Backbone.Collection.parse overriding
 		parse: function(response) {	
+			console.log(response);
 			// Cambia gli indici dell'array "values", ordinandoli per id del dato del passo corrispondente
 			_.each(response, function( data ) {
 				data.values = _.indexBy(data.values, 'dataId');

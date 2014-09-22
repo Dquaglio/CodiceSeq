@@ -80,17 +80,17 @@
 								<p><%= numericData.description %>: <%= data.values[numericData.dataId].value %></p>
 							<% });
 							_.each( step.textualData, function( textualData ) { %>
-								<p><%= textualData.description %>: <%= data.values[textualData.id].value %></p>
+								<p><%= textualData.description %>: <%= data.values[textualData.dataId].value %></p>
 							<% });
 							_.each( step.imageData, function( imageData ) { %>
-								<p>immagine: 
-									<a href="#pop<%= data.values[imageData.id].imageUrl %>" data-rel="popup">
+								<p>immagine:
+									<a href="#pop<%= data.values[imageData.dataId].imageUrl %>" data-rel="popup">
 										<%= imageData.description %>
 									</a>
 								</p>
-								<div data-role="popup" id="pop<%= data.values[imageData.id].imageUrl %>" class="photopopup">
+								<div data-role="popup" id="pop<%= data.values[imageData.dataId].imageUrl %>" class="photopopup">
 									<a data-rel="back" data-role="button" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
-									<img src="resources/css/images/<%= data.values[imageData.id].imageUrl %>.jpg" class="popphoto">
+									<img src="resources/css/images/<%= data.values[imageData.dataId].imageUrl %>.jpg" class="popphoto">
 								</div>
 							<% }); if( geographicData = step.requiredPosition ) { %>
 								<p>coordinate: 

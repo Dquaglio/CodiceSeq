@@ -117,11 +117,11 @@ define([
 
 	var setTextualData = function( data /*values*/ ) {
 		var error = null;
-		data.numericValues = [];
+		data.textualValues = [];
 		$("#sendDataForm .textualData").each( function( i, element ) {
 			var description = $(element).val().trim();
 			error = validateDescription( description );
-			if( !error ) data.numericValues.push({
+			if( !error ) data.textualValues.push({
 				value: description,
 				type: "TEXTUAL",
 				dataId: $(element).attr("dataId")
@@ -308,12 +308,12 @@ define([
 			for( i=0; i<collection.length; i++ ) {
 				var step = collection[i];
 				if( step ) {
-					if( step.state == "ONGOING" ) message += 'Il passo "'+step.description+'" è stato respinto.\n\n'; 
-					else message += 'Il passo "'+step.description+'" è stato approvato.\n\n'; 
+					if( step.state === "ONGOING" ) message += 'Il passo \"'+step.description+'\" è stato respinto.\n\n'; 
+					else message += "Il passo "+step.description+" è stato approvato.\n\n"; 
 				}
 				else console.log("errore: passo+userstep vuoto");
 			}
-			if( message.length > 0 ) alert( message );
+			alert( message );
 		}
 
 	});

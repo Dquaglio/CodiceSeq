@@ -20,7 +20,31 @@ define([
 		var self = this;
 		collection.fetchApproved( options ).done( function() {
 			var response = collection.toJSON();
-			collection.reset();
+			console.log(response);
+			if( response.length ) {
+				for(i=0; i<response.length;i++) {
+					if( response[i].state !== "ONGOING" ) {
+						response[i].username = self.session.getUsername();
+						var array = localStorage.getItem('approved');
+						if( array ) {
+							var approvedList = JSON.parse(array);
+							if( ! _.findWhere(approvedList, { id: response[i].id, username: response[i].username }) ) {
+								approvedList.push( response[i] );
+								localStorage.setItem('approved', JSON.stringify(approvedList));
+							}
+							else {
+								console.log("prova");
+								response.splice( i, 1 );
+							}
+						}
+						else {
+							var approvedList = [];
+							approvedList.push( response[i] );
+							localStorage.setItem('approved', JSON.stringify(approvedList));
+						}
+					}
+				}
+			}
 			if( response.length ) self.notify( response );
 		});
 	};

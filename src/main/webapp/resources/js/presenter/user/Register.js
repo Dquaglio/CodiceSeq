@@ -72,7 +72,6 @@ define([
 			password: $("#password").val().trim(),
 		};
 		var error = validateDate( $("#dateOfBirth").val().trim(), userData.dateOfBirth );
-		error = error ? error : validatePassword( userData.password, $("#repassword").val().trim() );
 		if( error ) printMessage("Errore",error);
 		else {
 			$.mobile.loading('show');

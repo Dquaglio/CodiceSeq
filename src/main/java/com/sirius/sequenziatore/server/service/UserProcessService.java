@@ -61,11 +61,13 @@ public class UserProcessService {
 			for(int i=0;i<dataSentList.size();i++){//scorro tutta la lista
 				UserStep toBeChecked;
 				toBeChecked=dataSentList.get(i);//semplifico ottenendo un singolo passo
-				if(toBeChecked.getState().equals(StepStates.APPROVED))//se il passo è stato approvato
-					stepDao.deleteUserStep(toBeChecked);//rimuovo il passo in quanto l utente vedrà che è stato approvato
-				else{//altrimenti il passo non è stato approvato
+				if(toBeChecked.getState().equals(StepStates.REJECTED)){//se il passo è stato approvato
+				//else{//altrimenti il passo non è stato approvato
 					toBeChecked.setState(StepStates.ONGOING);//lo rimetto a ONGOING quindi è ancora da eseguire
 					stepDao.updateUserStep(toBeChecked);
+				}
+				else {
+					//stepDao.deleteUserStep(toBeChecked);//rimuovo il passo in quanto l utente vedrà che è stato approvato
 				}
 			}
 		return dataSentList;
